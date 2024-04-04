@@ -106,7 +106,7 @@
 					
 						<div class="song">SONG</div>
 					
-						<div class="song">SONG</div>
+						<div class="song">S</div>
 				
 					</div>
 			
