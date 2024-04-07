@@ -68,16 +68,13 @@
                		<div id="contportada">
                		
                			<div id="contportadados">
-               			
-               				<label id="contportadatres"></label>
+               			               				<label id="contportadatres"></label>
                				
                				<label id="pictureicons"><i class="fas fa-camera"></i></label>
                			
                			</div>
                		
                			<span></span>
-               			
-               			
                		
                		</div>
                		
@@ -148,3 +145,4 @@
 	</body>
 
 </html>
+

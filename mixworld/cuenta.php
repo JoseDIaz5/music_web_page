@@ -89,6 +89,16 @@
 				<div class="right_col">
 			
 					<nav>
+					
+						<ul>
+						
+							<li>Mis canciones</li>
+						
+							<li>Subir canciones</li>
+							
+							<li>Eliminar cuenta</li>
+						
+						</ul>
 						
 						<a href="cerrarsesion.php"><div>Cerrar sesión</div></a>
 				
@@ -106,8 +116,69 @@
 					
 						<div class="song">SONG</div>
 					
-						<div class="song">S</div>
-				
+						<div class="song">SONG</div>
+					</div>
+					
+					<div class="uploadsongs">
+					
+						<form action="subecancion.php" enctype="multipart/form-data" method="post">
+						
+							<div class="uploadsongstwo">
+							
+								<h2 id="tituloformsongs">Subir canción</h2>
+								
+								<div class="chosefile">
+								
+									<input type="file" id="songselect" hidden="hidden" name="song">
+								
+									<div class="uploadsongbutton"></div>
+								
+									<span class="filename">Ningún archivo seleccionado</span>
+								
+								</div>
+								
+								<br>
+								
+								<div class="chosefiletwo">
+								
+									<input type="file" id="imageselect" hidden="hidden" name="imagesong">
+								
+									<div class="uploadimagesongbutton"></div>
+								
+									<span class="filename">Ningún archivo seleccionado</span>
+								
+								</div>
+								
+								<br>
+								
+								<br>
+								
+								<div class="inputWithIcon">
+							
+									<input type="text" name="titulo" id="datos" class="campotitulo" placeholder="Titulo" required>
+							
+								</div>
+								
+								<br>
+								
+								<div class="contarea">
+							
+									<textarea rows="20" cols="55" name="area" id="desc" placeholder="Descripción de canción" maxlength="900" required></textarea>
+							
+								</div>
+								
+								<br>
+								
+								<br>
+								
+								<input type="submit" id="botonregistrados" value="Subir" name="subecancion" hidden="hidden">
+								
+								<div id="botonregistra">Subir</div>
+							
+							</div>
+						
+						</form>
+					
 					</div>
 			
 				</div>

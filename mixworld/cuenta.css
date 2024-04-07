@@ -118,6 +118,9 @@ a{
 	color:#818181;
 	
 	font-size:1.1rem;
+	
+	margin:0 10px;
+
 }
 .header_wrapper .cols_container .left_col .about li span{
 	
@@ -125,22 +128,6 @@ a{
 	
 	font-weight:600;
 }
-/*.header_wrapper .cols_container .left_col .about::after{
-	
-	position:absolute;
-	
-	content:"";
-	
-	bottom:-16px;
-	
-	display:block;
-	
-	background:#ccc;
-	
-	height:1px;
-	
-	width:100%;
-}*/
 .header_wrapper .cols_container .content ul{
 	
 	gap:30px;
@@ -167,6 +154,19 @@ a{
 	
 	flex-direction:column;
 }
+
+.header_wrapper .cols_container .right_col nav ul{
+	
+	display:flex;
+	
+	gap:20px;
+	
+	flex-direction:20px;
+}
+.header_wrapper .cols_container .right_col nav ul li{
+	
+	text-transform: uppercase;
+}
 .header_wrapper .cols_container .right_col nav div{
 	
 	background:#d40000;
@@ -177,7 +177,7 @@ a{
 	
 	padding:10px 25px;
 	
-	border-radius:4px;
+	border-radius:8px;
 	
 	cursor:pointer;
 	
@@ -222,7 +222,8 @@ a{
 	
 	display:grid;
 	
-	grid-template-columns: repeat(auto-fill,minmax(500px,1fr));
+
+	grid-template-columns: repeat(auto-fill,minmax(450px,1fr));
 	
 	gap:20px;
 }
@@ -237,4 +238,56 @@ a{
 	object-fit:cover;
 	
 	background-color:gray;
+}
+.header_wrapper .cols_container .right_col .uploadsongs{
+	
+	display:none;
+}
+@media (min-width: 868px){
+	
+	.header_wrapper .cols_container{
+	
+		max-width:1200px;
+		
+		margin:0 auto;
+		
+		width:90%;
+		
+		justify-content:space-between;
+		
+		display:grid;
+		
+		grid-template-columns:1fr 2fr;
+		
+		gap: 50px;
+	}
+	.header_wrapper .cols_container .left_col{
+	
+		padding:25px 0;
+	}
+	.header_wrapper .cols_container .right_col nav ul{
+	
+		flex-direction:row;
+		
+		gap:30px;
+	}
+	.header_wrapper .cols_container .right_col .songs{
+	
+		overflow:auto;
+		
+		padding:0 0 30px;
+	}
+}
+@media (min-width: 1017px){
+	
+	.header_wrapper .cols_container .left_col{
+	
+		margin:0;
+		
+		margin-right:auto;
+	}
+	.header_wrapper .cols_container .right_col nav{
+	
+		flex-direction:row;
+	}
 }
