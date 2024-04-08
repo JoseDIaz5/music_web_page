@@ -120,7 +120,6 @@ a{
 	font-size:1.1rem;
 	
 	margin:0 10px;
-
 }
 .header_wrapper .cols_container .left_col .about li span{
 	
@@ -154,7 +153,6 @@ a{
 	
 	flex-direction:column;
 }
-
 .header_wrapper .cols_container .right_col nav ul{
 	
 	display:flex;
@@ -166,6 +164,22 @@ a{
 .header_wrapper .cols_container .right_col nav ul li{
 	
 	text-transform: uppercase;
+	
+	cursor:pointer;
+	
+	padding:20px;
+	
+	transition-property:background-color border-bottom color;
+	
+	transition-duration:.5s;
+}
+.header_wrapper .cols_container .right_col nav ul li:hover{
+	
+	border-bottom:2px solid #d40000;
+	
+	background-color:#EC7063;
+	
+	color:white;
 }
 .header_wrapper .cols_container .right_col nav div{
 	
@@ -218,16 +232,15 @@ a{
 	
 	transform:scale(0);
 }
-.header_wrapper .cols_container .right_col .songs{
+.header_wrapper .cols_container .right_col #songs{
 	
 	display:grid;
-	
 
 	grid-template-columns: repeat(auto-fill,minmax(450px,1fr));
 	
 	gap:20px;
 }
-.header_wrapper .cols_container .right_col .songs .song{
+.header_wrapper .cols_container .right_col #songs .song{
 	
 	max-width:100%;
 	
@@ -239,9 +252,23 @@ a{
 	
 	background-color:gray;
 }
-.header_wrapper .cols_container .right_col .uploadsongs{
+.header_wrapper .cols_container .right_col #uploadsongs{
 	
 	display:none;
+}
+.header_wrapper .cols_container .right_col #uploadsongs .uploadsongstwo{
+	
+	display:flex;
+	
+	justify-content:center;
+	
+	text-align:center;
+	
+	flex-direction:column;
+}
+.header_wrapper .cols_container .right_col #uploadsongs .uploadsongstwo .chosefile .uploadsongbutton{
+	
+	
 }
 @media (min-width: 868px){
 	
@@ -271,7 +298,7 @@ a{
 		
 		gap:30px;
 	}
-	.header_wrapper .cols_container .right_col .songs{
+	.header_wrapper .cols_container .right_col #songs{
 	
 		overflow:auto;
 		
@@ -290,4 +317,5 @@ a{
 	
 		flex-direction:row;
 	}
+
 }

@@ -37,6 +37,10 @@
         <link rel="stylesheet" href="cuenta.css?v=<?php echo time(); ?>">
 
         <script src="https://kit.fontawesome.com/f221aee085.js"></script>
+        
+        <script src="jquery-1.8.3.js"></script>
+        
+        <script src="cuenta.js?v=<?php echo time(); ?>"></script>
 	
 	</head>
 	<body>
@@ -92,11 +96,11 @@
 					
 						<ul>
 						
-							<li>Mis canciones</li>
+							<li id="contcanciones">Mis canciones</li>
 						
-							<li>Subir canciones</li>
+							<li id="comp">Subir canciones</li>
 							
-							<li>Eliminar cuenta</li>
+							<li id="delete">Eliminar cuenta</li>
 						
 						</ul>
 						
@@ -104,7 +108,7 @@
 				
 					</nav>
 				
-					<div class="songs">
+					<div id="songs">
 				
 						<div class="song">SONG</div>
 					
@@ -117,9 +121,10 @@
 						<div class="song">SONG</div>
 					
 						<div class="song">SONG</div>
+
 					</div>
 					
-					<div class="uploadsongs">
+					<div id="uploadsongs">
 					
 						<form action="subecancion.php" enctype="multipart/form-data" method="post">
 						
@@ -131,7 +136,7 @@
 								
 									<input type="file" id="songselect" hidden="hidden" name="song">
 								
-									<div class="uploadsongbutton"></div>
+									<div class="uploadsongbutton">Seleccionar canción</div>
 								
 									<span class="filename">Ningún archivo seleccionado</span>
 								
@@ -188,8 +193,5 @@
 		</div>
 	
 	</body>
-
-
-	
 
 </html>
