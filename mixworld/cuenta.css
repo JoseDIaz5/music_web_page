@@ -266,10 +266,338 @@ a{
 	
 	flex-direction:column;
 }
-.header_wrapper .cols_container .right_col #uploadsongs .uploadsongstwo .chosefile .uploadsongbutton{
+
+.header_wrapper .cols_container .right_col #uploadsongs .uploadsongstwo .chosefile #uploadsongbutton{
 	
+	display:flex;
 	
+	justify-content:center;
+	
+	align-items:center;
+	
+	background-color:#d40000;
+	
+	color:white;
+	
+	width:150px;
+	
+	height:40px;
+	
+	margin:auto;
+	
+	border-radius:10px;
+	
+	position:relative;
+	
+	z-index:1;
+	
+	overflow:hidden;
+	
+	cursor:pointer;
 }
+.header_wrapper .cols_container .right_col #uploadsongs .uploadsongstwo .chosefile #uploadsongbutton::before{
+	
+	content:'';
+	
+	position:absolute;
+	
+	top:0;
+	
+	left:0;
+	
+	right:0;
+	
+	bottom:0;
+	
+	background-color:black;
+	
+	z-index:-1;
+	
+	border-radius:50%;
+	
+	transform: scale(1.5);
+	
+	transition: transform 500ms ease-in-out;
+}
+.header_wrapper .cols_container .right_col #uploadsongs .uploadsongstwo .chosefile #uploadsongbutton:hover::before,
+.header_wrapper .cols_container .right_col #uploadsongs .uploadsongstwo .chosefile #uploadsongbutton:focus::before{
+	
+	transform:scale(0);
+}
+.header_wrapper .cols_container .right_col #uploadsongs .uploadsongstwo .chosefiletwo #uploadimagesongbutton{
+	
+	display:flex;
+	
+	justify-content:center;
+	
+	align-items:center;
+	
+	background-color:#d40000;
+	
+	color:white;
+	
+	width:150px;
+	
+	height:40px;
+	
+	margin:auto;
+	
+	border-radius:10px;
+	
+	position:relative;
+	
+	z-index:1;
+	
+	overflow:hidden;
+	
+	cursor:pointer;
+}
+.header_wrapper .cols_container .right_col #uploadsongs .uploadsongstwo .chosefiletwo #uploadimagesongbutton::before{
+	
+	content:'';
+	
+	position:absolute;
+	
+	top:0;
+	
+	left:0;
+	
+	right:0;
+	
+	bottom:0;
+	
+	background-color:black;
+	
+	z-index:-1;
+	
+	border-radius:50%;
+	
+	transform: scale(1.5);
+	
+	transition: transform 500ms ease-in-out;
+}
+.header_wrapper .cols_container .right_col #uploadsongs .uploadsongstwo .chosefiletwo #uploadimagesongbutton:hover::before,
+.header_wrapper .cols_container .right_col #uploadsongs .uploadsongstwo .chosefiletwo #uploadimagesongbutton:focus::before{
+	
+	transform:scale(0);
+}
+.inputWithIcon{
+	
+	width:35%;
+	
+	position:relative;
+	
+	display:flex;
+	
+	align-items:center;
+	
+	background-color:white;
+	
+	padding:5px 10px;
+	
+	border-radius:0;
+	
+	border: 1px solid gray;
+	
+	margin:auto;
+	
+	transition:0.4s;
+}
+.datos{
+	
+	width:100%;
+	
+	height:25px;
+	
+	outline:none;
+	
+	border:none;
+	
+	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	
+	font-size:1em;
+}
+.icono{
+	
+	margin-right:6px;
+}
+.datos ~ .focus-border:before,
+.datos ~ .focus-border:after{
+	
+	content:'';
+	
+	position:absolute;
+	
+	top:0;
+	
+	right:0;
+	
+	width:0;
+	
+	height:2px;
+	
+	background-color:#DC143C;
+	
+	transition:0.2s;
+	
+	transition:0.2s;
+}
+.datos ~ .focus-border:after{
+	
+	top: auto;
+	
+	bottom:0;
+	
+	right:auto;
+	
+	left:0;
+	
+	transition-delay:0.6s;
+}
+.datos ~ .focus-border i:before,
+.datos ~ .focus-border i:after{
+	
+	content:'';
+	
+	position:absolute;
+	
+	top:0;
+	
+	left:0;
+	
+	width:2px;
+	
+	height:0;
+	
+	background-color:#DC143C;
+	
+	transition:0.2s;
+}
+.datos ~ .focus-border i:after{
+	
+	left:auto;
+	
+	right:0;
+	
+	top:auto;
+	
+	bottom:0;
+	
+	transition-delay:0.4s;
+}
+.datos:focus ~ .focus-border:before,
+.datos:focus ~ .focus-border:after{
+	
+	width:100%;
+	
+	transition:0.2s;
+	
+	transition-delay:0.6s;
+}
+.datos:focus ~ .focus-border:after{
+	
+	transition-delay:0.2s;
+}
+.datos:focus ~ .focus-border i:before,
+.datos:focus ~ .focus-border i:after{
+	
+	height:100%;
+	
+	transition:0.2s;
+}
+.datos:focus ~ .focus-border i:after{
+	
+	transition-delay:0.4s;
+}
+#desc{
+	
+	width:34%;
+	
+	height:20px;
+	
+	padding:15px;
+	
+	outline:none;
+	
+	resize:none;
+}
+#desc:is(:focus, :valid){
+	
+	border-color:#d40000;
+	
+	border-width:2px;
+	
+	padding:14px;
+}
+#desc::-webkit-scrollbar{
+	
+	width:0px;
+}
+#botonregistra{
+	
+	height:37px;
+	
+	width:70px;
+	
+	display:flex;
+	
+	justify-content:center;
+	
+	align-items:center;
+	
+	background-color:#d40000;
+	
+	color:white;
+	
+	border:none;
+	
+	border-radius:8px;
+	
+	outline:none;
+	
+	cursor:pointer;
+	
+	position:relative;
+	
+	z-index:1;
+	
+	overflow:hidden;
+	
+	margin:auto;
+	
+	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+#botonregistra::before{
+	
+	content:'';
+	
+	position:absolute;
+	
+	top:0;
+	
+	left:0;
+	
+	right:0;
+	
+	bottom:0;
+	
+	background-color:black;
+	
+	z-index:-1;
+	
+	border-radius:50%;
+	
+	transform: scale(1.5);
+	
+	transition: transform 500ms ease-in-out;
+}
+#botonregistra:hover::before,
+#botonregistra:focus::before{
+	
+	transform:scale(0);
+}
+
+
 @media (min-width: 868px){
 	
 	.header_wrapper .cols_container{

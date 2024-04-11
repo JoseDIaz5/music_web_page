@@ -135,10 +135,12 @@
 								<div class="chosefile">
 								
 									<input type="file" id="songselect" hidden="hidden" name="song">
+									
+									<div id="uploadsongbutton">Seleccionar canción</div>
+									
+									<br>
 								
-									<div class="uploadsongbutton">Seleccionar canción</div>
-								
-									<span class="filename">Ningún archivo seleccionado</span>
+									<span id="filenameone">Ningún archivo seleccionado</span>
 								
 								</div>
 								
@@ -148,9 +150,11 @@
 								
 									<input type="file" id="imageselect" hidden="hidden" name="imagesong">
 								
-									<div class="uploadimagesongbutton"></div>
+									<div id="uploadimagesongbutton">Seleccionar imagen</div>
+									
+									<br>	
 								
-									<span class="filename">Ningún archivo seleccionado</span>
+									<span id="filenametwo">Ningún archivo seleccionado</span>
 								
 								</div>
 								
@@ -158,9 +162,13 @@
 								
 								<br>
 								
-								<div class="inputWithIcon">
+								<div class="inputWithIcon" id="divsongtitle">
+								
+									<i class="fa-solid fa-pen-to-square icono" id="titleicon"></i>
 							
-									<input type="text" name="titulo" id="datos" class="campotitulo" placeholder="Titulo" required>
+									<input type="text" name="titulo" id="campotitulo" class="datos" placeholder="Titulo" maxLength="90" required>
+									
+									<span class="focus-border"><i></i></span>
 							
 								</div>
 								
@@ -168,7 +176,9 @@
 								
 								<div class="contarea">
 							
-									<textarea rows="20" cols="55" name="area" id="desc" placeholder="Descripción de canción" maxlength="900" required></textarea>
+									<textarea name="area" id="desc" placeholder="Descripción de canción" maxlength="900" required></textarea>
+							
+									<span class="focus-border"><i></i></span>
 							
 								</div>
 								
