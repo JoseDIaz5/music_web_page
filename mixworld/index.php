@@ -15,7 +15,7 @@
 
         <script src="jquery-1.8.3.js"></script>
 
-        <script src="principal.js"></script>
+        <script src="principal.js?v=<?php echo time(); ?>"></script>
 	
 	</head>
 	
@@ -94,6 +94,100 @@
 			</nav>
 		
 		</header>
+		
+		<section>
+		
+			
+		
+			<div class="songcontainer">
+			
+				<div class="imagecontainer">
+				
+					<img src="/MIXWORLD/intranet/songs/imagecañaveral1.jpg">
+				
+				</div>
+				<div class="titleplayercontainer">
+				
+					<div class="titlecontainer">
+					
+						<span>TITULO CANCIÓN</span>
+					
+					</div>
+					<div class="usercontainer">
+					
+						<img src="/MIXWORLD/intranet/perfiles/music.jpg">
+					
+						<span>USUARIO</span>
+					
+					</div>
+					<div class="playercontainer">
+					
+						<div class="playicon">
+						
+							<i class="fa-solid fa-play play" id="play" data-file="/MIXWORLD/intranet/songs/Grupo Cañaveral - No te voy a perdonar - EXTENDED MIX.mp3"></i>
+							
+							<i class="fa-solid fa-pause pause" id="pause" data-file="/MIXWORLD/intranet/songs/Grupo Cañaveral - No te voy a perdonar - EXTENDED MIX.mp3"></i>
+						
+						</div>
+						
+						<div id="bar">
+						
+							<div id="progress"></div>
+						
+						</div>
+					
+					</div>
+				
+				</div>
+			
+			</div>
+		
+			
+		
+			<div class="songcontainer">
+			
+				<div class="imagecontainer">
+				
+					<img src="/MIXWORLD/intranet/songs/justthewayyouareimage.jpg">
+				
+				</div>
+				<div class="titleplayercontainer">
+				
+					<div class="titlecontainer">
+					
+						<span>TITULO CANCIÓN</span>
+					
+					</div>
+					<div class="usercontainer">
+					
+						<img src="/MIXWORLD/intranet/perfiles/music.jpg">
+					
+						<span>USUARIO</span>
+					
+					</div>
+					<div class="playercontainer">
+					
+						<div class="playicon">
+						
+							<i class="fa-solid fa-play play" id="play" data-file="/MIXWORLD/intranet/songs/Bruno Mars - Just The Way You Are - EXTENDED MIX.mp3"></i>
+							
+							<i class="fa-solid fa-pause pause" id="pause" data-file="/MIXWORLD/intranet/songs/Bruno Mars - Just The Way You Are - EXTENDED MIX.mp3"></i>
+						
+						</div>
+						
+						<div id="bar">
+						
+							<div id="progress"></div>
+						
+						</div>
+					
+					</div>
+				
+				</div>
+			
+			</div>
+		
+		</section>
 	
 	</body>
 

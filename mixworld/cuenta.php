@@ -121,7 +121,7 @@
 						<div class="song">SONG</div>
 					
 						<div class="song">SONG</div>
-
+				
 					</div>
 					
 					<div id="uploadsongs">
@@ -135,7 +135,7 @@
 								<div class="chosefile">
 								
 									<input type="file" id="songselect" hidden="hidden" name="song">
-									
+								
 									<div id="uploadsongbutton">Seleccionar canción</div>
 									
 									<br>
@@ -205,3 +205,5 @@
 	</body>
 
 </html>
+
+	

@@ -12,6 +12,8 @@ $(document).ready(function(){
 	
 	document.getElementById("imageselect").addEventListener("change",changeimagesongname,false);
 	
+	document.getElementById("botonregistra").addEventListener("click",subecancion,false);
+	
 	function comparte(){
 		
 		$("#uploadsongs").slideToggle(500);
@@ -80,6 +82,10 @@ $(document).ready(function(){
 			$("#filenametwo").css("font-weight","bolder");
 		}
 	}
+	function subecancion(){
+		
+		$("#botonregistrados").click();
+	}
 	$("#campotitulo").focus(function(){
 		
 		$("#titleicon").css("color","#DC143C");
@@ -100,4 +106,5 @@ $(document).ready(function(){
 		
 		$(this).animate({"height":"20px"},"slow");
 	});
+
 });
