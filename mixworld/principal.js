@@ -24,7 +24,13 @@ $(document).ready(function(){
 	
 	$(".play").click(function(){
 		
+		var id=this.id;
+		
 		var song=$(this);
+		
+		var iddos=0;
+		
+		var idtres=0;
 		
 		var ruta=song.attr("data-file");
 		
@@ -33,12 +39,26 @@ $(document).ready(function(){
 			audio.currentTime=0;
 			
 			audio.play();
+			
+			$(".inicio"+id).css("display","none");
+		
+			$(".detener"+id).css("display","block");
 		}
 		else{
 			
 			if(audio){
 				
 				audio.pause();
+
+				iddos=id-1;
+				
+				if($(".pause").css("display","block")){
+					
+					$(".pause").css("display","none");
+					
+					$(".play").css("display","block");
+				}
+				
 			}
 			audio=new Audio(ruta);
 			
@@ -46,9 +66,11 @@ $(document).ready(function(){
 				
 			audio.play();
 			
-			//$("#play").css("display","none");
+			$(".inicio"+id).css("display","none");
 		
-			//$("#pause").css("display","block");
+			$(".detener"+id).css("display","block");
+			
+			
 		}
 			
 		
@@ -84,6 +106,20 @@ $(document).ready(function(){
 			$("#pause").css("display","none");
 		}
 	}*/
+	$(".pause").click(function(){
+		
+		var id=this.id;
+		
+		if(audio){
+			
+			audio.pause();
+			
+			$(".inicio"+id).css("display","block");
+		
+			$(".detener"+id).css("display","none");
+		}
+	});
+	
 	function estado(){
 		
 		if(micancion.ended==false){

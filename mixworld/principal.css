@@ -489,7 +489,7 @@ section .songcontainer .titleplayercontainer .playercontainer{
 	
 	margin:10px 0 10px 0;
 }
-section .songcontainer .titleplayercontainer .playercontainer .playicon #play{
+section .songcontainer .titleplayercontainer .playercontainer .playicon .play{
 	
 	margin-right:8px;
 	
@@ -497,7 +497,7 @@ section .songcontainer .titleplayercontainer .playercontainer .playicon #play{
 	
 	cursor:pointer;
 }
-section .songcontainer .titleplayercontainer .playercontainer .playicon #pause{
+section .songcontainer .titleplayercontainer .playercontainer .playicon .pause{
 	
 	margin-right:8px;
 	

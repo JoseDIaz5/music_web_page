@@ -88,7 +88,7 @@
 						</ul>
 					
 					</div>	
-				
+			
 				</div>
 				
 			</nav>
@@ -96,96 +96,83 @@
 		</header>
 		
 		<section>
+			
+		<?php 
 		
+		try{
+		    
+		    $conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
+		    
+		    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		    
+		    $conexion->exec("SET CHARACTER SET utf8");
+		    
+		    $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO";
+		    
+		    $resultado=$conexion->prepare($consulta);
+		    
+		    $resultado->execute();
+		    
+		    $identificador=0;
+		    
+		    while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
+		        
+		        $identificador++;
+		        ?>
+		        
+		        <div class="songcontainer">
 			
+    				<div class="imagecontainer">
+    				
+    					<img src="/MIXWORLD/intranet/songs/<?php echo $fila["IMAGEN_CANCION"]; ?>">
+    				
+    				</div>
+    				<div class="titleplayercontainer">
+    				
+    					<div class="titlecontainer">
+    					
+    						<span><?php echo $fila["TITULO"]; ?></span>
+    					
+    					</div>
+    					<div class="usercontainer">
+    					
+    						<img src="/MIXWORLD/intranet/perfiles/<?php echo $fila["IMAGEN_PERFIL"]; ?>">
+    					
+    						<span><?php echo $fila["USUARIO"]; ?></span>
+    					
+    					</div>
+    					<div class="playercontainer">
+    					
+    						<div class="playicon">
+    						
+    							<i class="fa-solid fa-play play inicio<?php echo $identificador; ?>" id="<?php echo $identificador; ?>" data-file="/MIXWORLD/intranet/songs/<?php echo $fila["CANCION"] ?>"></i>
+    							
+    							<i class="fa-solid fa-pause pause detener<?php echo $identificador; ?>" id="<?php echo $identificador; ?>" data-file="/MIXWORLD/intranet/songs/<?php echo $fila["CANCION"] ?>"></i>
+    						
+    						</div>
+    						
+    						<div id="bar">
+    						
+    							<div id="progress"></div>
+    						
+    						</div>
+    					
+    					</div>
+    				
+    				</div>
+    			
+    			</div>
+		        
+		        <?php 
+		    }
+		    
+		    
+		}catch(Exception $e){
+		    
+		    die("Error: " . $e->getMessage());
+		}
 		
-			<div class="songcontainer">
-			
-				<div class="imagecontainer">
-				
-					<img src="/MIXWORLD/intranet/songs/imagecañaveral1.jpg">
-				
-				</div>
-				<div class="titleplayercontainer">
-				
-					<div class="titlecontainer">
-					
-						<span>TITULO CANCIÓN</span>
-					
-					</div>
-					<div class="usercontainer">
-					
-						<img src="/MIXWORLD/intranet/perfiles/music.jpg">
-					
-						<span>USUARIO</span>
-					
-					</div>
-					<div class="playercontainer">
-					
-						<div class="playicon">
-						
-							<i class="fa-solid fa-play play" id="play" data-file="/MIXWORLD/intranet/songs/Grupo Cañaveral - No te voy a perdonar - EXTENDED MIX.mp3"></i>
-							
-							<i class="fa-solid fa-pause pause" id="pause" data-file="/MIXWORLD/intranet/songs/Grupo Cañaveral - No te voy a perdonar - EXTENDED MIX.mp3"></i>
-						
-						</div>
-						
-						<div id="bar">
-						
-							<div id="progress"></div>
-						
-						</div>
-					
-					</div>
-				
-				</div>
-			
-			</div>
-		
-			
-		
-			<div class="songcontainer">
-			
-				<div class="imagecontainer">
-				
-					<img src="/MIXWORLD/intranet/songs/justthewayyouareimage.jpg">
-				
-				</div>
-				<div class="titleplayercontainer">
-				
-					<div class="titlecontainer">
-					
-						<span>TITULO CANCIÓN</span>
-					
-					</div>
-					<div class="usercontainer">
-					
-						<img src="/MIXWORLD/intranet/perfiles/music.jpg">
-					
-						<span>USUARIO</span>
-					
-					</div>
-					<div class="playercontainer">
-					
-						<div class="playicon">
-						
-							<i class="fa-solid fa-play play" id="play" data-file="/MIXWORLD/intranet/songs/Bruno Mars - Just The Way You Are - EXTENDED MIX.mp3"></i>
-							
-							<i class="fa-solid fa-pause pause" id="pause" data-file="/MIXWORLD/intranet/songs/Bruno Mars - Just The Way You Are - EXTENDED MIX.mp3"></i>
-						
-						</div>
-						
-						<div id="bar">
-						
-							<div id="progress"></div>
-						
-						</div>
-					
-					</div>
-				
-				</div>
-			
-			</div>
+		?>
 		
 		</section>
 	
