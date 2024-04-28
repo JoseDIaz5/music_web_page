@@ -87,8 +87,8 @@
 					
 						</ul>
 					
-					</div>	
-			
+					</div>
+
 				</div>
 				
 			</nav>
@@ -96,7 +96,7 @@
 		</header>
 		
 		<section>
-			
+
 		<?php 
 		
 		try{
@@ -153,7 +153,7 @@
     						
     						<div id="bar">
     						
-    							<div id="progress"></div>
+    							<div id="<?php echo $identificador; ?>" class="progress progreso<?php echo $identificador; ?>"></div>
     						
     						</div>
     					

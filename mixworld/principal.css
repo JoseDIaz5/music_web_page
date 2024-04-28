@@ -517,7 +517,7 @@ section .songcontainer .titleplayercontainer .playercontainer #bar{
 	
 	border-radius:5px;
 }
-section .songcontainer .titleplayercontainer .playercontainer #bar #progress{
+section .songcontainer .titleplayercontainer .playercontainer #bar .progress{
 	
 	position:absolute;
 	
@@ -529,3 +529,4 @@ section .songcontainer .titleplayercontainer .playercontainer #bar #progress{
 	
 	border-radius:5px;
 }
+

@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	
-	var micancion, reproducir, barra, progreso, total, maximo, audio, currentFile;
+	var micancion, reproducir, barra, progreso, total, maximo, audio, currentFile, myinterval;
 	
 	audio=null;
 	
@@ -12,7 +12,7 @@ $(document).ready(function(){
 	
 	barra=document.getElementById("bar");
 	
-	progreso=document.getElementById("progress");
+	//progreso=document.getElementById("progress");
 	
 	//document.getElementById("pause").addEventListener("click",pause,false);
 	
@@ -27,10 +27,6 @@ $(document).ready(function(){
 		var id=this.id;
 		
 		var song=$(this);
-		
-		var iddos=0;
-		
-		var idtres=0;
 		
 		var ruta=song.attr("data-file");
 		
@@ -48,8 +44,6 @@ $(document).ready(function(){
 			
 			if(audio){
 				
-				audio.pause();
-
 				iddos=id-1;
 				
 				if($(".pause").css("display","block")){
@@ -58,6 +52,10 @@ $(document).ready(function(){
 					
 					$(".play").css("display","block");
 				}
+				
+				audio.pause();
+				
+				clearInterval(myinterval);
 				
 			}
 			audio=new Audio(ruta);
@@ -72,40 +70,24 @@ $(document).ready(function(){
 			
 			
 		}
+
+		if(audio.ended){
 			
+			clearInterval(myinterval);
+		}	
 		
 		
-		bucle=setInterval(estado,50);
+		myinterval=setInterval(function(){
+			
+			total=parseInt(audio.currentTime*maximo/audio.duration);
+			
+			$(".progreso"+id).css("width",total+"px");
+			
+			
+		},50);
 		
 	});
-	/*$(".pause").click(function(){
-		
-		var song=$(this);
-		
-		var ruta=song.attr("data-file");
-		
-		audio=new Audio(ruta);
-			
-		currentFile=ruta;
-			
-		audio.pause();
-		
-		$("#play").css("display","block");
-		
-		$("#pause").css("display","none");
-	});
-	
-	function pause(){
-		
-		if((micancion.paused==false) && (micancion.ended==false)){
-			
-			micancion.pause();
-			
-			$("#play").css("display","block");
-			
-			$("#pause").css("display","none");
-		}
-	}*/
+
 	$(".pause").click(function(){
 		
 		var id=this.id;
@@ -120,15 +102,16 @@ $(document).ready(function(){
 		}
 	});
 	
-	function estado(){
+	/*function estado(){
 		
-		if(micancion.ended==false){
+		if(audio.ended==false){
 			
-			total=parseInt(micancion.currentTime*maximo/micancion.duration);
+			total=parseInt(audio.currentTime*maximo/audio.duration);
 			
 			progreso.style.width=total+"px";
 		}
-	}
+	}*/
+
 	function adelantar(posicion){
 		
 		if((micancion.paused==false) && (micancion.ended==false)){
