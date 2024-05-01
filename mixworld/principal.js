@@ -10,15 +10,7 @@ $(document).ready(function(){
 		
 	reproducir=document.getElementById("play");
 	
-	barra=document.getElementById("bar");
-	
-	//progreso=document.getElementById("progress");
-	
-	//document.getElementById("pause").addEventListener("click",pause,false);
-	
-	//reproducir.addEventListener("click",play,false);
-	
-	barra.addEventListener("click",adelantar,false);
+	barra=document.querySelector(".bar");
 	
 	maximo=barra.clientWidth;
 	
@@ -44,8 +36,6 @@ $(document).ready(function(){
 			
 			if(audio){
 				
-				iddos=id-1;
-				
 				if($(".pause").css("display","block")){
 					
 					$(".pause").css("display","none");
@@ -70,12 +60,6 @@ $(document).ready(function(){
 			
 			
 		}
-
-		if(audio.ended){
-			
-			clearInterval(myinterval);
-		}	
-		
 		
 		myinterval=setInterval(function(){
 			
@@ -83,11 +67,18 @@ $(document).ready(function(){
 			
 			$(".progreso"+id).css("width",total+"px");
 			
+			if(audio.ended){
+			
+				clearInterval(myinterval);
+				
+				$(".pause").css("display","none");
+					
+				$(".play").css("display","block");
+			}
 			
 		},50);
 		
 	});
-
 	$(".pause").click(function(){
 		
 		var id=this.id;
@@ -99,30 +90,23 @@ $(document).ready(function(){
 			$(".inicio"+id).css("display","block");
 		
 			$(".detener"+id).css("display","none");
+
+			clearInterval(myinterval);
 		}
 	});
-	
-	/*function estado(){
+	$(".bar").click(function(posicion){
 		
-		if(audio.ended==false){
-			
-			total=parseInt(audio.currentTime*maximo/audio.duration);
-			
-			progreso.style.width=total+"px";
-		}
-	}*/
-
-	function adelantar(posicion){
+		var id=this.id;
 		
-		if((micancion.paused==false) && (micancion.ended==false)){
+		if((audio.paused==false) && (audio.ended==false)){
 			
-			var ratonx=posicion.pageX-barra.offsetLeft;
+			var ratonx=posicion.pageX-this.offsetLeft;
 			
-			var nuevotiempo=ratonx*micancion.duration/maximo;
+			var nuevotiempo=ratonx*audio.duration/maximo;
 			
-			micancion.currentTime=nuevotiempo;
+			audio.currentTime=nuevotiempo;
 			
-			progreso.style.width=ratonx+"px";
+			$("progreso"+id).css("width",ratonx+"px");
 		}
-	}
+	});
 });

@@ -107,17 +107,14 @@
 		    
 		    $conexion->exec("SET CHARACTER SET utf8");
 		    
-		    $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO";
+		    $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO";
 		    
 		    $resultado=$conexion->prepare($consulta);
 		    
 		    $resultado->execute();
 		    
-		    $identificador=0;
-		    
 		    while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
 		        
-		        $identificador++;
 		        ?>
 		        
 		        <div class="songcontainer">
@@ -145,17 +142,26 @@
     					
     						<div class="playicon">
     						
-    							<i class="fa-solid fa-play play inicio<?php echo $identificador; ?>" id="<?php echo $identificador; ?>" data-file="/MIXWORLD/intranet/songs/<?php echo $fila["CANCION"] ?>"></i>
+    							<i class="fa-solid fa-play play inicio<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>" data-file="/MIXWORLD/intranet/songs/<?php echo $fila["CANCION"] ?>"></i>
     							
-    							<i class="fa-solid fa-pause pause detener<?php echo $identificador; ?>" id="<?php echo $identificador; ?>" data-file="/MIXWORLD/intranet/songs/<?php echo $fila["CANCION"] ?>"></i>
+    							<i class="fa-solid fa-pause pause detener<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>" data-file="/MIXWORLD/intranet/songs/<?php echo $fila["CANCION"] ?>"></i>
     						
     						</div>
     						
-    						<div id="bar">
+    						<div class="bar barra<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>">
     						
-    							<div id="<?php echo $identificador; ?>" class="progress progreso<?php echo $identificador; ?>"></div>
+    							<div id="<?php echo $fila["ID"]; ?>" class="progress progreso<?php echo $fila["ID"]; ?>"></div>
     						
     						</div>
+    					
+    					</div>
+    					<div class="viewscontainer">
+    						
+    						<span><i class="fa-solid fa-ear-listen"></i><?php echo $fila["REPRODUCCIONES"]; ?></span>
+    						
+    						<span><i class="fa-regular fa-face-smile-wink"></i><?php echo $fila["LIKES"]; ?></span>
+    						
+    						<span><i class="fa-regular fa-face-sad-tear"></i><?php echo $fila["DISLIKES"]; ?></span>
     					
     					</div>
     				

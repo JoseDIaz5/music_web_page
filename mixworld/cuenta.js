@@ -106,5 +106,4 @@ $(document).ready(function(){
 		
 		$(this).animate({"height":"20px"},"slow");
 	});
-
 });
