@@ -87,8 +87,8 @@
 					
 						</ul>
 					
-					</div>
-
+					</div>	
+				
 				</div>
 				
 			</nav>
@@ -96,7 +96,7 @@
 		</header>
 		
 		<section>
-
+		
 		<?php 
 		
 		try{

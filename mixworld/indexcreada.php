@@ -3,6 +3,11 @@
 
 	<head>
 	
+		<?php 
+        
+            session_start();
+        
+        ?>
 		<meta charset="utf-8">
 
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -17,11 +22,10 @@
         
         <script src="principal.js?v=<?php echo time(); ?>"></script>
         
-        <?php 
+        <script src="manejalikescanciones.js?v=<?php echo time(); ?>"></script>
         
-            session_start();
+        <script src="manejadislikescanciones.js?v=<?php echo time(); ?>"></script>
         
-        ?>
         <?php
     	
     	
@@ -143,7 +147,24 @@
 			     
 			     $resultado->execute();
 			     
+			     $consultalikescanciones="SELECT ID FROM songs_likes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
+			     
+			     $result=$conexion->prepare($consultalikescanciones);
+			     
+			     $consultadislikescanciones="SELECT ID FROM songs_dislikes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
+			     
+			     $resulttwo=$conexion->prepare($consultadislikescanciones);
+			     
 			     while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
+			         
+			         $result->execute(array(":idsong"=>$fila["ID"],":iduser"=>$_SESSION["idusu"]));
+			         
+			         $resulttwo->execute(array(":idsong"=>$fila["ID"],":iduser"=>$_SESSION["idusu"]));
+			         
+			         $cantidadlikescancion=$result->rowCount();
+			         
+			         $cantidaddislikescancion=$resulttwo->rowCount();
+			         
 			         ?>
 			         
 			         <div class="songcontainer">
@@ -188,9 +209,44 @@
 			         		
 			         			<span><i class="fa-solid fa-ear-listen"></i><?php echo $fila["REPRODUCCIONES"]; ?></span>
 			         			
-			         			<span><i class="fa-regular fa-face-smile-wink"></i><?php echo $fila["LIKES"]; ?></span>
+			         			<?php 
 			         			
-			         			<span><i class="fa-regular fa-face-sad-tear"></i><?php echo $fila["DISLIKES"]; ?></span>
+			         			 if ($cantidadlikescancion<1) {
+			         			
+			         			?>
+			         			
+			         			<span class="likesong spanlike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-regular fa-face-smile-wink"></i><?php echo $fila["LIKES"]; ?></span>
+			         			
+			         			<?php 
+			         			
+			         			 }else {
+			         			
+			         			?>
+			         			
+			         			<span class="likesong spanlike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-solid fa-face-smile-wink"></i><?php echo $fila["LIKES"]; ?></span>
+			         			
+			         			<?php 
+			         			
+			         			 }
+			         			 if($cantidaddislikescancion<1){
+			         			
+			         			?>
+			         			
+			         			<span class="dislikesong spandislike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-regular fa-face-sad-tear"></i><?php echo $fila["DISLIKES"]; ?></span>
+			         			
+			         			<?php 
+			         			
+			         			 }else {
+			         			
+			         			?>
+			         			
+			         			<span class="dislikesong spandislike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-solid fa-face-sad-tear"></i><?php echo $fila["DISLIKES"]; ?></span>
+			         			
+			         			<?php 
+			         			
+			         			 }
+			         			
+			         			?>
 			         		
 			         		</div>
 			         	
@@ -213,3 +269,4 @@
 	</body>
 
 </html>
+

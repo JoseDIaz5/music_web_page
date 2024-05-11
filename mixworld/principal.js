@@ -6,10 +6,6 @@ $(document).ready(function(){
 	
 	currentFile=null;
 	
-	micancion=document.getElementById("micancion");
-		
-	reproducir=document.getElementById("play");
-	
 	barra=document.querySelector(".bar");
 	
 	maximo=barra.clientWidth;
@@ -74,7 +70,7 @@ $(document).ready(function(){
 				$(".pause").css("display","none");
 					
 				$(".play").css("display","block");
-			}
+			}	
 			
 		},50);
 		
@@ -90,7 +86,7 @@ $(document).ready(function(){
 			$(".inicio"+id).css("display","block");
 		
 			$(".detener"+id).css("display","none");
-
+			
 			clearInterval(myinterval);
 		}
 	});
@@ -109,4 +105,5 @@ $(document).ready(function(){
 			$("progreso"+id).css("width",ratonx+"px");
 		}
 	});
+	
 });
