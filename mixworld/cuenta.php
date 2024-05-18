@@ -45,9 +45,77 @@
 	</head>
 	<body>
 	
+		<?php 
+						
+		  try {
+		      
+		      $conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
+		      
+		      $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		      
+		      $conexion->exec("SET CHARACTER SET utf8");
+		      
+		      $validaid=false;
+		      
+		      if (isset($_GET["iduser"])) {
+		          
+		          $iduser=$_GET["iduser"];
+		          
+		          if($iduser==$_SESSION["idusu"]){
+		              
+		              $validaid=true;
+		          }
+		      }
+		      
+		      $consultaperfil="SELECT USUARIO,IMAGEN_PERFIL,IMAGEN_PORTADA FROM perfiles WHERE ID=:id";
+		      
+		      $resultado=$conexion->prepare($consultaperfil);
+		      
+		      if (isset($iduser)) {
+		          
+		          $resultado->execute(array(":id"=>$iduser));
+		          
+		          while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
+		              
+		              $portada=$fila["IMAGEN_PORTADA"];
+		              
+		              $perfil=$fila["IMAGEN_PERFIL"];
+		              
+		              $usuario=$fila["USUARIO"];
+		          }
+		      }
+		      
+		  } catch (Exception $e) {
+		  
+		      die("Error: " . $e->getMessage());
+		  }
+		
+		?>
+	
 		<div class="header_wrapper">
 		
-			<header style="background: url('/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["portada"] ?>'); background-size: 100% 100%"></header>
+			<?php 
+			
+			 if (isset($iduser)) {
+			
+			?>
+		
+			<header style="background: url('/MIXWORLD/intranet/perfiles/<?php echo $portada; ?>'); background-size: 100% 100%"></header>
+			
+			<?php 
+			
+			 }else{
+			
+			?>
+			
+			<header style="background: url('/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["portada"]; ?>'); background-size: 100% 100%"></header>
+			
+			<?php 
+			
+			 }
+			
+			?>
+>>>>>>> 90964fe (Actualización de contador de reproducciones)
 			
 			<div class="cols_container">
 			
@@ -55,14 +123,55 @@
 				
 					<div class="img_container">
 					
-						<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"] ?>">
+						<?php 
+						
+						  if (isset($iduser)) {   
+						
+						?>
+					
+						<img src="/MIXWORLD/intranet/perfiles/<?php echo $perfil; ?>">
 						
 						<span></span>
+						
+						<?php 
+						
+						  }else{
+						
+						?>
+						
+						<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"]; ?>">
+						
+						<span></span>
+						
+						<?php 
+						
+						  }
+						
+						?>
 					
 					</div>
 					
-					<h2><?php echo $_SESSION["usuario"] ?></h2>
+					<?php 
 					
+					if (isset($iduser)) {
+					
+					?>
+					
+					<h2><?php echo $usuario; ?></h2>
+					
+					<?php 
+					
+					}else {
+					
+					?>
+					
+					<h2><?php echo $_SESSION["usuario"]; ?></h2>
+					
+					<?php 
+					
+                    }
+					
+					?>
 								
 					<ul class="about">
 					
@@ -97,29 +206,61 @@
 						<ul>
 						
 							<li id="contcanciones">Mis canciones</li>
+							
+							<?php 
+							
+							 if (!isset($iduser) && !$validaid) {
+							
+							?>
 						
 							<li id="comp">Subir canciones</li>
 							
 							<li id="delete">Eliminar cuenta</li>
+							
+							<?php 
+							
+							 }elseif (isset($iduser) && $validaid){
+							
+							?>
+							
+							<li id="comp">Subir canciones</li>
+							
+							<li id="delete">Eliminar cuenta</li>
+							
+							<?php 
+							
+							 }
+							
+							?>
 						
 						</ul>
 						
+						<?php 
+						
+						if (isset($iduser) && !$validaid) {
+						
+						?>
+						
+						<a><div>Seguir</div></a>
+						
+						<?php 
+						
+						}else {
+						
+						?>
+						
 						<a href="cerrarsesion.php"><div>Cerrar sesión</div></a>
+						
+						<?php 
+						
+						}
+						
+						?>
 				
 					</nav>
 				
 					<div id="songs">
 				
-						<div class="song">SONG</div>
-					
-						<div class="song">SONG</div>
-					
-						<div class="song">SONG</div>
-					
-						<div class="song">SONG</div>
-					
-						<div class="song">SONG</div>
-					
 						<div class="song">SONG</div>
 				
 					</div>
@@ -203,6 +344,7 @@
 		</div>
 	
 	</body>
+
 
 	
 

@@ -16,6 +16,8 @@
         <script src="jquery-1.8.3.js"></script>
 
         <script src="principal.js?v=<?php echo time(); ?>"></script>
+        
+        <script src="reproducciones.js?v=<?php echo time(); ?>"></script>
 	
 	</head>
 	
@@ -107,7 +109,15 @@
 		    
 		    $conexion->exec("SET CHARACTER SET utf8");
 		    
-		    $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO";
+		    $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,
+            CASE
+            WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
+            WHEN c.REPRODUCCIONES > 999 AND c.REPRODUCCIONES < 10000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,1),'K')
+            WHEN c.REPRODUCCIONES > 9999 AND c.REPRODUCCIONES < 100000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,2),'K')
+            WHEN c.REPRODUCCIONES > 99999 AND c.REPRODUCCIONES < 1000000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,3),'K')
+            WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
+            END AS REPRODUCCIONES           
+            ,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO";
 		    
 		    $resultado=$conexion->prepare($consulta);
 		    
@@ -157,7 +167,7 @@
     					</div>
     					<div class="viewscontainer">
     						
-    						<span><i class="fa-solid fa-ear-listen"></i><?php echo $fila["REPRODUCCIONES"]; ?></span>
+    						<span class="rep<?php echo $fila["ID"]; ?>"><i class="fa-solid fa-ear-listen"></i><?php echo $fila["REPRODUCCIONES"]; ?></span>
     						
     						<span><i class="fa-regular fa-face-smile-wink"></i><?php echo $fila["LIKES"]; ?></span>
     						

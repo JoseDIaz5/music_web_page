@@ -2,7 +2,6 @@
 <html>
 
 	<head>
-	
 		<?php 
         
             session_start();
@@ -25,6 +24,8 @@
         <script src="manejalikescanciones.js?v=<?php echo time(); ?>"></script>
         
         <script src="manejadislikescanciones.js?v=<?php echo time(); ?>"></script>
+        
+        <script src="manejareproducciones.js?v=<?php echo time(); ?>"></script>
         
         <?php
     	
@@ -141,7 +142,15 @@
 			     
 			     $conexion->exec("SET CHARACTER SET utf8");
 			     
-			     $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO";
+			     $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,
+                 CASE
+                 WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
+                 WHEN c.REPRODUCCIONES > 999 AND c.REPRODUCCIONES < 10000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,1),'K')
+                 WHEN c.REPRODUCCIONES > 9999 AND c.REPRODUCCIONES < 100000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,2),'K')
+                 WHEN c.REPRODUCCIONES > 99999 AND c.REPRODUCCIONES < 1000000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,3),'K')
+                 WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
+                 END AS REPRODUCCIONES
+                 ,c.LIKES,c.DISLIKES,p.ID AS iduser,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO";
 			     
 			     $resultado=$conexion->prepare($consulta);
 			     
@@ -185,7 +194,7 @@
 			         		
 			         			<img src="/MIXWORLD/intranet/perfiles/<?php echo $fila["IMAGEN_PERFIL"]; ?>">
 			         			
-			         			<span><?php echo $fila["USUARIO"]; ?></span>
+			         			<span><a href="cuenta.php?iduser=<?php echo $fila["iduser"]; ?>"><?php echo $fila["USUARIO"]; ?></a></span>
 			         		
 			         		</div>
 			         		<div class="playercontainer">
@@ -207,7 +216,7 @@
 			         		</div>
 			         		<div class="likescontainer">
 			         		
-			         			<span><i class="fa-solid fa-ear-listen"></i><?php echo $fila["REPRODUCCIONES"]; ?></span>
+			         			<span class="rep<?php echo $fila["ID"]; ?>"><i class="fa-solid fa-ear-listen"></i><?php echo $fila["REPRODUCCIONES"]; ?></span>
 			         			
 			         			<?php 
 			         			
@@ -269,4 +278,3 @@
 	</body>
 
 </html>
-

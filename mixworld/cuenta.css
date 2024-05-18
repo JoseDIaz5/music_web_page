@@ -127,6 +127,7 @@ a{
 	
 	font-weight:600;
 }
+
 .header_wrapper .cols_container .content ul{
 	
 	gap:30px;
@@ -623,7 +624,7 @@ a{
 	
 		flex-direction:row;
 		
-		gap:30px;
+
 	}
 	.header_wrapper .cols_container .right_col #songs{
 	

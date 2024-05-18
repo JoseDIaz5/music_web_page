@@ -479,6 +479,10 @@ section .songcontainer .titleplayercontainer .usercontainer span{
 	
 	margin-left:6px;
 }
+section .songcontainer .titleplayercontainer .usercontainer span a{
+	
+	text-decoration:none;
+}
 section .songcontainer .titleplayercontainer .playercontainer{
 	
 	display:flex;
