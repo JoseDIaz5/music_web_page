@@ -102,7 +102,7 @@ $(document).ready(function(){
 			
 			audio.currentTime=nuevotiempo;
 			
-			$("progreso"+id).css("width",ratonx+"px");
+			$(".progreso"+id).css("width",ratonx+"px");
 		}
 	});
 	

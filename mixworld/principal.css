@@ -482,6 +482,8 @@ section .songcontainer .titleplayercontainer .usercontainer span{
 section .songcontainer .titleplayercontainer .usercontainer span a{
 	
 	text-decoration:none;
+	
+	color:black;
 }
 section .songcontainer .titleplayercontainer .playercontainer{
 	

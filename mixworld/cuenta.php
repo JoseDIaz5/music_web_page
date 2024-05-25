@@ -41,6 +41,8 @@
         <script src="jquery-1.8.3.js"></script>
         
         <script src="cuenta.js?v=<?php echo time(); ?>"></script>
+        
+        <script src="manejareproduccionescuenta.js?v=<?php echo time(); ?>"></script>
 	
 	</head>
 	<body>
@@ -115,7 +117,6 @@
 			 }
 			
 			?>
->>>>>>> 90964fe (Actualización de contador de reproducciones)
 			
 			<div class="cols_container">
 			
@@ -261,7 +262,159 @@
 				
 					<div id="songs">
 				
-						<div class="song">SONG</div>
+					<?php 
+					
+					try {
+					    
+					    $consultasongs="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,
+                        CASE
+                        WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
+                        WHEN c.REPRODUCCIONES > 999 AND c.REPRODUCCIONES < 10000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,1),'K')
+                        WHEN c.REPRODUCCIONES > 9999 AND c.REPRODUCCIONES < 100000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,2),'K')
+                        WHEN c.REPRODUCCIONES > 99999 AND c.REPRODUCCIONES < 1000000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,3),'K')
+                        WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
+                        END AS REPRODUCCIONES
+                        ,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO 
+                        WHERE c.ID_USUARIO=:iduser";
+					    
+					    $resultado=$conexion->prepare($consultasongs);
+					    
+					    $consultalikescanciones="SELECT ID FROM songs_likes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
+					    
+					    $result=$conexion->prepare($consultalikescanciones);
+					    
+					    $consultadislikescanciones="SELECT ID FROM songs_dislikes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
+					    
+					    $resulttwo=$conexion->prepare($consultadislikescanciones);
+					    
+					    if (isset($iduser)) {
+					        
+					        $resultado->execute(array(":iduser"=>$iduser));
+					    }
+					    else {
+					        
+					        $resultado->execute(array(":iduser"=>$_SESSION["idusu"]));
+					    }
+					    while ($filas=$resultado->fetch(PDO::FETCH_ASSOC)) {
+					        
+					        if (isset($iduser)) {
+					            
+					            $result->execute(array(":idsong"=>$filas["ID"],":iduser"=>$iduser));
+					            
+					            $resulttwo->execute(array(":idsong"=>$filas["ID"],":iduser"=>$iduser));
+					            
+					            $cantidadlikescancion=$result->rowCount();
+					            
+					            $cantidaddislikescancion=$resulttwo->rowCount();
+					        }
+					        else {
+					            
+					            $result->execute(array(":idsong"=>$filas["ID"],":iduser"=>$_SESSION["idusu"]));
+					            
+					            $resulttwo->execute(array(":idsong"=>$filas["ID"],":iduser"=>$_SESSION["idusu"]));
+					            
+					            $cantidadlikescancion=$result->rowCount();
+					            
+					            $cantidaddislikescancion=$resulttwo->rowCount();
+					        }
+					        
+					        ?>
+					        
+					        <div class="songcontainer">
+					        
+					        	<div class="imagecontainer">
+					        	
+					        		<img src="/MIXWORLD/intranet/songs/<?php echo $filas["IMAGEN_CANCION"]; ?>">
+					        	
+					        	</div>
+					        	<div class="titleplayercontainer">
+					        	
+					        		<div class="titlecontainer">
+					        		
+					        			<span><?php echo $filas["TITULO"]; ?></span>
+					        		
+					        		</div>
+					        		<div class="usercontainer">
+					        		
+					        			<img src="/MIXWORLD/intranet/perfiles/<?php echo $filas["IMAGEN_PERFIL"]; ?>">
+					        			
+					        			<span><?php echo $filas["USUARIO"]; ?></span>
+					        		
+					        		</div>
+					        		<div class="playercontainer">
+					        		
+					        			<div class="playicon">
+					        			
+					        				<i class="fa-solid fa-play play inicio<?php echo $filas["ID"]; ?>" id="<?php echo $filas["ID"]; ?>" data-file="/MIXWORLD/intranet/songs/<?php echo $filas["CANCION"]; ?>"></i>
+					        				
+					        				<i class="fa-solid fa-pause pause detener<?php echo $filas["ID"]; ?>" id="<?php echo $filas["ID"]; ?>" data-file="/MIXWORLD/intranet/songs/<?php echo $filas["CANCION"]; ?>"></i>
+					        			
+					        			</div>
+					        			<div class="bar barra<?php echo $filas["ID"]; ?>" id="<?php echo $filas["ID"]; ?>">
+					        			
+					        				<div id="<?php echo $filas["ID"]; ?>" class="progress progreso<?php echo $filas["ID"]; ?>"></div>
+					        			
+					        			</div>
+					        		
+					        		</div>
+					        		<div class="viewscontainer">
+					        		
+					        			<span class="rep<?php echo $filas["ID"]; ?>"><i class="fa-solid fa-ear-listen"></i><?php echo $filas["REPRODUCCIONES"]; ?></span>
+					        			
+					        			<?php 
+					        			
+					        			if ($cantidadlikescancion<1) {
+					        			
+					        			?>
+					        			
+					        			<span class="likesong spanlike<?php echo $filas["ID"]; ?>" id="<?php echo $filas["ID"]; ?>"><i class="fa-regular fa-face-smile-wink"></i><?php echo $filas["LIKES"]; ?></span>
+					        			
+					        			<?php 
+					        			
+					        			}else {
+					        			
+					        			?>
+					        			
+					        			<span class="likesong spanlike<?php echo $filas["ID"]; ?>" id="<?php echo $filas["ID"]; ?>"><i class="fa-solid fa-face-smile-wink"></i><?php echo $filas["LIKES"]; ?></span>
+					        			
+					        			<?php 
+					        			
+					        			}
+					        			if ($cantidaddislikescancion<1) {
+					        			    
+					        			?>
+					        			
+					        			<span class="dislikesong spandislike<?php echo $filas["ID"]; ?>" id="<?php echo $filas["ID"]; ?>"><i class="fa-regular fa-face-sad-tear"></i><?php echo $filas["DISLIKES"]; ?></span>
+					        			
+					        			<?php 
+					        			
+					        			}else {
+					        			
+					        			?>
+					        			
+					        			<span class="dislikesong spandislike<?php echo $filas["ID"]; ?>" id="<?php echo $filas["ID"]; ?>"><i class="fa-solid fa-face-sad-tear"></i><?php echo $filas["DISLIKES"]; ?></span>
+					        			
+					        			<?php 
+					        			
+					        			}
+					        			
+					        			?>
+					        		
+					        		</div>
+					        	
+					        	</div>
+					        
+					        </div>
+					        
+					        <?php 
+					    }
+					    
+					} catch (Exception $e) {
+					    
+					    die("Error: " . $e->getMessage());
+					}
+					
+					?>
 				
 					</div>
 					
