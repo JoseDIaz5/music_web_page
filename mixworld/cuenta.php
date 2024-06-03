@@ -43,6 +43,10 @@
         <script src="cuenta.js?v=<?php echo time(); ?>"></script>
         
         <script src="manejareproduccionescuenta.js?v=<?php echo time(); ?>"></script>
+        
+        <script src="manejalikescanciones.js?v=<?php echo time(); ?>"></script>
+        
+        <script src="manejadislikescanciones.js?v=<?php echo time(); ?>"></script>
 	
 	</head>
 	<body>
@@ -73,9 +77,23 @@
 		      
 		      $resultado=$conexion->prepare($consultaperfil);
 		      
+		      $consultacantidades="SELECT COUNT(C.ID) AS CANCIONES,p.SEGUIDORES,p.SIGUIENDO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID=c.ID_USUARIO WHERE c.ID_USUARIO=:iduser";
+		      
+		      $resultadoc=$conexion->prepare($consultacantidades);
+		      
+		      $consultaseguidores="SELECT ID_USUARIO_SEGUIDOR,ID_USUARIO_SEGUIDO FROM seguidores WHERE ID_USUARIO_SEGUIDOR=:iduserfollower AND ID_USUARIO_SEGUIDO=:iduserfollowed";
+		      
+		      $resultadof=$conexion->prepare($consultaseguidores);
+		      
 		      if (isset($iduser)) {
 		          
 		          $resultado->execute(array(":id"=>$iduser));
+		          
+		          $resultadoc->execute(array(":iduser"=>$iduser));
+		          
+		          $resultadof->execute(array(":iduserfollower"=>$_SESSION["idusu"],":iduserfollowed"=>$iduser));
+		          
+		          $row=$resultadof->rowCount();
 		          
 		          while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
 		              
@@ -84,6 +102,31 @@
 		              $perfil=$fila["IMAGEN_PERFIL"];
 		              
 		              $usuario=$fila["USUARIO"];
+		          }
+		          while ($filac=$resultadoc->fetch(PDO::FETCH_ASSOC)) {
+		              
+		              $cantidadcanciones=$filac["CANCIONES"];
+		              
+		              $seguidores=$filac["SEGUIDORES"];
+		              
+		              $siguiendo=$filac["SIGUIENDO"];
+		          }
+		          if ($row<1) {
+		              $seguido=0;
+		          }else{
+		              $seguido=1;
+		          }
+		      }else {
+		          
+		          $resultadoc->execute(array(":iduser"=>$_SESSION["idusu"]));
+		          
+		          while ($filac=$resultadoc->fetch(PDO::FETCH_ASSOC)) {
+		              
+		              $cantidadcanciones=$filac["CANCIONES"];
+		              
+		              $seguidores=$filac["SEGUIDORES"];
+		              
+		              $siguiendo=$filac["SIGUIENDO"];
 		          }
 		      }
 		      
@@ -176,11 +219,11 @@
 								
 					<ul class="about">
 					
-						<li><span>100</span>Seguidores</li>
+						<li><span><?php echo $seguidores; ?></span>Seguidores</li>
 						
-						<li><span>100</span>Siguiendo</li>
+						<li><span><?php echo $siguiendo; ?></span>Siguiendo</li>
 						
-						<li><span>100</span>Canciones</li>
+						<li><span><?php echo $cantidadcanciones; ?></span>Canciones</li>
 					
 					</ul>
 					
@@ -233,18 +276,33 @@
 							 }
 							
 							?>
+							<li id="comp" class="pestañasubir">Subir canciones</li>
+							<li id="comp" class="pestañasubir">Subir canciones</li>
+							<li id="delete" class="pestañasubir">Eliminar cuenta</li>
 						
 						</ul>
 						
 						<?php 
 						
 						if (isset($iduser) && !$validaid) {
+						    
+						    if ($seguido==0) {
 						
 						?>
 						
-						<a><div>Seguir</div></a>
+						<div class="seguir divseguir<?php echo $iduser; ?>" id="<?php echo $iduser; ?>">Seguir</div>
 						
 						<?php 
+						
+						    }else {
+						     
+						        ?>
+						        
+						        <div class="seguir divseguir<?php echo $iduser; ?>" id="<?php echo $iduser; ?>">Siguiendo</div>
+						        
+						        <?php
+						        
+						    }
 						
 						}else {
 						
@@ -261,7 +319,7 @@
 					</nav>
 				
 					<div id="songs">
-				
+					
 					<?php 
 					
 					try {
@@ -296,27 +354,15 @@
 					        $resultado->execute(array(":iduser"=>$_SESSION["idusu"]));
 					    }
 					    while ($filas=$resultado->fetch(PDO::FETCH_ASSOC)) {
+					            
+					        $result->execute(array(":idsong"=>$filas["ID"],":iduser"=>$_SESSION["idusu"]));
+					            
+				            $resulttwo->execute(array(":idsong"=>$filas["ID"],":iduser"=>$_SESSION["idusu"]));
+					            
+				            $cantidadlikescancion=$result->rowCount();
+					            
+				            $cantidaddislikescancion=$resulttwo->rowCount();
 					        
-					        if (isset($iduser)) {
-					            
-					            $result->execute(array(":idsong"=>$filas["ID"],":iduser"=>$iduser));
-					            
-					            $resulttwo->execute(array(":idsong"=>$filas["ID"],":iduser"=>$iduser));
-					            
-					            $cantidadlikescancion=$result->rowCount();
-					            
-					            $cantidaddislikescancion=$resulttwo->rowCount();
-					        }
-					        else {
-					            
-					            $result->execute(array(":idsong"=>$filas["ID"],":iduser"=>$_SESSION["idusu"]));
-					            
-					            $resulttwo->execute(array(":idsong"=>$filas["ID"],":iduser"=>$_SESSION["idusu"]));
-					            
-					            $cantidadlikescancion=$result->rowCount();
-					            
-					            $cantidaddislikescancion=$resulttwo->rowCount();
-					        }
 					        
 					        ?>
 					        
@@ -483,6 +529,26 @@
 								<input type="submit" id="botonregistrados" value="Subir" name="subecancion" hidden="hidden">
 								
 								<div id="botonregistra">Subir</div>
+							
+							</div>
+						
+						</form>
+					
+					</div>
+					
+					<div class="deleteaccount">
+					
+						<form action="eliminarcuenta.php">
+						
+							<h3>¿De verdad desea eliminar la cuenta?</h3>
+							
+							<br>
+							
+							<div class="contelimina">
+							
+								<input type="submit" id="botonelimina" value="Eliminar" name="eliminacuenta" hidden="hidden">
+							
+								<div class="cierra" id="deleteaccountbutton">Eliminar</div>
 							
 							</div>
 						

@@ -14,6 +14,8 @@ $(document).ready(function(){
 	
 	document.getElementById("contcanciones").addEventListener("click",contenido,false);
 	
+	document.getElementById("delete").addEventListener("click",eliminar,false);
+	
 	document.getElementById("uploadsongbutton").addEventListener("click",sharesong,false);
 	
 	document.getElementById("uploadimagesongbutton").addEventListener("click",shareimagesong,false);
@@ -24,15 +26,29 @@ $(document).ready(function(){
 	
 	document.getElementById("botonregistra").addEventListener("click",subecancion,false);
 	
+	document.getElementById("deleteaccountbutton").addEventListener("click",eliminacuenta,false);
+	
 	function comparte(){
 		
 		$("#uploadsongs").slideToggle(500);
 		
 		$("#songs").css("display","none");
+		
+		$(".deleteaccount").css("display","none");
 	}
 	function contenido(){
 		
 		$("#songs").slideToggle(500);
+		
+		$("#uploadsongs").css("display","none");
+		
+		$(".deleteaccount").css("display","none");
+	}
+	function eliminar(){
+		
+		$(".deleteaccount").slideToggle(500);
+		
+		$("#songs").css("display","none");
 		
 		$("#uploadsongs").css("display","none");
 	}
@@ -95,6 +111,10 @@ $(document).ready(function(){
 	function subecancion(){
 		
 		$("#botonregistrados").click();
+	}
+	function eliminacuenta(){
+		
+		$("#botonelimina").click();
 	}
 	$("#campotitulo").focus(function(){
 		
@@ -206,5 +226,21 @@ $(document).ready(function(){
 			
 			$(".progreso"+id).css("width",ratonx+"px");
 		}
+	});
+	$(".seguir").click(function(){
+		
+		var id=this.id;
+		
+		$.ajax({
+			
+			url:'manejaseguidores.php',type:'POST',data: {id:id}, dataType: 'json',
+			
+			success:function(data){
+				
+				var seguidor=data['siguiendo'];
+				
+				$(".divseguir"+id).html(seguidor);
+			}
+		});
 	});
 });
