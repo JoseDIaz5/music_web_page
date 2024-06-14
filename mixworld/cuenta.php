@@ -77,7 +77,7 @@
 		      
 		      $resultado=$conexion->prepare($consultaperfil);
 		      
-		      $consultacantidades="SELECT COUNT(C.ID) AS CANCIONES,p.SEGUIDORES,p.SIGUIENDO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID=c.ID_USUARIO WHERE c.ID_USUARIO=:iduser";
+		      $consultacantidades="SELECT CANCIONES,SEGUIDORES,SIGUIENDO FROM perfiles WHERE ID=:iduser";
 		      
 		      $resultadoc=$conexion->prepare($consultacantidades);
 		      
@@ -231,9 +231,9 @@
 					
 						<ul>
 					
-							<li><i class="fab fa-twitter"></i></li>
+							<li><i class="fa-brands fa-x-twitter"></i></li>
 						
-							<li><i class="fab fa-facebook"></i></li>
+							<li><a><i class="fab fa-facebook"></i></a></li>
 						
 							<li><i class="fab fa-instagram"></i></li>
 					
@@ -353,6 +353,18 @@
 					        
 					        $resultado->execute(array(":iduser"=>$_SESSION["idusu"]));
 					    }
+					    
+					    $rows=$resultado->rowCount();
+					    
+					    if ($rows==0) {
+					        
+					        ?>
+					        
+					        <span class="nosongsmessage">No hay canciones</span>
+					        
+					        <?php
+					    }
+					    
 					    while ($filas=$resultado->fetch(PDO::FETCH_ASSOC)) {
 					            
 					        $result->execute(array(":idsong"=>$filas["ID"],":iduser"=>$_SESSION["idusu"]));
@@ -462,6 +474,25 @@
 					
 					?>
 				
+							
+					        		
+		        		<div class="playercontainers">
+		        		
+		        			<div class="playicon">
+		        			
+		        				<i class="fa-solid fa-play play "></i>
+		        				
+		        				<i class="fa-solid fa-pause pause "></i>
+		        			
+		        			</div>
+		        			<div class="bar">
+		        			
+		        				<div class="progress"></div>
+		        			
+		        			</div>
+		        		
+		        		</div>
+					        
 					</div>
 					
 					<div id="uploadsongs">

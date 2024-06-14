@@ -40,6 +40,8 @@
             
             $consultados="SELECT ID FROM perfiles WHERE USUARIO=:usuario";
             
+            $consultatres="UPDATE perfiles SET CANCIONES=CANCIONES+1 WHERE ID=:iduser";
+            
             if($tipocancion=="audio/mpeg" || $tipocancion=="audio/flac"  || $tipocancion=="audio/wav"  || $tipocancion=="audio/x-m4a"){
                 
                 if($tipoimg=="image/jpg" || $tipoimg=="image/jpeg" || $tipoimg=="image/png"){
@@ -58,6 +60,10 @@
                     $resultado->execute(array(":id_usu"=>$idusu,":title"=>$title,":cancion"=>$nombrec,":desc"=>$desc,":imgcan"=>$imagencan,":fecha"=>$fecha));
                     
                     $registro=$resultado->rowCount();
+                    
+                    $resultado=$conexion->prepare($consultatres);
+                    
+                    $resultado->execute(array(":iduser"=>$_SESSION["idusu"]));
                     
                     if($registro!=0){
                         
