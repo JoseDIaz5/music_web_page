@@ -58,6 +58,42 @@ $(document).ready(function(){
 
         $("#passicon2").css("transition","0.4s");
     });
+    $("#facebook").focus(function(){
+
+        $("#facebookicon").css("color","#DC143C");
+
+        $("#facebookicon").css("transition","0.4s");
+    });
+    $("#facebook").focusout(function(){
+
+        $("#facebookicon").css("color","#000000");
+
+        $("#facebookicon").css("transition","0.4s");
+    });
+    $("#instagram").focus(function(){
+
+        $("#instagramicon").css("color","#DC143C");
+
+        $("#instagramicon").css("transition","0.4s");
+    });
+    $("#instagram").focusout(function(){
+
+        $("#instagramicon").css("color","#000000");
+
+        $("#instagramicon").css("transition","0.4s");
+    });
+    $("#twitter").focus(function(){
+
+        $("#xicon").css("color","#DC143C");
+
+        $("#xicon").css("transition","0.4s");
+    });
+    $("#twitter").focusout(function(){
+
+        $("#xicon").css("color","#000000");
+
+        $("#xicon").css("transition","0.4s");
+    });
     function selecciona(){
 	
 		$("#imageselect").click();

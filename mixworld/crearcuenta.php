@@ -131,6 +131,42 @@
                			
                			<br>
                			
+               			<div class="inputWithIcon" id="divfacebook">
+               			
+               				<i class="fab fa-facebook icono" id="facebookicon"></i>
+               				
+               				<input type="text" name="facebook" id="facebook" class="datos" placeholder="Usuario Facebook (opcional)" maxlength="60">
+               				
+               				<span class="focus-border"><i></i></span>
+               			
+               			</div>
+               			
+               			<br>
+               			
+               			<div class="inputWithIcon" id="divinstagram">
+               			
+               				<i class="fab fa-instagram icono" id="instagramicon"></i>
+               				
+               				<input type="text" name="instagram" id="instagram" class="datos" placeholder="Usuario Instagram (opcional)" maxlength="60">
+               				
+               				<span class="focus-border"><i></i></span>
+               			
+               			</div>
+               			
+               			<br>
+               			
+               			<div class="inputWithIcon" id="divx">
+               			
+               				<i class="fa-brands fa-x-twitter icono" id="xicon"></i>
+               			
+               				<input type="text" name="twitter" id="twitter" class="datos" placeholder="Usuario X (opcional)" maxlength="60">
+               				
+               				<span class="focus-border"><i></i></span>
+               			
+               			</div>
+               			
+               			<br>
+               			
                			<br>
                			
                			<input type="submit" id="botonregistrados" value="Crear" name="subedatos" hidden="hidden">

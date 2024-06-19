@@ -78,6 +78,12 @@
 		      $resultado=$conexion->prepare($consultaperfil);
 		      
 		      $consultacantidades="SELECT CANCIONES,SEGUIDORES,SIGUIENDO FROM perfiles WHERE ID=:iduser";
+
+		      $consultaperfil="SELECT USUARIO,IMAGEN_PERFIL,IMAGEN_PORTADA,USUARIO_FACEBOOK,USUARIO_INSTAGRAM,USUARIO_X FROM perfiles WHERE ID=:id";
+		      
+		      $resultado=$conexion->prepare($consultaperfil);
+		      
+		      $consultacantidades="SELECT CANCIONES,SEGUIDORES,SIGUIENDO,USUARIO_FACEBOOK,USUARIO_INSTAGRAM,USUARIO_X FROM perfiles WHERE ID=:iduser";
 		      
 		      $resultadoc=$conexion->prepare($consultacantidades);
 		      
@@ -102,6 +108,12 @@
 		              $perfil=$fila["IMAGEN_PERFIL"];
 		              
 		              $usuario=$fila["USUARIO"];
+		              
+		              $facebookuser=$fila["USUARIO_FACEBOOK"];
+		              
+		              $instagramuser=$fila["USUARIO_INSTAGRAM"];
+		              
+		              $xuser=$fila["USUARIO_X"];
 		          }
 		          while ($filac=$resultadoc->fetch(PDO::FETCH_ASSOC)) {
 		              
@@ -127,6 +139,12 @@
 		              $seguidores=$filac["SEGUIDORES"];
 		              
 		              $siguiendo=$filac["SIGUIENDO"];
+		              
+		              $facebookuser=$filac["USUARIO_FACEBOOK"];
+		              
+		              $instagramuser=$filac["USUARIO_INSTAGRAM"];
+		              
+		              $xuser=$filac["USUARIO_X"];
 		          }
 		      }
 		      
@@ -236,6 +254,67 @@
 							<li><a><i class="fab fa-facebook"></i></a></li>
 						
 							<li><i class="fab fa-instagram"></i></li>
+
+							<?php 
+							
+							if ($xuser=='') {
+							
+							?>
+							
+							<li><i class="fa-brands fa-x-twitter"></i></li>
+							
+							<?php 
+							
+							}else {
+							
+							?>
+							
+							<li class="enlacered"><a href="https://www.x.com/<?php echo $xuser ?>/"><i class="fa-brands fa-x-twitter"></i></a></li>
+							
+							<?php 
+							
+							}
+							
+							?>
+							
+							<?php 
+							
+							if ($facebookuser=='') {
+							    ?>
+							    
+							    <li><i class="fab fa-facebook"></i></li>
+							    
+							    <?php
+							}else {
+							    ?>
+							    
+							    <li class="enlacered"><a href="https://www.facebook.com/<?php echo $facebookuser ?>/"><i class="fab fa-facebook"></i></a></li>
+							    
+							    <?php
+							}
+							
+							?>
+						
+							<?php 
+							
+							if ($instagramuser=='') {
+							
+							?>
+						
+							<li><i class="fab fa-instagram"></i></li>
+							
+							<?php 
+							
+							}else{
+							
+							?>
+							
+							<li class="enlacered"><a href="https://www.instagram.com/<?php echo $instagramuser ?>/"><i class="fab fa-instagram"></i></a></li>
+							
+							<?php 
+							
+							}
+							?>
 					
 						</ul>
 					
