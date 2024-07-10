@@ -2,6 +2,8 @@ $(document).ready(function(){
 	
 	var micancion, reproducir, barra, progreso, total, maximo, audio, currentFile, myinterval;
 	
+	document.getElementById("searchicon").addEventListener("click",busca,false);
+	
 	audio=null;
 	
 	currentFile=null;
@@ -105,5 +107,8 @@ $(document).ready(function(){
 			$(".progreso"+id).css("width",ratonx+"px");
 		}
 	});
-	
+	function busca(){
+		
+		$("#botonbusca").click();
+	}
 });

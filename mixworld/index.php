@@ -18,6 +18,106 @@
         <script src="principal.js?v=<?php echo time(); ?>"></script>
         
         <script src="reproducciones.js?v=<?php echo time(); ?>"></script>
+        
+        <?php 
+        
+        function buscadatos($labusqueda){
+            
+            try {
+                
+                $conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
+                
+                $conexion->exec("SET CHARACTER SET utf8");
+                
+                $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                
+                $consultabusqueda="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,
+                CASE
+                WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
+                WHEN c.REPRODUCCIONES > 999 AND c.REPRODUCCIONES < 10000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,1),'K')
+                WHEN c.REPRODUCCIONES > 9999 AND c.REPRODUCCIONES < 100000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,2),'K')
+                WHEN c.REPRODUCCIONES > 99999 AND c.REPRODUCCIONES < 1000000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,3),'K')
+                WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
+                END AS REPRODUCCIONES           
+                ,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO 
+                WHERE c.TITULO LIKE '%$labusqueda%'";
+                
+                $resultado=$conexion->prepare($consultabusqueda);
+                
+                $resultado->execute();
+                
+                echo "<section>";
+                
+                while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
+                    
+                    $id=$fila["ID"];
+                    
+                    echo "<div class='songcontainer'>";
+                    
+                    echo "<div class='imagecontainer'>";
+                    
+                    echo "<img src='/MIXWORLD/intranet/songs/". $fila["IMAGEN_CANCION"] ."'>";
+                    
+                    echo "</div>";
+                    
+                    echo "<div class='titleplayercontainer'>";
+                    
+                    echo "<div class='titlecontainer'>";
+                    
+                    echo "<span>" . $fila["TITULO"] . "</span>";
+                    
+                    echo "</div>";
+                    
+                    echo "<div class='usercontainer'>";
+                    
+                    echo "<img src='/MIXWORLD/intranet/perfiles/". $fila["IMAGEN_PERFIL"] ."'>";
+                    
+                    echo "<span>" . $fila["USUARIO"] . "</span>";
+                    
+                    echo "</div>";
+                    
+                    echo "<div class='playercontainer'>";
+                    
+                    echo "<div class='playicon'>";
+                    
+                    echo "<i class='fa-solid fa-play play inicio". $id ."' id='". $id ."' data-file='/MIXWORLD/intranet/songs/". $fila["CANCION"] ."'></i>";
+                    
+                    echo "<i class='fa-solid fa-pause pause detener". $id ."' id='". $id ."' data-file='/MIXWORLD/intranet/songs/". $fila["CANCION"] ."'></i>";
+                    
+                    echo "</div>";
+                    
+                    echo "<div class='bar barra". $id ."' id='". $id ."'>";
+                    
+                    echo "<div id='". $id ."' class='progress progreso". $id ."'></div>";
+                    
+                    echo "</div>";
+                    
+                    echo "</div>";
+                    
+                    echo "<div class='viewscontainer'>";
+                    
+                    echo "<span class='rep". $id ."'><i class='fa-solid fa-ear-listen'></i>". $fila["REPRODUCCIONES"] ."</span>";
+                    
+                    echo "<span><i class='fa-regular fa-face-smile-wink'></i>". $fila["LIKES"] ."</span>";
+                    
+                    echo "<span><i class='fa-regular fa-face-sad-tear'></i>". $fila["DISLIKES"] ."</span>";
+                    
+                    echo "</div>";
+                    
+                    echo "</div>";
+                    
+                    echo "</div>";
+                }
+                
+                echo "</section>";
+                
+            } catch (Exception $e) {
+                
+                die("Error: " . $e->getMessage());
+            }
+        }
+        
+        ?>
 	
 	</head>
 	
@@ -96,6 +196,14 @@
 			</nav>
 		
 		</header>
+		
+		<?php 
+		
+		@$busqueda=$_GET["buscador"];
+		
+		if ($busqueda==NULL) {
+		
+		?>
 		
 		<section>
 		
@@ -191,6 +299,15 @@
 		?>
 		
 		</section>
+		
+		<?php 
+		
+		}else {
+		    
+		    buscadatos($busqueda);
+		}
+		
+		?>
 	
 	</body>
 

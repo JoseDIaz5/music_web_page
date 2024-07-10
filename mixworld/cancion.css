@@ -396,22 +396,18 @@ section{
 	display:flex;
 	
 	justify-content:center;
-	
-	flex-wrap:wrap;
 }
 section .songcontainer{
 	
-	display:flex;
-	
-	justify-content:space-between;
-	
 	height:auto;
 	
-	width:600px;
+	width:90%;
 	
-	margin:15px auto;
+	display:inline-flex;
 	
-	border: 1px solid gray;
+	
+	
+	border:1px solid gray;
 	
 	border-radius:10px;
 }
@@ -427,7 +423,7 @@ section .songcontainer .imagecontainer{
 }
 section .songcontainer .imagecontainer img{
 	
-	width:130px;
+	width:200px;
 	
 	border-radius:10px;
 }
@@ -455,7 +451,7 @@ section .songcontainer .titleplayercontainer .titlecontainer{
 	
 	font-weight:bolder;
 	
-	font-size:20px;
+	font-size:40px;
 	
 	color:#d40000;
 }
@@ -473,9 +469,9 @@ section .songcontainer .titleplayercontainer .usercontainer{
 }
 section .songcontainer .titleplayercontainer .usercontainer img{
 	
-	width:20px;
+	width:40px;
 	
-	height:20px;
+	height:40px;
 	
 	border-radius:50%;
 }
@@ -488,6 +484,8 @@ section .songcontainer .titleplayercontainer .usercontainer span a{
 	text-decoration:none;
 	
 	color:black;
+	
+	font-size:35px;
 }
 section .songcontainer .titleplayercontainer .playercontainer{
 	
@@ -503,7 +501,7 @@ section .songcontainer .titleplayercontainer .playercontainer .playicon .play{
 	
 	margin-right:8px;
 	
-	font-size:20px;
+	font-size:40px;
 	
 	cursor:pointer;
 	
@@ -521,7 +519,7 @@ section .songcontainer .titleplayercontainer .playercontainer .playicon .pause{
 	
 	display:none;
 	
-	font-size:20px;
+	font-size:40px;
 	
 	cursor:pointer;
 	
@@ -539,9 +537,9 @@ section .songcontainer .titleplayercontainer .playercontainer .bar{
 	
 	width:100%;
 	
-	height:5px;
+	height:15px;
 	
-	border-radius:5px;
+	border-radius:10px;
 	
 	cursor:pointer;
 }
@@ -551,31 +549,11 @@ section .songcontainer .titleplayercontainer .playercontainer .bar .progress{
 	
 	width:0px;
 	
-	height:5px;
+	height:15px;
 	
 	background-color:#d40000;
 	
-	border-radius:5px;
-}
-section .songcontainer .titleplayercontainer .viewscontainer{
-	
-	display:flex;
-	
-	justify-content:space-between;
-	
-	align-items:center;
-}
-section .songcontainer .titleplayercontainer .viewscontainer span{
-	
-	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-	
-	font-weight:bolder;
-	
-	font-size:20px;
-}
-section .songcontainer .titleplayercontainer .viewscontainer i{
-	
-	margin-right:6px;
+	border-radius:10px;
 }
 section .songcontainer .titleplayercontainer .likescontainer{
 	
@@ -591,7 +569,7 @@ section .songcontainer .titleplayercontainer .likescontainer span{
 	
 	font-weight:bolder;
 	
-	font-size:20px;
+	font-size:35px;
 }
 section .songcontainer .titleplayercontainer .likescontainer span:nth-child(2){
 	

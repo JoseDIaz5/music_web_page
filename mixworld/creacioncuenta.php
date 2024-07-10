@@ -45,12 +45,6 @@
                 
                 move_uploaded_file($_FILES["contportada"]["tmp_name"], $carpeta.$imgportada);
                 
-                $consulta="INSERT INTO perfiles(USUARIO,CORREO,CONTRASENA,IMAGEN_PERFIL,IMAGEN_PORTADA) VALUES(:usuario,:correo,:contra,:perfil,:portada)";
-                
-                $resultado=$conexion->prepare($consulta);
-                
-                $resultado->execute(array(":usuario"=>$usuario, ":correo"=>$correo, ":contra"=>$contra, ":perfil"=>$imgperfil, ":portada"=>$imgportada));
-
                 if (!isset($_POST["facebook"]) && !isset($_POST["instagram"]) && !isset($_POST["twitter"])) {
                     
                     $consulta="INSERT INTO perfiles(USUARIO,CORREO,CONTRASENA,IMAGEN_PERFIL,IMAGEN_PORTADA) VALUES(:usuario,:correo,:contra,:perfil,:portada)";

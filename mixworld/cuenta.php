@@ -73,12 +73,6 @@
 		          }
 		      }
 		      
-		      $consultaperfil="SELECT USUARIO,IMAGEN_PERFIL,IMAGEN_PORTADA FROM perfiles WHERE ID=:id";
-		      
-		      $resultado=$conexion->prepare($consultaperfil);
-		      
-		      $consultacantidades="SELECT CANCIONES,SEGUIDORES,SIGUIENDO FROM perfiles WHERE ID=:iduser";
-
 		      $consultaperfil="SELECT USUARIO,IMAGEN_PERFIL,IMAGEN_PORTADA,USUARIO_FACEBOOK,USUARIO_INSTAGRAM,USUARIO_X FROM perfiles WHERE ID=:id";
 		      
 		      $resultado=$conexion->prepare($consultaperfil);
@@ -249,12 +243,6 @@
 					
 						<ul>
 					
-							<li><i class="fa-brands fa-x-twitter"></i></li>
-						
-							<li><a><i class="fab fa-facebook"></i></a></li>
-						
-							<li><i class="fab fa-instagram"></i></li>
-
 							<?php 
 							
 							if ($xuser=='') {
