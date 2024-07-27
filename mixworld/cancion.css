@@ -555,6 +555,30 @@ section .songcontainer .titleplayercontainer .playercontainer .bar .progress{
 	
 	border-radius:10px;
 }
+section .songcontainer .titleplayercontainer .playercontainer .downloadcontainer{
+	
+	margin:0 10px 0 10px;
+}
+section .songcontainer .titleplayercontainer .playercontainer .downloadcontainer a{
+	
+	text-decoration:none;
+	
+	color:black;
+}
+section .songcontainer .titleplayercontainer .playercontainer .downloadcontainer i{
+	
+	font-size:40px;
+	
+	cursor:pointer;
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+}
+section .songcontainer .titleplayercontainer .playercontainer .downloadcontainer i:hover{
+	
+	color:#d40000;
+}
 section .songcontainer .titleplayercontainer .likescontainer{
 	
 	display:flex;
@@ -562,6 +586,8 @@ section .songcontainer .titleplayercontainer .likescontainer{
 	justify-content:space-between;
 	
 	align-items:center;
+	
+	margin-top:10px;
 }
 section .songcontainer .titleplayercontainer .likescontainer span{
 	
