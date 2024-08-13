@@ -23,6 +23,12 @@
         
         <script src="cancion.js?v=<?php echo time(); ?>"></script>
         
+        <script src="manejareproduccionescancion.js?v=<?php echo time(); ?>"></script>
+        
+        <script src="manejalikescanciones.js?v=<?php echo time(); ?>"></script>
+        
+        <script src="manejadislikescanciones.js?v=<?php echo time(); ?>"></script>
+        
         <?php 
         
         function buscadatos($labusqueda){
@@ -224,7 +230,7 @@
 		    
 		    //$idcancion=$_GET["id"];
 		    
-		    $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,
+		    $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.DESCRIPCION,c.REPRODUCCIONES,
             CASE
             WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
             WHEN c.REPRODUCCIONES > 999 AND c.REPRODUCCIONES < 10000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,1),'K')
@@ -258,7 +264,7 @@
 		        
 		        ?>
 		        
-		        <div class="songcontainer">
+		        <div class="songtwocontainer">
 			
         			<div class="imagecontainer">
         			
@@ -347,6 +353,14 @@
 			         		
 			         		</div>
         			</div>
+    			
+    			</div>
+    			
+    			<div class="descriptioncontainer">
+    			
+    				<h2>DESCRIPCIÓN</h2>
+    				
+    				<div class="description"><?php echo $fila["DESCRIPCION"]; ?></div>
     			
     			</div>
 		        
