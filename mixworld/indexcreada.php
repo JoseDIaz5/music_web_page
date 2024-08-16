@@ -96,7 +96,7 @@
                     
                     echo "<div class='titlecontainer'>";
                     
-                    echo "<span>" . $fila["TITULO"] . "</span>";
+                    echo "<a href='cancion.php?id=$id'><span>" . $fila["TITULO"] . "</span></a>";
                     
                     echo "</div>";
                     
@@ -273,6 +273,8 @@
 			     
 			     while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
 			         
+			         $id=$fila["ID"];
+			         
 			         $result->execute(array(":idsong"=>$fila["ID"],":iduser"=>$_SESSION["idusu"]));
 			         
 			         $resulttwo->execute(array(":idsong"=>$fila["ID"],":iduser"=>$_SESSION["idusu"]));
@@ -294,7 +296,7 @@
 			         	
 			         		<div class="titlecontainer">
 			         		
-			         			<span><?php echo $fila["TITULO"]; ?></span>
+			         			<a href='cancion.php?id=<?php echo $id;?>' class='link'><span><?php echo $fila["TITULO"]; ?></span></a>
 			         		
 			         		</div>
 			         		<div class="usercontainer">

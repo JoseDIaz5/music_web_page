@@ -226,9 +226,9 @@
 		    
 		    $conexion->exec("SET CHARACTER SET utf8");
 		    
-		    $idcancion=1;
+		    //$idcancion=1;
 		    
-		    //$idcancion=$_GET["id"];
+		    $idcancion=$_GET["id"];
 		    
 		    $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.DESCRIPCION,c.REPRODUCCIONES,
             CASE
@@ -367,6 +367,47 @@
 		        <?php 
 		    }
 		    
+		    $consultacomentarios="SELECT p.IMAGEN_PERFIL,p.USUARIO,co.FECHA_COMENTARIO,co.COMENTARIO FROM perfiles AS p INNER JOIN canciones AS c 
+                                  ON p.ID=c.ID_USUARIO INNER JOIN comentarios AS co ON c.ID=co.ID_CANCION WHERE c.ID=:idsong";
+		    
+		    $resultado=$conexion->prepare($consultacomentarios);
+		    
+		    $resultado->execute(array(":idsong"=>$idcancion));
+		    
+		    echo "<div class='commentscontainer'>";
+		    
+		    echo "<h2>COMENTARIOS</h2>";
+		    
+		    while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
+		        
+		        ?>
+		        
+		        <div class="comment">
+		        
+		        	<div class="profilecomment">
+		        
+		        		<div><img src="/MIXWORLD/intranet/perfiles/<?php echo $fila["IMAGEN_PERFIL"]; ?>"></div>
+		        	
+		        		<div><?php echo $fila["USUARIO"]; ?></div>
+		        
+		        	</div>
+		        	<div class="date">
+		        
+		        		<span><?php echo $fila["FECHA_COMENTARIO"]; ?></span>
+		        
+		        	</div>
+		        	<div class="commentcontent">
+		        	
+		        		<span><?php echo $fila["COMENTARIO"]; ?></span>
+		        	
+		        	</div>
+		        
+		        </div>
+		        
+		        <?php
+		    }
+		    
+		    echo "</div>";
 		    
 		}catch(Exception $e){
 		    
