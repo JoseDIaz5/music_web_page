@@ -363,6 +363,30 @@
     				<div class="description"><?php echo $fila["DESCRIPCION"]; ?></div>
     			
     			</div>
+    			
+    			<div class='commentscontainer'>
+    			
+    				<h2>COMENTARIOS</h2>
+    				
+    				<div class="formcomments">
+    				
+    					<form action="subecomentario.php" class="mainform" enctype="multipart/form-data" method="post" data-ajax="false">
+    					
+    						<div class="areacontainer" id="divarea">
+    						
+    							<textarea cols="66" rows="3" placeholder="Comenta aquí..." id="textarea" name="comenta" maxlength="900" minlength="1"></textarea>
+    							
+    							<span class="focus-border"><i></i></span>
+    						
+    						</div>
+        					
+        					<input type="submit" id="botoncomentar" value="Comentar">
+        					
+        					<div id="botoncomenta">Comentar</div>
+    				
+    					</form>
+    				
+    				</div>
 		        
 		        <?php 
 		    }
@@ -373,10 +397,6 @@
 		    $resultado=$conexion->prepare($consultacomentarios);
 		    
 		    $resultado->execute(array(":idsong"=>$idcancion));
-		    
-		    echo "<div class='commentscontainer'>";
-		    
-		    echo "<h2>COMENTARIOS</h2>";
 		    
 		    while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
 		        
@@ -407,8 +427,6 @@
 		        <?php
 		    }
 		    
-		    echo "</div>";
-		    
 		}catch(Exception $e){
 		    
 		    die("Error: " . $e->getMessage());
@@ -416,6 +434,7 @@
 		
 		?>
 			
+			</div>
 		
 		</section>
 		

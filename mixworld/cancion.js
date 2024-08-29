@@ -12,6 +12,8 @@ $(document).ready(function(){
 	
 	document.getElementById("searchicon").addEventListener("click",busca,false);
 	
+	document.getElementById("botoncomenta").addEventListener("click",comenta,false);
+	
 	function busca(){
 		
 		$("#botonbusca").click();
@@ -111,4 +113,8 @@ $(document).ready(function(){
 			$(".progreso"+id).css("width",ratonx+"px");
 		}
 	});
+	function comenta(){
+		
+		$("#botoncomentar").click();
+	}
 });
