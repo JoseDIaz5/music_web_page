@@ -253,7 +253,7 @@
     					
     						<img src="/MIXWORLD/intranet/perfiles/<?php echo $fila["IMAGEN_PERFIL"]; ?>">
     					
-    						<span><?php echo $fila["USUARIO"]; ?></span>
+    						<span class="user"><?php echo $fila["USUARIO"]; ?></span>
     					
     					</div>
     					<div class="playercontainer">

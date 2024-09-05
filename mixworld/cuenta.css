@@ -327,7 +327,7 @@ a{
 	
 	font-size:20px;
 	
-	color:#d40000;
+	color:black;
 }
 .header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .usercontainer{
 	
@@ -348,6 +348,8 @@ a{
 .header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .usercontainer span{
 	
 	margin-left:5px;
+	
+	color:#A9A9A9;
 }
 .header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .playercontainer{
 	

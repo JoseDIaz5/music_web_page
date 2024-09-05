@@ -449,6 +449,20 @@ section .songtwocontainer .titleplayercontainer .titlecontainer{
 	
 	font-size:40px;
 	
+	color:black;
+}
+section .songcontainer .titleplayercontainer .titlecontainer .link{
+	
+	text-decoration:none;
+	
+	color:black;
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+}
+section .songcontainer .titleplayercontainer .titlecontainer .link:hover{
+	
 	color:#d40000;
 }
 section .songtwocontainer .titleplayercontainer .usercontainer{
@@ -479,9 +493,17 @@ section .songtwocontainer .titleplayercontainer .usercontainer span a{
 	
 	text-decoration:none;
 	
-	color:black;
+	color:#A9A9A9;
 	
 	font-size:35px;
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+}
+section .songtwocontainer .titleplayercontainer .usercontainer span a:hover{
+	
+	color:black;
 }
 section .songtwocontainer .titleplayercontainer .playercontainer{
 	
@@ -680,6 +702,16 @@ section .songcontainer .titleplayercontainer .titlecontainer{
 	
 	font-size:20px;
 	
+	color:black;
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+	
+	cursor:pointer;
+}
+section .songcontainer .titleplayercontainer .titlecontainer:hover{
+	
 	color:#d40000;
 }
 section .songcontainer .titleplayercontainer .usercontainer{
@@ -709,6 +741,14 @@ section .songcontainer .titleplayercontainer .usercontainer span{
 section .songcontainer .titleplayercontainer .usercontainer span a{
 	
 	text-decoration:none;
+	
+	color:#A9A9A9;
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+}
+section .songcontainer .titleplayercontainer .usercontainer span a:hover{
 	
 	color:black;
 }

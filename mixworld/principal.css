@@ -457,6 +457,20 @@ section .songcontainer .titleplayercontainer .titlecontainer{
 	
 	font-size:20px;
 	
+	color:black;
+}
+section .songcontainer .titleplayercontainer .titlecontainer .link{
+	
+	text-decoration:none;
+	
+	color:black;
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+}
+section .songcontainer .titleplayercontainer .titlecontainer .link:hover{
+	
 	color:#d40000;
 }
 section .songcontainer .titleplayercontainer .usercontainer{
@@ -479,6 +493,10 @@ section .songcontainer .titleplayercontainer .usercontainer img{
 	
 	border-radius:50%;
 }
+section .songcontainer .titleplayercontainer .usercontainer .user{
+	
+	color:#A9A9A9;
+}
 section .songcontainer .titleplayercontainer .usercontainer span{
 	
 	margin-left:6px;
@@ -486,6 +504,14 @@ section .songcontainer .titleplayercontainer .usercontainer span{
 section .songcontainer .titleplayercontainer .usercontainer span a{
 	
 	text-decoration:none;
+	
+	color:#A9A9A9;
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+}
+section .songcontainer .titleplayercontainer .usercontainer span a:hover{
 	
 	color:black;
 }

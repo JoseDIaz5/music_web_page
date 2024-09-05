@@ -49,7 +49,7 @@
                 WHEN c.REPRODUCCIONES > 99999 AND c.REPRODUCCIONES < 1000000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,3),'K')
                 WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
                 END AS REPRODUCCIONES           
-                ,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO 
+                ,c.LIKES,c.DISLIKES,p.ID AS iduser,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO 
                 WHERE c.TITULO LIKE '%$labusqueda%'";
 
                 $resultado=$conexion->prepare($consultabusqueda);
@@ -74,7 +74,7 @@
                     
                     echo "<div class='titlecontainer'>";
                     
-                    echo "<span>" . $fila["TITULO"] . "</span>";
+                    echo "<a href='cancion.php?id=". $fila["ID"] ."' class='link'><span>" . $fila["TITULO"] . "</span></a>";
                     
                     echo "</div>";
                     
@@ -82,7 +82,7 @@
                     
                     echo "<img src='/MIXWORLD/intranet/perfiles/". $fila["IMAGEN_PERFIL"] ."'>";
                     
-                    echo "<span>" . $fila["USUARIO"] . "</span>";
+                    echo "<span><a href='cuenta.php?iduser=". $fila["iduser"] . "'>" . $fila["USUARIO"] . "</a></span>";
                     
                     echo "</div>";
                     
@@ -389,6 +389,8 @@
     				</div>
 		        
 		        <?php 
+		        
+		        $_SESSION["idcancion"]=$fila["ID"];
 		    }
 		    
 		    $consultacomentarios="SELECT p.IMAGEN_PERFIL,p.USUARIO,co.FECHA_COMENTARIO,co.COMENTARIO FROM perfiles AS p INNER JOIN canciones AS c 
@@ -433,7 +435,6 @@
 		}
 		
 		?>
-			
 			</div>
 		
 		</section>
