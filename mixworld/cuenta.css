@@ -605,7 +605,7 @@ a{
 	
 	border-radius:0;
 	
-	border: 1px solid gray;
+	border: 1px solid #dddddd;
 	
 	margin:auto;
 	
@@ -728,6 +728,8 @@ a{
 	outline:none;
 	
 	resize:none;
+	
+	border-color:#dddddd;
 }
 #desc:is(:focus, :valid){
 	
@@ -771,7 +773,7 @@ a{
 	
 	overflow:hidden;
 	
-	margin:auto;
+	margin:25px auto;
 	
 	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }

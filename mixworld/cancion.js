@@ -113,6 +113,10 @@ $(document).ready(function(){
 			$(".progreso"+id).css("width",ratonx+"px");
 		}
 	});
+	$("#textarea").keyup(function(){
+		
+		$(".size").text($(this).val().length);
+	});
 	function comenta(){
 		
 		$("#botoncomentar").click();

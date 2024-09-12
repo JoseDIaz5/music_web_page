@@ -243,4 +243,8 @@ $(document).ready(function(){
 			}
 		});
 	});
+	$("#desc").keyup(function(){
+		
+		$(".counter").text($(this).val().length);
+	});
 });

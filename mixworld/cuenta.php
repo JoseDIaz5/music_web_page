@@ -620,9 +620,7 @@
 							
 								</div>
 								
-								<br>
-								
-								<br>
+								<p><span class="counter">0</span>/900</p>
 								
 								<input type="submit" id="botonregistrados" value="Subir" name="subecancion" hidden="hidden">
 								

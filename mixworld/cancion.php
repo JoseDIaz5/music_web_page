@@ -379,6 +379,8 @@
     							<span class="focus-border"><i></i></span>
     						
     						</div>
+    						
+    						<p><span class="size">0</span>/900</p>
         					
         					<input type="submit" id="botoncomentar" value="Comentar">
         					

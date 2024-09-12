@@ -9,7 +9,7 @@
 		
 		<meta name="viewport" content="width=device-width,initial-scale=1.0">
 		
-		<link rel="stylesheet" href="iniciosesion.css">
+		<link rel="stylesheet" href="iniciosesion.css?v=<?php echo time(); ?>">
 		
 		<script src="https://kit.fontawesome.com/f221aee085.js" crossorigin="anonymous"></script>
 		
