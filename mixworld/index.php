@@ -217,6 +217,28 @@
 		    
 		    $conexion->exec("SET CHARACTER SET utf8");
 		    
+		    $registros_pagina=15;
+		    
+		    if(isset($_GET["numeropagina"])){
+		        
+		        $inicio_registros=$_GET["numeropagina"];
+		    }else {
+		     
+		        $inicio_registros=1;
+		    }
+		    
+		    $inicio_paginacion=($inicio_registros-1)*$registros_pagina;
+		    
+		    $consulta_cantidad="SELECT ID FROM canciones";
+		    
+		    $resultado=$conexion->prepare($consulta_cantidad);
+		    
+		    $resultado->execute();
+		    
+		    $totalresultados=$resultado->rowCount();
+		    
+		    $limitepaginas=ceil($totalresultados/$registros_pagina);
+		    
 		    $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,
             CASE
             WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
@@ -225,7 +247,8 @@
             WHEN c.REPRODUCCIONES > 99999 AND c.REPRODUCCIONES < 1000000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,3),'K')
             WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
             END AS REPRODUCCIONES           
-            ,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO";
+            ,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO 
+            LIMIT $inicio_paginacion,$registros_pagina";
 		    
 		    $resultado=$conexion->prepare($consulta);
 		    
@@ -299,6 +322,19 @@
 		?>
 		
 		</section>
+		
+		<div class='contenedor_paginacion'>
+		
+		<?php 
+		
+		  for ($i = 1; $i <= $limitepaginas; $i++) {
+		      
+		      echo "<a href='?numeropagina=". $i ."'><i class='fa-solid fa-music'></i><br>". $i ."</a>";
+		  }
+		
+		?>
+		
+		</div>
 		
 		<?php 
 		
