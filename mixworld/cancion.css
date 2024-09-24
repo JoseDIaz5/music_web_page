@@ -916,7 +916,7 @@ section .commentscontainer h2{
 	
 	text-align:center;
 }
-section .commentscontainer .comment{
+section .divcomment{
 	
 	display:flex;
 	
@@ -924,17 +924,40 @@ section .commentscontainer .comment{
 
 	width:80%;
 	
-	height:auto;
+	height:300px;
+	
+	margin:10px auto;
+	
+	padding:8px 8px 8px 8px;
+	
+	overflow:hidden;
+	
+	overflow-y:scroll;
+}
+section .divcomment::-webkit-scrollbar{
+	
+	width:10px;
+}
+section .divcomment::-webkit-scrollbar-thumb{
+	
+	background-color:black;
+	
+	border-radius:12px;
+}
+section .divcomment .comment{
+	
+	width:auto;
+>>>>>>> 90f0920 (Paginación en perfil)
 	
 	border:1px solid gray;
 	
 	border-radius:10px;
 	
-	margin:10px auto;
-	
 	padding:8px 8px 8px 8px;
+	
+	margin-bottom:10px;
 }
-section .commentscontainer .comment .profilecomment{
+section .divcomment .comment .profilecomment{
 	
 	width:auto;
 	
@@ -944,7 +967,7 @@ section .commentscontainer .comment .profilecomment{
 	
 	font-weight:bolder;
 }
-section .commentscontainer .comment .profilecomment img{
+section .divcomment .comment .profilecomment img{
 	
 	width:20px;
 	

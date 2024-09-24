@@ -389,7 +389,7 @@
     					</form>
     				
     				</div>
-		        
+		        </div>
 		        <?php 
 		        
 		        $_SESSION["idcancion"]=$fila["ID"];
@@ -401,32 +401,40 @@
 		    $resultado=$conexion->prepare($consultacomentarios);
 		    
 		    $resultado->execute(array(":idsong"=>$idcancion));
+		    ?>
+                <div class='divcomment'>
+            <?php
 		    
 		    while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
+                
 		        
 		        ?>
 		        
-		        <div class="comment">
 		        
-		        	<div class="profilecomment">
 		        
-		        		<div><img src="/MIXWORLD/intranet/perfiles/<?php echo $fila["IMAGEN_PERFIL"]; ?>"></div>
-		        	
-		        		<div><?php echo $fila["USUARIO"]; ?></div>
+    		        <div class="comment">
+    		        
+    		        	<div class="profilecomment">
+    		        
+    		        		<div><img src="/MIXWORLD/intranet/perfiles/<?php echo $fila["IMAGEN_PERFIL"]; ?>"></div>
+    		        	
+    		        		<div><?php echo $fila["USUARIO"]; ?></div>
+    		        
+    		        	</div>
+    		        	<div class="date">
+    		        
+    		        		<span><?php echo $fila["FECHA_COMENTARIO"]; ?></span>
+    		        
+    		        	</div>
+    		        	<div class="commentcontent">
+    		        	
+    		        		<span><?php echo $fila["COMENTARIO"]; ?></span>
+    		        	
+    		        	</div>
+    		        
+    		        </div>
 		        
-		        	</div>
-		        	<div class="date">
 		        
-		        		<span><?php echo $fila["FECHA_COMENTARIO"]; ?></span>
-		        
-		        	</div>
-		        	<div class="commentcontent">
-		        	
-		        		<span><?php echo $fila["COMENTARIO"]; ?></span>
-		        	
-		        	</div>
-		        
-		        </div>
 		        
 		        <?php
 		    }

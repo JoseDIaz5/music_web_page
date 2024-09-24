@@ -391,6 +391,36 @@
 					
 					try {
 					    
+					    $registrospagina=15;
+					    
+					    if(isset($_GET["numeropagina"])){
+					        
+					        $inicio_registros=$_GET["numeropagina"];
+					        
+					    }else{
+					        
+					        $inicio_registros=1;
+					    }
+					    
+					    $inicio_paginacion=($inicio_registros-1)*$registrospagina;
+					    
+					    $consulta_cantidad="SELECT ID FROM CANCIONES WHERE ID_USUARIO=:iduser";
+					    
+					    $resultado=$conexion->prepare($consulta_cantidad);
+					    
+					    if (isset($iduser)) {
+					        
+					        $resultado->execute(array(":iduser"=>$iduser));
+					    }
+					    else {
+					        
+					        $resultado->execute(array(":iduser"=>$_SESSION["idusu"]));
+					    }
+					    
+					    $totalresultados=$resultado->rowCount();
+					    
+					    $limitepaginas=ceil($totalresultados/$registrospagina);
+					    
 					    $consultasongs="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,
                         CASE
                         WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
@@ -400,7 +430,7 @@
                         WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
                         END AS REPRODUCCIONES
                         ,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO 
-                        WHERE c.ID_USUARIO=:iduser";
+                        WHERE c.ID_USUARIO=:iduser LIMIT $inicio_paginacion,$registrospagina";
 					    
 					    $resultado=$conexion->prepare($consultasongs);
 					    
@@ -422,15 +452,6 @@
 					    }
 					    
 					    $rows=$resultado->rowCount();
-					    
-					    if ($rows==0) {
-					        
-					        ?>
-					        
-					        <span class="nosongsmessage">No hay canciones</span>
-					        
-					        <?php
-					    }
 					    
 					    while ($filas=$resultado->fetch(PDO::FETCH_ASSOC)) {
 					            
@@ -532,6 +553,32 @@
 					        </div>
 					        
 					        <?php 
+					    }
+					    if ($rows==0) {
+					        
+					        ?>
+					        
+					        <span class="nosongsmessage">No hay canciones</span>
+					        
+					        <?php
+					    }else {
+					    ?>
+					    
+					    <div class="contenedor_paginacion">
+					    
+					    	<?php 
+					    	
+					    	  for ($i = 1; $i <= $limitepaginas; $i++) {
+					    	      
+					    	      echo "<a href='?numeropagina=" . $i . "'><i class='fa-solid fa-music'></i><br>" . $i . "</a>";
+					    	  }
+					    	
+					    	?>
+					    
+					    </div>
+					    
+					    <?php
+					    
 					    }
 					    
 					} catch (Exception $e) {

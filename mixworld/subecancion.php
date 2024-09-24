@@ -44,7 +44,7 @@
             
             if($tipocancion=="audio/mpeg" || $tipocancion=="audio/flac"  || $tipocancion=="audio/wav"  || $tipocancion=="audio/x-m4a"){
                 
-                if($tipoimg=="image/jpg" || $tipoimg=="image/jpeg" || $tipoimg=="image/png"){
+                if($tipoimg=="image/jpg" || $tipoimg=="image/jpeg" || $tipoimg=="image/png" || $tipoimg==""){
                     
                     $resultados=$conexion->prepare($consultados);
                     

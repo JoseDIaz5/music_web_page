@@ -217,7 +217,7 @@
 		    
 		    $conexion->exec("SET CHARACTER SET utf8");
 		    
-		    $registros_pagina=15;
+		    $registros_pagina=14;
 		    
 		    if(isset($_GET["numeropagina"])){
 		        

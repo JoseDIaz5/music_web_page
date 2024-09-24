@@ -200,26 +200,20 @@
 				<div class="nav-right">
 				
 					<label for="check">
+					
+						<a href="cuenta.php">
 				
-						<span class="imagediv">
+							<span class="imagediv">
 					
-							<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"] ?>" class="imguser"></img>
+								<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"] ?>" class="imguser"></img>
 					
-						</span>
+							</span>
+						
+						</a>
 					
 					</label>
 					
 					<input type="checkbox" id="check" class="checkb">
-					
-					<div class="profileoptions">
-					
-						<ul class="list-profile">
-					
-							<li><a href="cuenta.php"><i class="fas fa-user"></i><span>Mi cuenta</span></a></li>
-					
-						</ul>
-					
-					</div>	
 				
 				</div>
 				
@@ -247,7 +241,7 @@
 			     
 			     $conexion->exec("SET CHARACTER SET utf8");
 			     
-			     $registros_pagina=15;
+			     $registros_pagina=14;
 			     
 			     if(isset($_GET["numeropagina"])){
 			      

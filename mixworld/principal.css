@@ -682,6 +682,8 @@ section .songcontainer .titleplayercontainer .likescontainer i{
 	transition-property:color;
 	
 	transition-duration:.5s;
+	
+	margin-right:10px;
 }
 .contenedor_paginacion a:hover{
 	
