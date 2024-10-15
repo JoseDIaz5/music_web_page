@@ -470,7 +470,27 @@
 					        
 					        	<div class="imagecontainer">
 					        	
+					        	<?php 
+					        	
+					        	if($fila["IMAGEN_CANCION"]==''){
+					        	
+					        	?>
+					        	
+					        		<img src="/MIXWORLD/intranet/songsimages/default.png">
+					        		
+					        	<?php 
+					        	
+					        	}else{
+					        	
+					        	?>
+					        	
 					        		<img src="/MIXWORLD/intranet/songs/<?php echo $filas["IMAGEN_CANCION"]; ?>">
+					        	
+					        	<?php 
+					        	
+					        	}
+					        	
+					        	?>
 					        	
 					        	</div>
 					        	<div class="titleplayercontainer">

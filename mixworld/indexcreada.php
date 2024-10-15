@@ -88,7 +88,14 @@
                     
                     echo "<div class='imagecontainer'>";
                     
-                    echo "<img src='/MIXWORLD/intranet/songs/". $fila["IMAGEN_CANCION"] ."'>";
+                    if ($fila["IMAGEN_CANCION"]=='') {
+                        
+                        echo "<img src='/MIXWORLD/intranet/songsimages/default.png'>";
+                        
+                    }else{
+                        
+                        echo "<img src='/MIXWORLD/intranet/songs/". $fila["IMAGEN_CANCION"] ."'>";
+                    }
                     
                     echo "</div>";
                     
@@ -305,7 +312,27 @@
 			         
 			         	<div class="imagecontainer">
 			         	
+			         	<?php 
+			         	
+			         	if($fila["IMAGEN_CANCION"]==''){
+			         	
+			         	?>
+			         	
+			         		<img src="/MIXWORLD/intranet/songsimages/default.png">
+			         	
+			         	<?php 
+			         	
+			         	}else{
+			         	
+			         	?>
+			         	
 			         		<img src="/MIXWORLD/intranet/songs/<?php echo $fila["IMAGEN_CANCION"]; ?>">
+			         		
+			         	<?php 
+			         	
+			         	}
+			         	
+			         	?>
 			         	
 			         	</div>
 			         	<div class="titleplayercontainer">

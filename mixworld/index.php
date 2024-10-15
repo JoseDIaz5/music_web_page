@@ -56,7 +56,14 @@
                     
                     echo "<div class='imagecontainer'>";
                     
-                    echo "<img src='/MIXWORLD/intranet/songs/". $fila["IMAGEN_CANCION"] ."'>";
+                    if ($fila["IMAGEN_CANCION"]=='') {
+                        
+                        echo "<img src='/MIXWORLD/intranet/songsimages/default.png'>";
+                        
+                    }else {
+                        
+                        echo "<img src='/MIXWORLD/intranet/songs/". $fila["IMAGEN_CANCION"] ."'>";
+                    }
                     
                     echo "</div>";
                     
@@ -239,16 +246,7 @@
 		    
 		    $limitepaginas=ceil($totalresultados/$registros_pagina);
 		    
-		    $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,
-            CASE
-            WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
-            WHEN c.REPRODUCCIONES > 999 AND c.REPRODUCCIONES < 10000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,1),'K')
-            WHEN c.REPRODUCCIONES > 9999 AND c.REPRODUCCIONES < 100000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,2),'K')
-            WHEN c.REPRODUCCIONES > 99999 AND c.REPRODUCCIONES < 1000000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,3),'K')
-            WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
-            END AS REPRODUCCIONES           
-            ,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO 
-            LIMIT $inicio_paginacion,$registros_pagina";
+		    $consulta="CALL GET_SONGS($inicio_paginacion,$registros_pagina)";
 		    
 		    $resultado=$conexion->prepare($consulta);
 		    
@@ -262,7 +260,27 @@
 			
     				<div class="imagecontainer">
     				
+    				<?php 
+    				
+    				if ($fila["IMAGEN_CANCION"]=='') {
+    				
+    				?>
+    					
+    					<img src="/MIXWORLD/intranet/songsimages/default.png">
+    					
+    				<?php 
+    				
+    				}else{
+    				
+    				?>
+    				
     					<img src="/MIXWORLD/intranet/songs/<?php echo $fila["IMAGEN_CANCION"]; ?>">
+    					
+    				<?php 
+    				
+    				}
+    				
+    				?>
     				
     				</div>
     				<div class="titleplayercontainer">
