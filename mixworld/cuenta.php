@@ -472,7 +472,7 @@
 					        	
 					        	<?php 
 					        	
-					        	if($fila["IMAGEN_CANCION"]==''){
+					        	if($filas["IMAGEN_CANCION"]==''){
 					        	
 					        	?>
 					        	

@@ -35,6 +35,8 @@
                     $_SESSION["picture"]=$fila["IMAGEN_PERFIL"];
                     
                     $_SESSION["portada"]=$fila["IMAGEN_PORTADA"];
+                    
+                    $_SESSION["buscador"]='';
                 }
                 
                 $_SESSION["correo"]=$_POST["correo"];

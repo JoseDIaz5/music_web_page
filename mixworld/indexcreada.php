@@ -29,18 +29,34 @@
         
         <?php
     	   
-    	   if (isset($_SESSION["nombre"])) {
+    	   if (isset($_SESSION["usuario"])){
     	       
-    	       $j=false;
-    	       
-    	   }
-    	   elseif (isset($_SESSION["usuario"])){
-    	       
-    	       $j=false;
+    	       $buscador='';
     	   }
     	   else {
     	       
     	       header("location:index.php");
+    	   }
+    	   
+    	   
+    	   if (isset($_GET['busca'])) {
+    	       
+    	       $buscador=$_GET["buscador"];
+    	       
+    	       $_SESSION["buscador"]=$buscador;
+    	       
+    	   }else if(!isset($_SESSION["buscador"])){
+    	       $buscador='';
+    	   }
+    	   else {
+    	       
+    	       $buscador=$_SESSION["buscador"];
+    	       
+    	       if (!isset($_GET["busca"]) && !isset($_GET["numeropagina"])) {
+    	           unset($_SESSION["buscador"]);
+    	           
+    	           $buscador='';
+    	       }
     	   }
     	
     	?>
@@ -53,108 +69,7 @@
         
         <?php 
         
-        function buscadatos($labusqueda) {
-            
-            try {
-                
-                $conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
-                
-                $conexion->exec("SET CHARACTER SET utf8");
-                
-                $conexion->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-                
-                $consultabusqueda="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,
-                CASE
-                WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
-                WHEN c.REPRODUCCIONES > 999 AND c.REPRODUCCIONES < 10000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,1),'K')
-                WHEN c.REPRODUCCIONES > 9999 AND c.REPRODUCCIONES < 100000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,2),'K')
-                WHEN c.REPRODUCCIONES > 99999 AND c.REPRODUCCIONES < 1000000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,3),'K')
-                WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
-                END AS REPRODUCCIONES           
-                ,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO 
-                WHERE c.TITULO LIKE '%$labusqueda%'";
-
-                $resultado=$conexion->prepare($consultabusqueda);
-                
-                $resultado->execute();
-                
-                echo "<section>";
-                
-                while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
-                    
-                    $id=$fila["ID"];
-                    
-                    echo "<div class='songcontainer'>";
-                    
-                    echo "<div class='imagecontainer'>";
-                    
-                    if ($fila["IMAGEN_CANCION"]=='') {
-                        
-                        echo "<img src='/MIXWORLD/intranet/songsimages/default.png'>";
-                        
-                    }else{
-                        
-                        echo "<img src='/MIXWORLD/intranet/songs/". $fila["IMAGEN_CANCION"] ."'>";
-                    }
-                    
-                    echo "</div>";
-                    
-                    echo "<div class='titleplayercontainer'>";
-                    
-                    echo "<div class='titlecontainer'>";
-                    
-                    echo "<a href='cancion.php?id=$id'><span>" . $fila["TITULO"] . "</span></a>";
-                    
-                    echo "</div>";
-                    
-                    echo "<div class='usercontainer'>";
-                    
-                    echo "<img src='/MIXWORLD/intranet/perfiles/". $fila["IMAGEN_PERFIL"] ."'>";
-                    
-                    echo "<span>" . $fila["USUARIO"] . "</span>";
-                    
-                    echo "</div>";
-                    
-                    echo "<div class='playercontainer'>";
-                    
-                    echo "<div class='playicon'>";
-                    
-                    echo "<i class='fa-solid fa-play play inicio". $id ."' id='". $id ."' data-file='/MIXWORLD/intranet/songs/". $fila["CANCION"] ."'></i>";
-                    
-                    echo "<i class='fa-solid fa-pause pause detener". $id ."' id='". $id ."' data-file='/MIXWORLD/intranet/songs/". $fila["CANCION"] ."'></i>";
-                    
-                    echo "</div>";
-                    
-                    echo "<div class='bar barra". $id ."' id='". $id ."'>";
-                    
-                    echo "<div id='". $id ."' class='progress progreso". $id ."'></div>";
-                    
-                    echo "</div>";
-                    
-                    echo "</div>";
-                    
-                    echo "<div class='viewscontainer'>";
-                    
-                    echo "<span class='rep". $id ."'><i class='fa-solid fa-ear-listen'></i>". $fila["REPRODUCCIONES"] ."</span>";
-                    
-                    echo "<span><i class='fa-regular fa-face-smile-wink'></i>". $fila["LIKES"] ."</span>";
-                    
-                    echo "<span><i class='fa-regular fa-face-sad-tear'></i>". $fila["DISLIKES"] ."</span>";
-                    
-                    echo "</div>";
-                    
-                    echo "</div>";
-                    
-                    echo "</div>";
-                }
-                
-                echo "</section>";
-                
-            } catch (Exception $e) {
-                
-                die("Error: " . $e->getMessage());
-            }
-        }
+        
         
         ?>
 	
@@ -188,7 +103,7 @@
 				
 				<div class="nav-center">
 				
-					<form action="<?php $_SERVER["PHP_SELF"] ?>">
+					<form action="<?php $_SERVER["PHP_SELF"] ?>" method='GET'>
 					
 						<div class="search-box">
 						
@@ -196,7 +111,7 @@
         				
         					<span class="fas fa-search searchicon" id="searchicon"></span>
         					
-        					<input type="submit" id="botonbusca" hidden="hidden">
+        					<input type="submit" id="botonbusca" hidden="hidden" name='busca'>
         			
         				</div>
 					
@@ -228,14 +143,6 @@
 		
 		</header>
 		
-		<?php 
-		
-		@$busqueda=$_GET["buscador"];
-		
-		if ($busqueda==NULL) {
-		
-		?>
-		
 		<section>
 		
 			<?php 
@@ -244,11 +151,11 @@
 			     
 			     $conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
 			     
-			     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			     $conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
 			     
 			     $conexion->exec("SET CHARACTER SET utf8");
 			     
-			     $registros_pagina=14;
+			     $registros_pagina=1;
 			     
 			     if(isset($_GET["numeropagina"])){
 			      
@@ -261,7 +168,7 @@
 			     
 			     $inicio_paginacion=($inicio_registros-1)*$registros_pagina;
 			     
-			     $consulta_cantidad="SELECT ID FROM canciones";
+			     $consulta_cantidad="SELECT ID FROM canciones WHERE TITULO LIKE '%$buscador%'";
 			     
 			     $resultado=$conexion->prepare($consulta_cantidad);
 			     
@@ -271,16 +178,37 @@
 			     
 			     $limitepaginas=ceil($totalresultados/$registros_pagina);
 			     
-			     $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,
-                 CASE
-                 WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
-                 WHEN c.REPRODUCCIONES > 999 AND c.REPRODUCCIONES < 10000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,1),'K')
-                 WHEN c.REPRODUCCIONES > 9999 AND c.REPRODUCCIONES < 100000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,2),'K')
-                 WHEN c.REPRODUCCIONES > 99999 AND c.REPRODUCCIONES < 1000000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,3),'K')
-                 WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
-                 END AS REPRODUCCIONES
-                 ,c.LIKES,c.DISLIKES,p.ID AS iduser,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO 
-                 LIMIT $inicio_paginacion,$registros_pagina";
+			     $limitapaginas=3;
+			     
+			     if ($inicio_registros>$limitapaginas) {
+			         
+			         $numero_inicio=$inicio_registros-$limitapaginas;
+			         
+			     }else {
+			         
+			         $numero_inicio=1;
+			     }
+			     
+			     if ($inicio_registros<($limitepaginas-$limitapaginas)) {
+			         
+			         $numero_final=$inicio_registros+$limitapaginas;
+			         
+			     }else {
+			         
+			         $numero_final=$limitepaginas;
+			     }
+			     
+			     $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,
+                CASE
+                WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
+                WHEN c.REPRODUCCIONES > 999 AND c.REPRODUCCIONES < 10000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,1),'K')
+                WHEN c.REPRODUCCIONES > 9999 AND c.REPRODUCCIONES < 100000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,2),'K')
+                WHEN c.REPRODUCCIONES > 99999 AND c.REPRODUCCIONES < 1000000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,3),'K')
+                WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
+                END AS REPRODUCCIONES           
+                ,c.LIKES,c.DISLIKES
+                ,p.ID as iduser,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones as c ON p.ID = c.ID_USUARIO
+                WHERE c.TITULO LIKE '%$buscador%' LIMIT $inicio_paginacion,$registros_pagina";
 			     
 			     $resultado=$conexion->prepare($consulta);
 			     
@@ -301,6 +229,8 @@
 			         $result->execute(array(":idsong"=>$fila["ID"],":iduser"=>$_SESSION["idusu"]));
 			         
 			         $resulttwo->execute(array(":idsong"=>$fila["ID"],":iduser"=>$_SESSION["idusu"]));
+			         
+			         
 			         
 			         $cantidadlikescancion=$result->rowCount();
 			         
@@ -398,12 +328,14 @@
 			         			<?php 
 			         			
 			         			 }else {
+			         			     
 			         			
 			         			?>
 			         			
 			         			<span class="dislikesong spandislike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-solid fa-face-sad-tear"></i><?php echo $fila["DISLIKES"]; ?></span>
 			         			
-			         			<?php 
+			         			<?php  
+			         			     
 			         			
 			         			 }
 			         			
@@ -431,23 +363,50 @@
 		
 		<?php 
 		
-		  for ($i = 1; $i <= $limitepaginas; $i++) {
+		if ($inicio_registros>1) {
+		    
+		    echo "<a href='?numeropagina=" . ($inicio_registros-1) . "'>";
+		    
+		?>
+		    
+		    &laquo;
+		    
+		<?php	
+		
+		    echo "</a>";
+		
+		}
+
+		?>
+		
+		<?php 
+		
+		  for ($i = $numero_inicio; $i <= $numero_final; $i++) {
 		      
 		      echo "<a href='?numeropagina=". $i ."'><i class='fa-solid fa-music'></i><br>". $i ."</a>";
 		  }
 		
 		?>
 		
-		</div>
-		
 		<?php 
 		
-		}else {
+		if ($inicio_registros<$limitepaginas) {
 		    
-		    buscadatos($busqueda);
-		}
-		
+		    echo "<a href='?numeropagina=" . ($inicio_registros+1) . "'>";
+		    
 		?>
+		    
+		    &raquo;
+		    
+		<?php	
+		
+		    echo "</a>";
+		
+		}
+
+		?>
+		
+		</div>
 	
 	</body>
 
