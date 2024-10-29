@@ -39,9 +39,9 @@
     	   }
     	   
     	   
-    	   if (isset($_GET['busca'])) {
+    	   if (isset($_POST['busca'])) {
     	       
-    	       $buscador=$_GET["buscador"];
+    	       $buscador=$_POST["buscador"];
     	       
     	       $_SESSION["buscador"]=$buscador;
     	       
@@ -52,7 +52,7 @@
     	       
     	       $buscador=$_SESSION["buscador"];
     	       
-    	       if (!isset($_GET["busca"]) && !isset($_GET["numeropagina"])) {
+    	       if (!isset($_POST["busca"]) && !isset($_GET["numeropagina"])) {
     	           unset($_SESSION["buscador"]);
     	           
     	           $buscador='';
@@ -103,7 +103,7 @@
 				
 				<div class="nav-center">
 				
-					<form action="<?php $_SERVER["PHP_SELF"] ?>" method='GET'>
+					<form action="<?php $_SERVER["PHP_SELF"] ?>" method='POST'>
 					
 						<div class="search-box">
 						
@@ -155,7 +155,7 @@
 			     
 			     $conexion->exec("SET CHARACTER SET utf8");
 			     
-			     $registros_pagina=1;
+			     $registros_pagina=14;
 			     
 			     if(isset($_GET["numeropagina"])){
 			      
@@ -208,11 +208,11 @@
                 END AS REPRODUCCIONES           
                 ,c.LIKES,c.DISLIKES
                 ,p.ID as iduser,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones as c ON p.ID = c.ID_USUARIO
-                WHERE c.TITULO LIKE '%$buscador%' LIMIT $inicio_paginacion,$registros_pagina";
+                WHERE c.TITULO LIKE CONCAT('%',:buscador,'%') LIMIT $inicio_paginacion,$registros_pagina";
 			     
 			     $resultado=$conexion->prepare($consulta);
 			     
-			     $resultado->execute();
+			     $resultado->execute(array(":buscador"=>strval($buscador)));
 			     
 			     $consultalikescanciones="SELECT ID FROM songs_likes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
 			     

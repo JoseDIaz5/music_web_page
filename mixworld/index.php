@@ -23,9 +23,9 @@
         
         session_start();
         
-        if (isset($_GET['busca'])) {
+        if (isset($_POST['busca'])) {
             
-            $buscador=$_GET["buscador"];
+            $buscador=$_POST["buscador"];
             
             $_SESSION["buscador"]=$buscador;
             
@@ -36,7 +36,7 @@
             
             $buscador=$_SESSION["buscador"];
             
-            if (!isset($_GET["busca"]) && !isset($_GET["numeropagina"])) {
+            if (!isset($_POST["busca"]) && !isset($_GET["numeropagina"])) {
                 unset($_SESSION["buscador"]);
                 
                 $buscador='';
@@ -81,7 +81,7 @@
 				
 				<div class="nav-center">
 				
-					<form action="<?php $_SERVER["PHP_SELF"] ?>" method='GET'>
+					<form action="<?php $_SERVER["PHP_SELF"] ?>" method='POST'>
 					
 						<div class="search-box">
 						
@@ -155,11 +155,11 @@
 		    
 		    $inicio_paginacion=($inicio_registros-1)*$registros_pagina;
 		    
-		    $consulta_cantidad="SELECT ID FROM canciones WHERE TITULO LIKE '%$buscador%'";
+		    $consulta_cantidad="SELECT ID FROM canciones WHERE TITULO LIKE CONCAT('%',:buscador,'%')";
 		    
 		    $resultado=$conexion->prepare($consulta_cantidad);
 		    
-		    $resultado->execute();
+		    $resultado->execute(array(":buscador"=>strval($buscador)));
 		    
 		    $totalresultados=$resultado->rowCount();
 		    
@@ -182,11 +182,11 @@
 		        $numero_final=$limitepaginas;
 		    }
 		    
-		    $consulta="CALL GET_SONGS($inicio_paginacion,$registros_pagina,'$buscador')";
+		    $consulta="CALL GET_SONGS(:i_paginacion,:r_paginacion,:buscador)";
 		    
 		    $resultado=$conexion->prepare($consulta);
 		    
-		    $resultado->execute();
+		    $resultado->execute(array(":i_paginacion"=>$inicio_paginacion,":r_paginacion"=>$registros_pagina,":buscador"=>strval($buscador)));
 		    
 		    while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
 		        
