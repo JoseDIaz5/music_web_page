@@ -389,7 +389,7 @@ body{
 		transition:opacity 250ms ease-in-out 250ms;
 	}
 }
-section{
+.sectionone{
 	
 	margin-top:90px;
 	
@@ -401,9 +401,11 @@ section .songtwocontainer{
 	
 	height:auto;
 	
-	width:100%;
+	width:70%;
 	
 	display:inline-flex;
+	
+	margin:auto;
 	
 	border-bottom:1px solid gray;
 }
@@ -888,6 +890,10 @@ section .descriptioncontainer{
 	
 	display:flex;
 	
+	width:70%;
+	
+	margin:auto;
+	
 	flex-direction:column;
 	
 	text-align:center;
@@ -922,7 +928,7 @@ section .divcomment{
 	
 	flex-direction:column;
 
-	width:80%;
+	width:70%;
 	
 	height:300px;
 	
@@ -1168,4 +1174,29 @@ section .commentscontainer .formcomments .mainform #botoncomenta:hover::before,
 section .commentscontainer .formcomments .mainform #botoncomenta:focus::before{
 	
 	transform:scale(0);
+}
+.sectionsongs{
+	
+	margin-top:90px;
+	
+	display:flex;
+	
+	justify-content:center;
+	
+	flex-wrap:wrap;
+}
+@media screen and (max-width:890px){
+	
+	section .songtwocontainer{
+		
+		width:100%;
+		
+		margin:auto;
+	}
+	section .descriptioncontainer{
+		
+		width:100%;
+		
+		margin:auto;
+	}
 }
