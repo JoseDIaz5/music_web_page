@@ -392,6 +392,48 @@
 		        
 		        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		        
+		        $registros_pagina=14;
+		        
+		        if (isset($_GET["numeropagina"])) {
+		            
+		            $inicio_registros=$_GET["numeropagina"];
+		        }else {
+		            
+		            $inicio_registros=1;
+		        }
+		        
+		        $inicio_paginacion=($inicio_registros-1)*$registros_pagina;
+		        
+		        $consulta_cantidad="SELECT ID FROM canciones WHERE TITULO LIKE '%$buscador%'";
+		        
+		        $resultado=$conexion->prepare($consulta_cantidad);
+		        
+		        $resultado->execute();
+		        
+		        $totalresultados=$resultado->rowCount();
+		        
+		        $limitepaginas=ceil($totalresultados/$registros_pagina);
+		        
+		        $limitapaginas=3;
+		        
+		        if ($inicio_registros>$limitapaginas) {
+		            
+		            $numero_inicio=$inicio_registros-$limitapaginas;
+		            
+		        }else {
+		            
+		            $numero_inicio=1;
+		        }
+		        
+		        if ($inicio_registros<($limitepaginas-$limitapaginas)) {
+		            
+		            $numero_final=$inicio_registros+$limitapaginas;
+		            
+		        }else {
+		            
+		            $numero_final=$limitepaginas;
+		        }
+		        
 		        $consultabusqueda="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,
                 CASE
                 WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
@@ -401,17 +443,33 @@
                 WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
                 END AS REPRODUCCIONES
                 ,c.LIKES,c.DISLIKES,p.ID AS iduser,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO
-                WHERE c.TITULO LIKE '%$buscador%'";
+                WHERE c.TITULO LIKE CONCAT('%',:buscador,'%') LIMIT $inicio_paginacion,$registros_pagina";
 		        
 		        $resultado=$conexion->prepare($consultabusqueda);
 		        
-		        $resultado->execute();
+		        $resultado->execute(array(":buscador"=>$buscador));
+		        
+		        $searchsongslikes="SELECT ID FROM songs_likes WHERE ID_CANCION=:id_song AND ID_USUARIO=:id_user";
+		        
+		        $searchsongsdislikes="SELECT ID FROM songs_dislikes WHERE ID_CANCION=:id_song AND ID_USUARIO=:id_user";
+		        
+		        $resultl=$conexion->prepare($searchsongslikes);
+		        
+		        $resultd=$conexion->prepare($searchsongsdislikes);
 		        
 		        echo "<section class='sectionsongs'>";
 		        
 		        while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
 		            
 		            $id=$fila["ID"];
+		            
+		            $resultl->execute(array(":id_song"=>$id,":id_user"=>$_SESSION["idusu"]));
+		            
+		            $resultd->execute(array(":id_song"=>$id,":id_user"=>$_SESSION["idusu"]));
+		            
+		            $cantidadlikescancion=$resultl->rowCount();
+		            
+		            $cantidaddislikescancion=$resultd->rowCount();
 		            
 		            echo "<div class='songcontainer'>";
 		            
@@ -459,9 +517,20 @@
 		            
 		            echo "<span class='rep". $id ."'><i class='fa-solid fa-ear-listen'></i>". $fila["REPRODUCCIONES"] ."</span>";
 		            
-		            echo "<span><i class='fa-regular fa-face-smile-wink'></i>". $fila["LIKES"] ."</span>";
-		            
-		            echo "<span><i class='fa-regular fa-face-sad-tear'></i>". $fila["DISLIKES"] ."</span>";
+		            if ($cantidadlikescancion<1) {
+		                
+		                echo "<span><i class='fa-regular fa-face-smile-wink'></i>". $fila["LIKES"] ."</span>";
+		            }else {
+		                
+		                echo "<span><i class='fa-solid fa-face-smile-wink'></i>". $fila["LIKES"] ."</span>";
+		            }
+		            if ($cantidaddislikescancion<1) {
+		                
+		                echo "<span><i class='fa-regular fa-face-sad-tear'></i>". $fila["DISLIKES"] ."</span>";
+		            }else {
+		                
+		                echo "<span><i class='fa-solid fa-face-sad-tear'></i>". $fila["DISLIKES"] ."</span>";
+		            }
 		            
 		            echo "</div>";
 		            
@@ -471,6 +540,57 @@
 		        }
 		        
 		        echo "</section>";
+		        
+		        ?>
+		        
+		        <div class='contenedor_paginacion'>
+		        
+		        <?php 
+		        
+		        if ($inicio_registros>1) {
+	            
+		           echo "<a href='?numeropagina=" . ($inicio_registros-1) . "'>";
+		            
+	            ?>
+	            
+	            	&laquo;
+	            
+	            <?php
+	            
+	               echo "</a>";
+		        }
+		        
+		        ?>
+		        
+		        <?php 
+		        
+		        for ($i = $numero_inicio; $i <= $numero_final; $i++) {
+		            
+		            echo "<a href='?numeropagina=" . $i . "'><i class='fa-solid fa-music'></i><br>" . $i . "</a>";
+		        }
+		        
+		        ?>
+		        
+		        <?php 
+		        
+		        if ($inicio_registros<$limitepaginas) {
+		            
+		            echo "<a href='?numeropagina=" . ($inicio_registros+1) . "'>";
+		            
+	            ?>
+	            
+	            	&raquo;
+	            
+	            <?php
+	            
+	               echo "</a>";
+		        }
+		        
+		        ?>
+		        
+		        </div>
+		        
+		        <?php
 		        
 		    } catch (Exception $e) {
 		        

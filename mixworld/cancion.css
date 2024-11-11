@@ -1200,3 +1200,45 @@ section .commentscontainer .formcomments .mainform #botoncomenta:focus::before{
 		margin:auto;
 	}
 }
+.contenedor_paginacion{
+	
+	display:flex;
+	
+	overflow-x:auto;
+	
+	justify-content:center;
+	
+	width:450px;
+	
+	margin:auto;
+}
+.contenedor_paginacion::-webkit-scrollbar{
+	
+	width:0;
+}
+.contenedor_paginacion a{
+	
+	min-width:25px;
+	
+	line-height:30px;
+	
+	font-size:25px;
+	
+	text-decoration:none;
+	
+	color:black;
+	
+	font-family:Arial, Helvetica, sans-serif;
+	
+	text-align:center;
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+	
+	margin-right:10px;
+}
+.contenedor_paginacion a:hover{
+	
+	color:#d40000;
+}
