@@ -23,7 +23,7 @@
         
         <script src="cancion.js?v=<?php echo time(); ?>"></script>
         
-        <script src="manejareproduccionescancion.js?v=<?php echo time(); ?>"></script>
+        <script src="manejareproducciones.js?v=<?php echo time(); ?>"></script>
         
         <script src="manejalikescanciones.js?v=<?php echo time(); ?>"></script>
         
@@ -471,72 +471,118 @@
 		            
 		            $cantidaddislikescancion=$resultd->rowCount();
 		            
-		            echo "<div class='songcontainer'>";
+		            ?>
 		            
-		            echo "<div class='imagecontainer'>";
+		            <div class="songcontainer">
+			         
+			         	<div class="imagecontainer">
+			         	
+			         	<?php 
+			         	
+			         	if($fila["IMAGEN_CANCION"]==''){
+			         	
+			         	?>
+			         	
+			         		<img src="/MIXWORLD/intranet/songsimages/default.png">
+			         	
+			         	<?php 
+			         	
+			         	}else{
+			         	
+			         	?>
+			         	
+			         		<img src="/MIXWORLD/intranet/songs/<?php echo $fila["IMAGEN_CANCION"]; ?>">
+			         		
+			         	<?php 
+			         	
+			         	}
+			         	
+			         	?>
+			         	
+			         	</div>
+			         	<div class="titleplayercontainer">
+			         	
+			         		<div class="titlecontainer">
+			         		
+			         			<a href='cancion.php?id=<?php echo $id;?>' class='link'><span><?php echo $fila["TITULO"]; ?></span></a>
+			         		
+			         		</div>
+			         		<div class="usercontainer">
+			         		
+			         			<img src="/MIXWORLD/intranet/perfiles/<?php echo $fila["IMAGEN_PERFIL"]; ?>">
+			         			
+			         			<span><a href="cuenta.php?iduser=<?php echo $fila["iduser"]; ?>"><?php echo $fila["USUARIO"]; ?></a></span>
+			         		
+			         		</div>
+			         		<div class="playercontainer">
+			         		
+			         			<div class="playicon">
+			         			
+			         				<i class="fa-solid fa-play play inicio<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>" data-file="/MIXWORLD/intranet/songs/<?php echo $fila["CANCION"] ?>"></i>
+			         				
+			         				<i class="fa-solid fa-pause pause detener<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>" data-file="/MIXWORLD/intranet/songs/<?php echo $fila["CANCION"] ?>"></i>
+			         			
+			         			</div>
+			         			
+			         			<div class="bar barra<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>">
+			         			
+			         				<div id="<?php echo $fila["ID"]; ?>" class="progress progreso<?php echo $fila["ID"]; ?>"></div>
+			         			
+			         			</div>
+			         		
+			         		</div>
+			         		<div class="likescontainer">
+			         		
+			         			<span class="rep<?php echo $fila["ID"]; ?>"><i class="fa-solid fa-ear-listen"></i><?php echo $fila["REPRODUCCIONES"]; ?></span>
+			         			
+			         			<?php 
+			         			
+			         			 if ($cantidadlikescancion<1) {
+			         			
+			         			?>
+			         			
+			         			<span class="likesong spanlike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-regular fa-face-smile-wink"></i><?php echo $fila["LIKES"]; ?></span>
+			         			
+			         			<?php 
+			         			
+			         			 }else {
+			         			
+			         			?>
+			         			
+			         			<span class="likesong spanlike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-solid fa-face-smile-wink"></i><?php echo $fila["LIKES"]; ?></span>
+			         			
+			         			<?php 
+			         			
+			         			 }
+			         			 if($cantidaddislikescancion<1){
+			         			
+			         			?>
+			         			
+			         			<span class="dislikesong spandislike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-regular fa-face-sad-tear"></i><?php echo $fila["DISLIKES"]; ?></span>
+			         			
+			         			<?php 
+			         			
+			         			 }else {
+			         			     
+			         			
+			         			?>
+			         			
+			         			<span class="dislikesong spandislike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-solid fa-face-sad-tear"></i><?php echo $fila["DISLIKES"]; ?></span>
+			         			
+			         			<?php  
+			         			     
+			         			
+			         			 }
+			         			
+			         			?>
+			         		
+			         		</div>
+			         	
+			         	</div>
+			         
+			         </div>
 		            
-		            echo "<img src='/MIXWORLD/intranet/songs/". $fila["IMAGEN_CANCION"] ."'>";
-		            
-		            echo "</div>";
-		            
-		            echo "<div class='titleplayercontainer'>";
-		            
-		            echo "<div class='titlecontainer'>";
-		            
-		            echo "<a href='cancion.php?id=". $fila["ID"] ."' class='link'><span>" . $fila["TITULO"] . "</span></a>";
-		            
-		            echo "</div>";
-		            
-		            echo "<div class='usercontainer'>";
-		            
-		            echo "<img src='/MIXWORLD/intranet/perfiles/". $fila["IMAGEN_PERFIL"] ."'>";
-		            
-		            echo "<span><a href='cuenta.php?iduser=". $fila["iduser"] . "'>" . $fila["USUARIO"] . "</a></span>";
-		            
-		            echo "</div>";
-		            
-		            echo "<div class='playercontainer'>";
-		            
-		            echo "<div class='playicon'>";
-		            
-		            echo "<i class='fa-solid fa-play play inicio". $id ."' id='". $id ."' data-file='/MIXWORLD/intranet/songs/". $fila["CANCION"] ."'></i>";
-		            
-		            echo "<i class='fa-solid fa-pause pause detener". $id ."' id='". $id ."' data-file='/MIXWORLD/intranet/songs/". $fila["CANCION"] ."'></i>";
-		            
-		            echo "</div>";
-		            
-		            echo "<div class='bar barra". $id ."' id='". $id ."'>";
-		            
-		            echo "<div id='". $id ."' class='progress progreso". $id ."'></div>";
-		            
-		            echo "</div>";
-		            
-		            echo "</div>";
-		            
-		            echo "<div class='likescontainer'>";
-		            
-		            echo "<span class='rep". $id ."'><i class='fa-solid fa-ear-listen'></i>". $fila["REPRODUCCIONES"] ."</span>";
-		            
-		            if ($cantidadlikescancion<1) {
-		                
-		                echo "<span><i class='fa-regular fa-face-smile-wink'></i>". $fila["LIKES"] ."</span>";
-		            }else {
-		                
-		                echo "<span><i class='fa-solid fa-face-smile-wink'></i>". $fila["LIKES"] ."</span>";
-		            }
-		            if ($cantidaddislikescancion<1) {
-		                
-		                echo "<span><i class='fa-regular fa-face-sad-tear'></i>". $fila["DISLIKES"] ."</span>";
-		            }else {
-		                
-		                echo "<span><i class='fa-solid fa-face-sad-tear'></i>". $fila["DISLIKES"] ."</span>";
-		            }
-		            
-		            echo "</div>";
-		            
-		            echo "</div>";
-		            
-		            echo "</div>";
+		            <?php
 		        }
 		        
 		        echo "</section>";
@@ -596,6 +642,30 @@
 		        
 		        die("Error: " . $e->getMessage());
 		    }
+		    
+		    ?> 
+		     <div class="formcommentstwo">
+    				
+				<form action="subecomentario.php" class="mainform" enctype="multipart/form-data" method="post" data-ajax="false">
+				
+					<div class="areacontainer" id="divarea">
+					
+						<textarea cols="66" rows="3" placeholder="Comenta aquí..." id="textarea" name="comenta" maxlength="900" minlength="1"></textarea>
+						
+						<span class="focus-border"><i></i></span>
+					
+					</div>
+					
+					<p><span class="size">0</span>/900</p>
+					
+					<input type="submit" id="botoncomentar" value="Comentar">
+					
+					<div id="botoncomenta">Comentar</div>
+			
+				</form>
+			
+			</div>
+		    <?php
 		}
 		
 		?>

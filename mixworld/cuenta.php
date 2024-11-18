@@ -497,7 +497,23 @@
 					        	
 					        		<div class="titlecontainer">
 					        		
-					        			<span><?php echo $filas["TITULO"]; ?></span>
+					        			<div><?php echo $filas["TITULO"]; ?></div>
+					        			
+					        			<div class='divoptionstwo'><i class="fa-solid fa-ellipsis-v"></i></div>
+					        			
+					        			<?php 
+					        			
+					        			if ($validaid || !isset($iduser)) {
+					        			
+					        			?>
+					        			
+					        			<div class='divoptions'><i class="fa-solid fa-ellipsis-v"></i></div>
+					        			
+					        			<?php 
+					        			
+					        			}
+					        			
+					        			?>
 					        		
 					        		</div>
 					        		<div class="usercontainer">

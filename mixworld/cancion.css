@@ -986,6 +986,10 @@ section .commentscontainer .formcomments{
 	
 	margin:auto;
 }
+.formcommentstwo{
+	
+	display:none;
+}
 section .commentscontainer .formcomments .mainform .areacontainer{
 	
 	position:relative;
