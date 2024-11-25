@@ -507,15 +507,30 @@
 					        			
 					        			?>
 					        			
-					        			<div class='divoptions'><i class="fa-solid fa-ellipsis-v"></i></div>
+					        			<div class='divoptions'><i class="fa-solid fa-ellipsis-v optionlink option<?php echo $filas["ID"]; ?>" id="<?php echo $filas["ID"]; ?>"></i></div>
 					        			
 					        			<?php 
 					        			
 					        			}
 					        			
 					        			?>
+					        			
 					        		
 					        		</div>
+					        		
+					        		
+				        			<div class="dropdownoptions options<?php echo $filas["ID"]; ?>" id="<?php echo $filas["ID"]; ?>">
+					        		
+					        			<ul>
+				        			
+    				        				<li><i class="fa-solid fa-trash deleteicon"></i></li>
+    				        				
+    				        				<li><a href="updatesong.php?idsong=<?php echo $filas["ID"]; ?>"><i class="fa-solid fa-pen editicon"></i></a></li>
+			        			
+			        					</ul>
+					        		
+					        		</div>
+					        		
 					        		<div class="usercontainer">
 					        		
 					        			<img src="/MIXWORLD/intranet/perfiles/<?php echo $filas["IMAGEN_PERFIL"]; ?>">

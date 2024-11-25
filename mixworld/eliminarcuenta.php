@@ -60,7 +60,7 @@ try {
     
     $resultado->execute(array(":iduser"=>$_SESSION["idusu"]));
     
-    $rowsl=$resultados->rowCount();
+    $rowsl=$resultado->rowCount();
     
     if ($rowsl>0) {
         

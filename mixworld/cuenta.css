@@ -259,11 +259,11 @@ a{
 }
 .header_wrapper .cols_container .right_col #songs{
 	
-	display:inline-block;
+	display:flex;
+	
+	justify-content:center;
 	
 	grid-template-columns: repeat(auto-fill,minmax(450px,1fr));
-	
-	gap:20px;
 	
 	flex-wrap:wrap;
 	
@@ -327,6 +327,8 @@ a{
 	
 	width:auto;
 	
+	min-height:50px;
+	
 	font-weight:bolder;
 	
 	font-size:20px;
@@ -335,11 +337,71 @@ a{
 	
 	justify-content:space-between;
 }
+.header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .dropdownoptions{
+	
+	position:absolute;
+	
+	text-align:center;
+	
+	padding:0;
+	
+	right:165px;
+	
+	margin-top:30px;
+	
+	display:none;
+}
+.header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .dropdownoptions ul{
+	
+	display:inline-block;
+}
+.header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .dropdownoptions ul li{
+	
+	margin-bottom:8px;
+}
+.header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .dropdownoptions ul li a{
+	
+	color:black;
+}
+.header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .dropdownoptions ul li .deleteicon{
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+	
+	cursor:pointer;
+}
+.header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .dropdownoptions ul li .deleteicon:hover{
+	
+	color:red;
+}
+.header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .dropdownoptions ul li .editicon{
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+	
+	cursor:pointer;
+}
+.header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .dropdownoptions ul li .editicon:hover{
+	
+	color:#1E90FF;
+}
 .header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .titlecontainer .divoptions{
 	
 	margin-right:10px;
 	
 	color:#8E8E8E;
+	
+	cursor:pointer;
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+}
+.header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .titlecontainer .divoptions:hover{
+	
+	color:black;
 }
 .header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .titlecontainer .divoptionstwo{
 	
@@ -897,6 +959,22 @@ a{
 		overflow:auto;
 		
 		padding:0 0 30px;
+	}
+	
+}
+@media (max-width: 750px){
+	
+	.header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .dropdownoptions{
+	
+		position:absolute;
+		
+		right:12px;
+	}
+	.header_wrapper .cols_container .right_col #songs .songcontainer .titleplayercontainer .titlecontainer{
+	
+		max-height:50px;
+		
+		overflow:hidden;
 	}
 }
 @media (min-width: 1017px){

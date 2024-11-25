@@ -227,6 +227,13 @@ $(document).ready(function(){
 			$(".progreso"+id).css("width",ratonx+"px");
 		}
 	});
+	$(".optionlink").click(function(){
+		
+		var id=this.id;
+		
+		$(".options"+id).fadeToggle(350);
+		
+	});
 	$(".seguir").click(function(){
 		
 		var id=this.id;
