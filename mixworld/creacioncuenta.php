@@ -107,6 +107,10 @@
                     $_SESSION["idusu"]=$fila["ID"];
                 }
                 
+                $resultado->closeCursor();
+                
+                $resultados->closeCursor();
+                
             }catch(Exception $e){
                 
                 die("Error" . $e->getMessage());

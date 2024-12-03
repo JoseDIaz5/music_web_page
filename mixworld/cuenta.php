@@ -507,7 +507,7 @@
 					        			
 					        			?>
 					        			
-					        			<div class='divoptions'><i class="fa-solid fa-ellipsis-v optionlink option<?php echo $filas["ID"]; ?>" id="<?php echo $filas["ID"]; ?>"></i></div>
+					        			<div class='divoptions'><i class="fa-solid fa-ellipsis-v optionlink" id="<?php echo $filas["ID"]; ?>"></i></div>
 					        			
 					        			<?php 
 					        			
@@ -523,7 +523,7 @@
 					        		
 					        			<ul>
 				        			
-    				        				<li><i class="fa-solid fa-trash deleteicon"></i></li>
+    				        				<li><a href="eliminacancion.php?id=<?php echo $filas["ID"]; ?>"><i class="fa-solid fa-trash deleteicon"></i></a></li>
     				        				
     				        				<li><a href="updatesong.php?idsong=<?php echo $filas["ID"]; ?>"><i class="fa-solid fa-pen editicon"></i></a></li>
 			        			

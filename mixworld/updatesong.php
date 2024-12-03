@@ -128,6 +128,12 @@
     					
     					</div>
     					
+    					<div class="divimageerror">
+    					
+    						<span id="imageerror"></span>
+    					
+    					</div>
+    					
     					<br>
     					
     					<div class="wrapper">
