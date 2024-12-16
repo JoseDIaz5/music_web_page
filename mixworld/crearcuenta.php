@@ -63,6 +63,12 @@
                		
                		</div>
                		
+               		<div class="divimageerror">
+               		
+               			<span id="imageerror"></span>
+               		
+               		</div>
+               		
                		<br>
                		
                		<div id="contportada">
@@ -76,6 +82,12 @@
                			</div>
                		
                			<span></span>
+               		
+               		</div>
+               		
+               		<div class="divimageerror">
+               		
+               			<span id="imageerrortwo"></span>
                		
                		</div>
                		

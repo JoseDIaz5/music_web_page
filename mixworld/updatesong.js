@@ -55,4 +55,16 @@ $(document).ready(function(){
 		
 		$("#botonactualizados").click();
 	}
+	$("#titulo").keyup(function(){
+		
+		const valor=$(this).val();
+		
+		$(this).val(valor.replace(/[^a-zA-ZÀ-ÿ\u00f1\u00d1 0-9]+/g, ""));
+	});
+	$("#textarea").keyup(function(){
+		
+		const valor=$(this).val();
+		
+		$(this).val(valor.replace(/[^a-zA-ZÀ-ÿ\u00f1\u00d1 0-9@.:/]+/g, ""));
+	});
 });

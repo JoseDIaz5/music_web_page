@@ -17,9 +17,9 @@
             
             $conexion->exec("SET CHARACTER SET utf8");
             
-            if (!isset($_FILES["imagencancion"]["name"])) {
+            if ($_FILES["imagencancion"]["name"]=='') {
                 
-                $imagen=$_POST["imagesong"];
+                $imagendefecto=$_POST["imagesong"];
             }else {
                 
                 $imagen=$_FILES["imagencancion"]["name"];
@@ -39,7 +39,7 @@
             
             if (isset($imagentipo)) {
                 
-                if ($imagentipo=="image/jpg" || $imagentipo=="image/jpeg" || $imagentipo=="image/png" || $imagentipo=="") {
+                if ($imagentipo=="image/jpg" || $imagentipo=="image/jpeg" || $imagentipo=="image/png") {
                     
                     $consulta="UPDATE canciones SET IMAGEN_CANCION=:songimage,TITULO=:title,DESCRIPCION=:description WHERE ID=:idsong";
                     
@@ -54,7 +54,7 @@
                         header("location:cuenta.php");
                     }else {
                         
-                        echo "<section>";
+                        echo "<body>";
                         
                         echo "<div class='diverror'>";
                         
@@ -64,21 +64,42 @@
                         
                         echo "</div>";
                         
-                        echo "</section>";
+                        echo "</body>";
                     }
+                }
+                else {
+                    
+                    header("location:updatesong.php?idsong=$id");
+                }
+            }
+            else {
+                
+                $consulta="UPDATE canciones SET IMAGEN_CANCION=:songimage,TITULO=:title,DESCRIPCION=:description WHERE ID=:idsong";
+                
+                $resultado=$conexion->prepare($consulta);
+                
+                $resultado->execute(array(":songimage"=>$imagendefecto,":title"=>$titulo,":description"=>$descripcion,":idsong"=>$id));
+                
+                $cantidad=$resultado->rowCount();
+                
+                if ($cantidad!=0) {
+                    
+                    header("location:cuenta.php");
                 }else {
                     
-                    echo "<section>";
+                    echo "<body>";
                     
                     echo "<div class='diverror'>";
                     
-                    echo "Debe seleccionar una imagen, intentelo de nuevo";
+                    echo "No se actualizó ninguna información, intentelo de nuevo";
+                    
+                    echo "<br>";
                     
                     echo "<a href='updatesong.php?idsong=$id'>Volver</a>";
                     
                     echo "</div>";
                     
-                    echo "</section>";
+                    echo "</body>";
                 }
             }
             

@@ -106,9 +106,30 @@ $(document).ready(function(){
 		
 		var lector=new FileReader();
 		
-		lector.readAsDataURL(mi_archivo);
+		var extension=mi_archivo.type;
 		
-		lector.addEventListener("load",mostrar,false);
+		if(extension!='image/jpeg' && extension!='image/jpg' && extension!='image/png' && extension!='image/gif'){
+			
+			document.getElementById("imageerror").innerHTML="Debe seleccionar una imagen (jpg, png, gif)";
+			
+			if(document.getElementById("perf")){
+				
+				var simg=document.getElementById("perf");
+				
+				var parent=simg.parentNode;
+				
+				parent.removeChild(simg);
+			}
+			
+		}else{
+		
+			lector.readAsDataURL(mi_archivo);
+			
+			lector.addEventListener("load",mostrar,false);
+			
+			document.getElementById("imageerror").innerHTML="";
+		
+		}
 	}
 	function mostrar(e){
 		
@@ -128,9 +149,29 @@ $(document).ready(function(){
 		
 		var lector=new FileReader();
 		
-		lector.readAsDataURL(mi_archivo);
+		var extension=mi_archivo.type;
 		
-		lector.addEventListener("load",mostrardos,false);
+		if(extension!='image/jpeg' && extension!='image/jpg' && extension!='image/png' && extension!='image/gif'){
+			
+			document.getElementById("imageerrortwo").innerHTML="Debe seleccionar una imagen (jpg, png, gif)";
+			
+			if(document.getElementById("port")){
+				
+				var dimg=document.getElementById("port");
+				
+				var parent=dimg.parentNode;
+				
+				parent.removeChild(dimg);
+			}
+			
+		}else{
+			
+			lector.readAsDataURL(mi_archivo);
+		
+			lector.addEventListener("load",mostrardos,false);
+			
+			document.getElementById("imageerrortwo").innerHTML="";
+		}
 	}
 	function mostrardos(e){
 		

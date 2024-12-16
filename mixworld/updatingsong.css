@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-section{
+body{
 	
 	margin:0;
 	
@@ -8,9 +8,7 @@ section{
 	
 	background-color:#d40000;
 	
-	width:100%;
-	
-	height:100%;
+	background-size:cover;
 }
 .diverror{
 	
@@ -18,7 +16,17 @@ section{
 	
 	width:65%;
 	
-	margin:auto;
+	margin:20px auto;
+	
+	text-align:center;
+	
+	padding-top:20px;
+	
+	padding-bottom:20px;
+	
+	border-radius:9px;
 	
 	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	
+	font-weight:bolder;
 }
