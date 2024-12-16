@@ -53,8 +53,4 @@
         }
     }
 
-<<<<<<< HEAD
 ?>
-=======
-?>
->>>>>>> e1563e0 (Validación de caracteres en búsqueda y validación de imagenes en crear cuenta)
