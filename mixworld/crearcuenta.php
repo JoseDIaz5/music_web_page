@@ -129,6 +129,36 @@
                			
                			</div>
                			
+               			<div>
+               			
+               				<span class="passmessage" id="pmessage"></span>
+               			
+               			</div>
+               			
+               			<div>
+               			
+               				<span class="passmessage" id="pmessagee"></span>
+               			
+               			</div>
+               			
+               			<div>
+               			
+               				<span class="passmessage" id="pmessageee"></span>
+               			
+               			</div>
+               			
+               			<div>
+               			
+               				<span class="passmessage" id="pmessageeee"></span>
+               			
+               			</div>
+               			
+               			<div>
+               			
+               				<span class="passmessage" id="pmessageeeee"></span>
+               			
+               			</div>
+               			
                			<br>
                			
                			<div class="inputWithIcon" id="divconfirmar">
@@ -138,6 +168,12 @@
                				<input type="password" name="confirmar" id="confirmar" class="datos" placeholder="Confirmar contraseña" maxLength="12" required>
                				
                				<span class="focus-border"><i></i></span>
+               			
+               			</div>
+               			
+               			<div>
+               			
+               				<span class="passmessagetwo" id="ptmessage"></span>
                			
                			</div>
                			

@@ -2,11 +2,11 @@
     
     if(isset($_POST["subedatos"])){
         
-        $contrasena=addslashes($_POST["contra"]);
+        $contrasena=$_POST["contra"];
         
-        $contrasenados=addslashes($_POST["confirmar"]);
+        $contrasenados=$_POST["confirmar"];
         
-        if($contrasena==$contrasenados){
+        if($contrasena==$contrasenados && preg_match("/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{8,12}$/", $contrasena) && preg_match("/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{8,12}$/", $contrasenados)){
             
             try{
                 
@@ -16,9 +16,20 @@
                 
                 $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 
-                $imgperfil=$_FILES["imagenperfil"]["name"];
-                
-                $imgportada=$_FILES["contportada"]["name"];
+                if (empty($_FILES["imagenperfil"]["name"])) {
+                    
+                    $imgperfil=NULL;
+                }else {
+                    
+                    $imgperfil=$_FILES["imagenperfil"]["name"];
+                }
+                if (empty($_FILES["contportada"]["name"])) {
+                    
+                    $imgportada=NULL;
+                }else {
+                    
+                    $imgportada=$_FILES["contportada"]["name"];
+                }
                 
                 $carpeta=$_SERVER["DOCUMENT_ROOT"] . "/MIXWORLD/intranet/perfiles/";
                 
@@ -28,59 +39,42 @@
                 
                 $contra=addslashes($_POST["contra"]);
                 
-                if (isset($_POST["facebook"])) {
+                if (!empty($_POST["facebook"])) {
                     
                     $facebook=$_POST["facebook"];
                 }
-                if (isset($_POST["twitter"])) {
+                else {
+                    
+                    $facebook=NULL;
+                }
+                if (!empty($_POST["twitter"])) {
                     
                     $twitter=$_POST["twitter"];
                 }
-                if (isset($_POST["instagram"])) {
+                else {
+                    
+                    $twitter=NULL;
+                }
+                if (!empty($_POST["instagram"])) {
                     
                     $instagram=$_POST["instagram"];
+                }
+                else {
+                    
+                    $instagram=NULL;
                 }
                 
                 move_uploaded_file($_FILES["imagenperfil"]["tmp_name"], $carpeta.$imgperfil);
                 
                 move_uploaded_file($_FILES["contportada"]["tmp_name"], $carpeta.$imgportada);
                 
-                if (!isset($_POST["facebook"]) && !isset($_POST["instagram"]) && !isset($_POST["twitter"])) {
                     
-                    $consulta="INSERT INTO perfiles(USUARIO,CORREO,CONTRASENA,IMAGEN_PERFIL,IMAGEN_PORTADA) VALUES(:usuario,:correo,:contra,:perfil,:portada)";
-                    
-                    $resultado=$conexion->prepare($consulta);
-                    
-                    $resultado->execute(array(":usuario"=>$usuario, ":correo"=>$correo, ":contra"=>$contra, ":perfil"=>$imgperfil, ":portada"=>$imgportada));
-                }elseif (isset($_POST["facebook"]) && !isset($_POST["instagram"]) && !isset($_POST["twitter"])){
-                    
-                    $consulta="INSERT INTO perfiles(USUARIO,CORREO,CONTRASENA,IMAGEN_PERFIL,IMAGEN_PORTADA,USUARIO_FACEBOOK) VALUES(:usuario,:correo,:contra,:perfil,:portada,:faceuser)";
-                    
-                    $resultado=$conexion->prepare($consulta);
-                    
-                    $resultado->execute(array(":usuario"=>$usuario, ":correo"=>$correo, ":contra"=>$contra, ":perfil"=>$imgperfil, ":portada"=>$imgportada, ":faceuser"=>$facebook));
-                }elseif (!isset($_POST["facebook"]) && isset($_POST["instagram"]) && !isset($_POST["twitter"])){
-                    
-                    $consulta="INSERT INTO perfiles(USUARIO,CORREO,CONTRASENA,IMAGEN_PERFIL,IMAGEN_PORTADA,USUARIO_INSTAGRAM) VALUES(:usuario,:correo,:contra,:perfil,:portada,:inguser)";
-                    
-                    $resultado=$conexion->prepare($consulta);
-                    
-                    $resultado->execute(array(":usuario"=>$usuario, ":correo"=>$correo, ":contra"=>$contra, ":perfil"=>$imgperfil, ":portada"=>$imgportada, ":inguser"=>$instagram));
-                }elseif (!isset($_POST["facebook"]) && !isset($_POST["instagram"]) && isset($_POST["twitter"])){
-                    
-                    $consulta="INSERT INTO perfiles(USUARIO,CORREO,CONTRASENA,IMAGEN_PERFIL,IMAGEN_PORTADA,USUARIO_X) VALUES(:usuario,:correo,:contra,:perfil,:portada,:xuser)";
-                    
-                    $resultado=$conexion->prepare($consulta);
-                    
-                    $resultado->execute(array(":usuario"=>$usuario, ":correo"=>$correo, ":contra"=>$contra, ":perfil"=>$imgperfil, ":portada"=>$imgportada, ":xuser"=>$twitter));
-                }else{
-                    
-                    $consulta="INSERT INTO perfiles(USUARIO,CORREO,CONTRASENA,IMAGEN_PERFIL,IMAGEN_PORTADA,USUARIO_X,USUARIO_FACEBOOK,USUARIO_INSTAGRAM) VALUES(:usuario,:correo,:contra,:perfil,:portada,:xuser,:faceuser,:inguser)";
-                    
-                    $resultado=$conexion->prepare($consulta);
-                    
-                    $resultado->execute(array(":usuario"=>$usuario, ":correo"=>$correo, ":contra"=>$contra, ":perfil"=>$imgperfil, ":portada"=>$imgportada, ":xuser"=>$twitter,":faceuser"=>$facebook,":inguser"=>$instagram));
-                }
+                $consulta="INSERT INTO perfiles(USUARIO,CORREO,CONTRASENA,IMAGEN_PERFIL,IMAGEN_PORTADA,USUARIO_FACEBOOK,USUARIO_INSTAGRAM,USUARIO_X) VALUES(:usuario,:correo,:contra,:perfil,:portada,:fuser,:iuser,:xuser)";
+                
+                $resultado=$conexion->prepare($consulta);
+                
+                $resultado->execute(array(":usuario"=>$usuario, ":correo"=>$correo, ":contra"=>$contra, ":perfil"=>$imgperfil, ":portada"=>$imgportada,":fuser"=>$facebook,":iuser"=>$instagram,":xuser"=>$twitter));
+                
                 
                 $consultados="SELECT MAX(ID) AS ID FROM perfiles";
                 
