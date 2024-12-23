@@ -161,7 +161,15 @@
 			
 			<?php 
 			
-			 }else{
+			 }elseif(!isset($iduser) && $_SESSION["portada"]==''){
+			
+			?>
+			
+			<header style="background: linear-gradient(#818181,white 85%); background-size: 100% 100%"></header>
+			
+			<?php 
+			
+			 }else {
 			
 			?>
 			
@@ -181,13 +189,57 @@
 					
 						<?php 
 						
-						  if (isset($iduser)) {   
+						if (isset($iduser) && isset($perfil) && $iduser!=$_SESSION["idusu"]) {   
 						
 						?>
 					
 						<img src="/MIXWORLD/intranet/perfiles/<?php echo $perfil; ?>">
 						
-						<span></span>
+						<?php 
+						
+						}elseif(isset($iduser) && isset($perfil) && $iduser==$_SESSION["idusu"] && $_SESSION["picture"]!=''){
+						
+						?>
+						
+						<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"]; ?>">
+						
+						<span><i class="fa-solid fa-pen editicon"></i></span>
+						
+						<?php 
+						
+						  }elseif(isset($iduser) && isset($perfil) && $iduser==$_SESSION["idusu"] && $_SESSION["picture"]==''){
+						
+						?>
+						
+						<img src="/MIXWORLD/intranet/songsimages/defaultuser.png"></img>
+						
+						<span><i class="fa-solid fa-pen editicon"></i></span>
+						
+						<?php 
+						
+						  }elseif(isset($_SESSION["idusu"]) && $_SESSION["picture"]==''){
+						
+						?>
+						
+						<img src="/MIXWORLD/intranet/songsimages/defaultuser.png"></img>
+						
+						<span><i class="fa-solid fa-pen editicon"></i></span>
+						
+						<?php 
+						
+						  }elseif(!isset($perfil) && isset($iduser)){
+						
+						?>
+						
+						<img src="/MIXWORLD/intranet/songsimages/defaultuser.png"></img>
+						
+						<?php 
+						
+						 }elseif(!isset($iduser) && $_SESSION["picture"]=='' && !isset($perfil)){
+						
+						?>
+						
+						<img src="/MIXWORLD/intranet/songsimages/defaultuser.png"></img>
 						
 						<?php 
 						
@@ -197,13 +249,15 @@
 						
 						<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"]; ?>">
 						
-						<span></span>
+						<span><i class="fa-solid fa-pen editicon"></i></span>
 						
 						<?php 
 						
 						  }
 						
 						?>
+					
+						<span class="editaccount"><i class="fa-solid fa-pen editicon"></i></span>
 					
 					</div>
 					
@@ -533,7 +587,27 @@
 					        		
 					        		<div class="usercontainer">
 					        		
+					        		<?php 
+					        		
+					        		if ($filas["IMAGEN_PERFIL"]=='') {
+					        		
+					        		?>
+					        		
+					        			<img src="/MIXWORLD/intranet/songsimages/defaultuser.png">
+					        			
+					        		<?php 
+					        		
+					        		}else {
+					        		
+					        		?>
+					        		
 					        			<img src="/MIXWORLD/intranet/perfiles/<?php echo $filas["IMAGEN_PERFIL"]; ?>">
+					        		
+					        		<?php 
+					        		
+					        		}
+					        		
+					        		?>
 					        			
 					        			<span><?php echo $filas["USUARIO"]; ?></span>
 					        		

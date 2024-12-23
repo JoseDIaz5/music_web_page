@@ -254,4 +254,16 @@ $(document).ready(function(){
 		
 		$(".counter").text($(this).val().length);
 	});
+	$("#campotitulo").keyup(function(){
+		
+		const valor=$(this).val();
+		
+		$(this).val(valor.replace(/[^a-zA-ZÀ-ÿ\u00f1\u00d1 0-9]+/g,""));
+	});
+	$("#desc").keyup(function(){
+		
+		const valor=$(this).val();
+		
+		$(this).val(valor.replace(/[^a-zA-ZÀ-ÿ\u00f1\u00d1 0-9@.:/]+/g,""));
+	});
 });

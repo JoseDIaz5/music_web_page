@@ -30,4 +30,10 @@ $(document).ready(function(){
 		
 		$("#sesion").click();
 	}
+	$("#correo").keyup(function(){
+		
+		const valor=$(this).val();
+		
+		$(this).val(valor.replace(/[\\'" ]/g,""));
+	});
 });

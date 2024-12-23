@@ -77,11 +77,11 @@ a{
 	
 	position:absolute;
 	
-	background:#2afa6a;
+	background:white;
 	
-	width:16px;
+	width:26px;
 	
-	height:16px;
+	height:26px;
 	
 	border-radius:50%;
 	
@@ -89,7 +89,17 @@ a{
 	
 	right:11px;
 	
-	border:2px solid #fff;
+	border:1px solid #A9A9A9;
+	
+	display:flex;
+	
+	justify-content:center;
+	
+	align-items:center;
+}
+.header_wrapper .cols_container .left_col .img_container .editaccount{
+	
+	display:none;
 }
 .header_wrapper .cols_container .left_col h2{
 	

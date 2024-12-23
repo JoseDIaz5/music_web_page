@@ -35,9 +35,9 @@
                 
                 $usuario=addslashes($_POST["usuario"]);
                 
-                $correo=addslashes($_POST["correo"]);
+                $correo=$_POST["correo"];
                 
-                $contra=addslashes($_POST["contra"]);
+                $contra=$_POST["contra"];
                 
                 if (!empty($_POST["facebook"])) {
                     

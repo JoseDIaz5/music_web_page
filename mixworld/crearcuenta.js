@@ -193,7 +193,7 @@ $(document).ready(function(){
 		
 		const valor=$(this).val();
 		
-		$(this).val(valor.replace(/ /g,""));
+		$(this).val(valor.replace(/[\\'" ]/g,""));
 	});
 	$("#contrasena").keyup(function(){
 		

@@ -66,14 +66,14 @@
         <script src="jquery-1.8.3.js"></script>
 
         <script src="principal.js"></script>
-        
-        <?php 
-        
-        
-        
-        ?>
 	
 	</head>
+	
+	<?php 
+        
+            
+        
+    ?>
 	
 	<body>
 	
@@ -126,8 +126,27 @@
 						<a href="cuenta.php">
 				
 							<span class="imagediv">
+							
+								<?php 
+								
+								if ($_SESSION["picture"]=='') {
+							    ?>
+								    
+								    <img src="/MIXWORLD/intranet/songsimages/defaultuser.png" class="imguser"></img>
+								    
+							    <?php
+							    
+								}else{
+								
+								?>
 					
-								<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"] ?>" class="imguser"></img>
+									<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"] ?>" class="imguser"></img>
+								
+								<?php 
+								
+								}
+								
+								?>
 					
 							</span>
 						
@@ -274,7 +293,27 @@
 			         		</div>
 			         		<div class="usercontainer">
 			         		
+			         			<?php 
+    						
+        						if ($fila["IMAGEN_PERFIL"]=='') {
+        						
+        						?>
+			         		
+			         			<img src="/MIXWORLD/intranet/songsimages/defaultuser.png">
+			         			
+			         			<?php 
+			         			
+        						}else {
+			         			
+			         			?>
+			         			
 			         			<img src="/MIXWORLD/intranet/perfiles/<?php echo $fila["IMAGEN_PERFIL"]; ?>">
+			         			
+			         			<?php 
+			         			
+        						}
+			         			
+			         			?>
 			         			
 			         			<span><a href="cuenta.php?iduser=<?php echo $fila["iduser"]; ?>"><?php echo $fila["USUARIO"]; ?></a></span>
 			         		
@@ -292,6 +331,12 @@
 			         			<div class="bar barra<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>">
 			         			
 			         				<div id="<?php echo $fila["ID"]; ?>" class="progress progreso<?php echo $fila["ID"]; ?>"></div>
+			         			
+			         			</div>
+			         			
+			         			<div class="downloadcontainer">
+			         			
+			         				<a href="/MIXWORLD/intranet/songs/<?php echo $fila["CANCION"]; ?>" download><i class="fa-solid  fa-download"></i></a>
 			         			
 			         			</div>
 			         		

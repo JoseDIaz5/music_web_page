@@ -583,6 +583,30 @@ section .songcontainer .titleplayercontainer .playercontainer .bar .progress{
 	
 	border-radius:5px;
 }
+section .songcontainer .titleplayercontainer .playercontainer .downloadcontainer{
+	
+	margin:0 5px 0 10px;
+}
+section .songcontainer .titleplayercontainer .playercontainer .downloadcontainer a{
+	
+	text-decoration:none;
+	
+	color:black;
+}
+section .songcontainer .titleplayercontainer .playercontainer .downloadcontainer i{
+	
+	font-size:20px;
+	
+	cursor:pointer;
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+}
+section .songcontainer .titleplayercontainer .playercontainer .downloadcontainer i:hover{
+	
+	color:#d40000;
+}
 section .songcontainer .titleplayercontainer .viewscontainer{
 	
 	display:flex;

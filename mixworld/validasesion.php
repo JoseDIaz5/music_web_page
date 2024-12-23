@@ -10,9 +10,9 @@
             
             $conexion->exec("SET CHARACTER SET utf8");
             
-            $correo=addslashes($_POST["correo"]);
+            $correo=$_POST["correo"];
             
-            $contra=addslashes($_POST["contra"]);
+            $contra=$_POST["contra"];
             
             $consulta="SELECT * FROM perfiles WHERE CORREO=:correo AND CONTRASENA=:contra";
             

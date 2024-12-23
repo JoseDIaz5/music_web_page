@@ -199,7 +199,28 @@
 			
         			<div class="imagecontainer">
         			
+        			<?php 
+        			
+        			if ($fila["IMAGEN_CANCION"]=='') {
+        			
+        			?>
+        			
+        				<img src="/MIXWORLD/intranet/songsimages/default.png">
+        				
+        				
+        			<?php 
+        			
+        			}else {
+        			
+        			?>
+        			
         				<img src="/MIXWORLD/intranet/songs/<?php echo $fila["IMAGEN_CANCION"]; ?>">
+        			
+        			<?php 
+        			
+        			}
+        			
+        			?>
         			
         			</div>
         			<div class="titleplayercontainer">
@@ -210,8 +231,28 @@
         				
         				</div>
         				<div class="usercontainer">
+        				
+        				<?php 
+        				
+        				if ($fila["IMAGEN_PERFIL"]=='') {
+        				
+        				?>
 			         		
+		         			<img src="/MIXWORLD/intranet/songsimages/defaultuser.png">
+		         			
+		         		<?php 
+		         		
+        				}else {
+		         		
+		         		?>
+		         		
 		         			<img src="/MIXWORLD/intranet/perfiles/<?php echo $fila["IMAGEN_PERFIL"]; ?>">
+		         		
+		         		<?php 
+		         		
+        				}
+		         		
+		         		?>
 		         			
 		         			<span><a href="cuenta.php?iduser=<?php echo $fila["iduser"]; ?>"><?php echo $fila["USUARIO"]; ?></a></span>
 		         		
@@ -326,8 +367,8 @@
 		        $_SESSION["idcancion"]=$fila["ID"];
 		    }
 		    
-		    $consultacomentarios="SELECT p.IMAGEN_PERFIL,p.USUARIO,co.FECHA_COMENTARIO,co.COMENTARIO FROM perfiles AS p INNER JOIN canciones AS c 
-                                  ON p.ID=c.ID_USUARIO INNER JOIN comentarios AS co ON c.ID=co.ID_CANCION WHERE c.ID=:idsong";
+		    $consultacomentarios="SELECT p.IMAGEN_PERFIL,p.USUARIO,co.FECHA_COMENTARIO,co.COMENTARIO FROM perfiles AS p 
+                                 INNER JOIN comentarios AS co ON p.ID=co.ID_USUARIO WHERE co.ID_CANCION=:idsong";
 		    
 		    $resultado=$conexion->prepare($consultacomentarios);
 		    
@@ -341,13 +382,31 @@
 		        
 		        ?>
 		        
-		        
-		        
     		        <div class="comment">
     		        
     		        	<div class="profilecomment">
+    		        	
+    		        	<?php 
+    		        	
+    		        	if ($fila["IMAGEN_PERFIL"]=='') {
+    		        	
+    		        	?>
     		        
+    		        		<div><img src="/MIXWORLD/intranet/songsimages/defaultuser.png"></div>
+    		        		
+    		        	<?php 
+    		        	
+    		        	}else {
+    		        	
+    		        	?>
+    		        	
     		        		<div><img src="/MIXWORLD/intranet/perfiles/<?php echo $fila["IMAGEN_PERFIL"]; ?>"></div>
+    		        	
+    		        	<?php 
+    		        	
+    		        	}
+    		        	
+    		        	?>
     		        	
     		        		<div><?php echo $fila["USUARIO"]; ?></div>
     		        

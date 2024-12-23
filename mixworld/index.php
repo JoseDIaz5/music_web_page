@@ -228,7 +228,27 @@
     					</div>
     					<div class="usercontainer">
     					
+    						<?php 
+    						
+    						if ($fila["IMAGEN_PERFIL"]=='') {
+    						
+    						?>
+    						
+    						<img src="/MIXWORLD/intranet/songsimages/defaultuser.png">
+    						
+    						<?php 
+    						
+    						}else {
+    						
+    						?>
+    					
     						<img src="/MIXWORLD/intranet/perfiles/<?php echo $fila["IMAGEN_PERFIL"]; ?>">
+    						
+    						<?php 
+    						
+    						}
+    						
+    						?>
     					
     						<span class="user"><?php echo $fila["USUARIO"]; ?></span>
     					
