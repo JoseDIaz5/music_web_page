@@ -221,6 +221,8 @@
                			
                			<div id="botonregistra">Crear</div>
 				
+					</div>
+				
 				</div>
 			
 			</form>

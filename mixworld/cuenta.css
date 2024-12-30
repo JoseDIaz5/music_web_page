@@ -96,6 +96,18 @@ a{
 	justify-content:center;
 	
 	align-items:center;
+	
+	cursor:pointer;
+	
+	color:gray;
+	
+	transition-property:color;
+	
+	transition-duration:.5s;
+}
+.header_wrapper .cols_container .left_col .img_container span:hover{
+	
+	color:black;
 }
 .header_wrapper .cols_container .left_col .img_container .editaccount{
 	

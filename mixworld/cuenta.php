@@ -203,7 +203,7 @@
 						
 						<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"]; ?>">
 						
-						<span><i class="fa-solid fa-pen editicon"></i></span>
+						<a href="editarperfil.php?id=<?php echo $_SESSION["idusu"]; ?>"><span><i class="fa-solid fa-pen editicon"></i></span></a>
 						
 						<?php 
 						
@@ -213,7 +213,7 @@
 						
 						<img src="/MIXWORLD/intranet/songsimages/defaultuser.png"></img>
 						
-						<span><i class="fa-solid fa-pen editicon"></i></span>
+						<a href="editarperfil.php?id=<?php echo $iduser; ?>"><span><i class="fa-solid fa-pen editicon"></i></span></a>
 						
 						<?php 
 						
@@ -223,7 +223,7 @@
 						
 						<img src="/MIXWORLD/intranet/songsimages/defaultuser.png"></img>
 						
-						<span><i class="fa-solid fa-pen editicon"></i></span>
+						<a href="editarperfil.php?id=<?php echo $iduser; ?>"><span><i class="fa-solid fa-pen editicon"></i></span></a>
 						
 						<?php 
 						
@@ -249,7 +249,7 @@
 						
 						<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"]; ?>">
 						
-						<span><i class="fa-solid fa-pen editicon"></i></span>
+						<a href="editarperfil.php?id=<?php echo $_SESSION["idusu"]; ?>"><span><i class="fa-solid fa-pen editicon"></i></span></a>
 						
 						<?php 
 						
