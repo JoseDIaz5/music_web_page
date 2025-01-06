@@ -31,9 +31,83 @@
 	</head>
 	<body>
 	
+		<?php 
+		
+		if (isset($_GET["id"])) {
+		    
+		    $id=$_GET["id"];
+		    
+		    try {
+		        
+		        $conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
+		        
+		        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		        
+		        $conexion->exec("SET CHARACTER SET utf8");
+		        
+		        $consulta="SELECT USUARIO,IMAGEN_PERFIL,IMAGEN_PORTADA,USUARIO_FACEBOOK,USUARIO_INSTAGRAM,USUARIO_X FROM perfiles WHERE ID=:id";
+		        
+		        $resultado=$conexion->prepare($consulta);
+		        
+		        $resultado->execute(array(":id"=>$id));
+		        
+		        while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
+		            
+		            $user=$fila["USUARIO"];
+		            
+		            if ($fila["IMAGEN_PERFIL"]=='') {
+		                
+		                $perfil="";
+		            }else {
+		                
+		                $perfil=$fila["IMAGEN_PERFIL"];
+		            }
+		            if ($fila["IMAGEN_PORTADA"]=='') {
+		                
+		                $portada="";
+		            }else {
+		                
+		                $portada=$fila["IMAGEN_PORTADA"];
+		            }
+		            if ($fila["USUARIO_FACEBOOK"]=='') {
+		                
+		                $face="";
+		            }else {
+		                
+		                $face=$fila["USUARIO_FACEBOOK"];
+		            }
+		            if ($fila["USUARIO_INSTAGRAM"]=='') {
+		                
+		                $insta="";
+		            }else{
+		                
+		                $insta=$fila["USUARIO_INSTAGRAM"];
+		            }
+		            if ($fila["USUARIO_X"]=='') {
+		                
+		                $userx="";
+		            }else {
+		                
+		                $userx=$fila["USUARIO_X"];
+		            }
+		        }
+		        
+		    } catch (Exception $e) {
+		        
+		        die("Error: " . $e->getMessage());
+		    }
+		
+		?>
+	
 		<section>
 		
 			<form action="edicionperfil.php" enctype="multipart/form-data" method='post'>
+			
+				<input type="text" value="<?php echo $id; ?>" name="id" hidden="hidden">
+				
+				<input type="text" value="<?php echo $perfil; ?>" name="profileimg" hidden="hidden">
+				
+				<input type="text" value="<?php echo $portada; ?>" name="portadaimg" hidden="hidden">
 			
 				<div id="formulariodos">
 				
@@ -63,7 +137,31 @@
 					
 						<div id="imagenperfildos">
 						
-							<label id="imagenperfiltres"></label>
+							<label id="imagenperfiltres">
+							
+							<?php 
+							
+							if ($perfil=='') {
+							
+							?>
+							
+							<img width='100%' height='100%' src="/MIXWORLD/intranet/songsimages/defaultuser.png">
+							
+							<?php 
+							
+							}else {
+							
+							?>
+							
+							<img id='perf' width='100%' height='100%' src='/MIXWORLD/intranet/perfiles/<?php echo $perfil; ?>'>
+							
+							<?php 
+							
+							}
+							
+							?>
+							
+							</label>
 							
 							<label id="pictureicon"><i class="fas fa-camera"></i></label>
 						
@@ -75,7 +173,7 @@
 					
 					<div class="divimageerror">
 					
-						<span class="imageerror"></span>
+						<span id="imageerror"></span>
 					
 					</div>
 					
@@ -85,7 +183,31 @@
 					
 						<div id="contportadados">
 						
-							<label id="contportadatres"></label>
+							<label id="contportadatres">
+							
+							<?php 
+							
+							if ($portada=='') {
+							
+							?>
+							
+							<img width='100%' height='100%' src="/MIXWORLD/intranet/songsimages/default.png">
+							
+							<?php 
+							
+							}else {
+							
+							?>
+							
+							<img id='perf' width='100%' height='100%' src='/MIXWORLD/intranet/perfiles/<?php echo $portada; ?>'>
+							
+							<?php 
+							
+							}
+							
+							?>
+							
+							</label>
 							
 							<label id="pictureicons"><i class="fas fa-camera"></i></label>
 						
@@ -109,31 +231,19 @@
 						
 							<i class="fas fa-user icono" id="usericon"></i>
                			
-               				<input type="text" name="usuario" id="usuario" class="datos" placeholder="Usuario" maxlength="50" required>
+               				<input type="text" name="usuario" id="usuario" class="datos" placeholder="Usuario" maxlength="50" value="<?php echo $user; ?>" required>
                				
                				<span class="focus-border"><i></i></span>
 						
 						</div>
 						
 						<br>
-						
-						<div class="inputWithIcon" id="divcorreo">
-               			
-               				<i class="fas fa-envelope icono" id="mailicon"></i>
-               				
-               				<input type="email" name="correo" id="correo" class="datos" placeholder="Correo" maxLength="50" required>
-               				
-               				<span class="focus-border"><i></i></span>
-               			
-               			</div>
-               			
-               			<br>
                			
                			<div class="inputWithIcon" id="divfacebook">
                			
                				<i class="fab fa-facebook icono" id="facebookicon"></i>
                				
-               				<input type="text" name="facebook" id="facebook" class="datos" placeholder="Usuario Facebook (opcional)" maxlength="60">
+               				<input type="text" name="facebook" id="facebook" class="datos" placeholder="Usuario Facebook (opcional)" maxlength="60" value="<?php echo $face; ?>">
                				
                				<span class="focus-border"><i></i></span>
                			
@@ -145,7 +255,7 @@
                			
                				<i class="fab fa-instagram icono" id="instagramicon"></i>
                				
-               				<input type="text" name="instagram" id="instagram" class="datos" placeholder="Usuario Instagram (opcional)" maxlength="60">
+               				<input type="text" name="instagram" id="instagram" class="datos" placeholder="Usuario Instagram (opcional)" maxlength="60" value="<?php echo $insta; ?>">
                				
                				<span class="focus-border"><i></i></span>
                			
@@ -157,7 +267,7 @@
                			
                				<i class="fa-brands fa-x-twitter icono" id="xicon"></i>
                			
-               				<input type="text" name="twitter" id="twitter" class="datos" placeholder="Usuario X (opcional)" maxlength="60">
+               				<input type="text" name="twitter" id="twitter" class="datos" placeholder="Usuario X (opcional)" maxlength="60" value="<?php echo $userx; ?>">
                				
                				<span class="focus-border"><i></i></span>
                			
@@ -178,6 +288,17 @@
 			</form>
 		
 		</section>
+		
+		<?php 
+		
+		$resultado->closeCursor();
+		
+		}else{
+		    
+		    header("location:iniciosesion.php");
+		}
+		
+		?>
 	
 	</body>
 
