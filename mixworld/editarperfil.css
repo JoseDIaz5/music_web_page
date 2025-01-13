@@ -546,3 +546,19 @@ body{
 	
 	transform:scale(0);
 }
+.divimageerror #imageerror{
+	
+	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	
+	color:red;
+	
+	font-weight:bolder;
+}
+.divimageerror #imageerrortwo{
+	
+	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	
+	color:red;
+	
+	font-weight:bolder;
+}
