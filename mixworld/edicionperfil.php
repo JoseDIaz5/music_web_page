@@ -1,3 +1,8 @@
+<head>
+
+	<link rel="stylesheet" href="updatingsong.css?v=<?php echo time(); ?>">
+
+</head>
 <?php
 
     session_start();
@@ -25,6 +30,8 @@
                 $perfil=$_FILES["imagenperfil"]["name"];
                 
                 $perfiltipo=$_FILES["imagenperfil"]["type"];
+                
+                $carpetaimg=$_SERVER["DOCUMENT_ROOT"] . "/MIXWORLD/intranet/perfiles/";
             }
             elseif ($_FILES["imagenperfil"]["name"]=='' && $_FILES["contportada"]["name"]!=''){
                 
@@ -33,6 +40,8 @@
                 $portada=$_FILES["contportada"]["name"];
                 
                 $portadatipo=$_FILES["contportada"]["type"];
+                
+                $carpetaimg=$_SERVER["DOCUMENT_ROOT"] . "/MIXWORLD/intranet/perfiles/";
             }else {
                 
                 $perfil=$_FILES["imagenperfil"]["name"];
@@ -48,21 +57,21 @@
             
             if ($_POST["facebook"]=='') {
                 
-                $facebook='';
+                $facebook=null;
             }else {
                 
                 $facebook=$_POST["facebook"];
             }
             if ($_POST["instagram"]=='') {
                 
-                $instagram='';
+                $instagram=null;
             }else {
                 
                 $instagram=$_POST["instagram"];
             }
             if ($_POST["twitter"]=='') {
                 
-                $x='';
+                $x=null;
             }else {
                 
                 $x=$_POST["twitter"];

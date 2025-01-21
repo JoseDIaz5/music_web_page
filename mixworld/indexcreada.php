@@ -71,7 +71,22 @@
 	
 	<?php 
         
-            
+	$conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
+	
+	$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
+	
+	$conexion->exec("SET CHARACTER SET utf8");
+	
+	$consulta="CALL GET_PROFILE_IMAGE(:iduser)";
+	
+	$resultado=$conexion->prepare($consulta);
+	
+	$resultado->execute(array(":iduser"=>$_SESSION["idusu"]));
+	
+	while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
+	    
+	    $profileimage=$fila["IMAGEN_PERFIL"];
+	}
         
     ?>
 	
@@ -129,7 +144,7 @@
 							
 								<?php 
 								
-								if ($_SESSION["picture"]=='') {
+								if ($profileimage=='') {
 							    ?>
 								    
 								    <img src="/MIXWORLD/intranet/songsimages/defaultuser.png" class="imguser"></img>
@@ -140,7 +155,7 @@
 								
 								?>
 					
-									<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"] ?>" class="imguser"></img>
+									<img src="/MIXWORLD/intranet/perfiles/<?php echo $profileimage; ?>" class="imguser"></img>
 								
 								<?php 
 								
@@ -168,12 +183,6 @@
 			
 			 try {
 			     
-			     $conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
-			     
-			     $conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
-			     
-			     $conexion->exec("SET CHARACTER SET utf8");
-			     
 			     $registros_pagina=14;
 			     
 			     if(isset($_GET["numeropagina"])){
@@ -187,11 +196,11 @@
 			     
 			     $inicio_paginacion=($inicio_registros-1)*$registros_pagina;
 			     
-			     $consulta_cantidad="SELECT ID FROM canciones WHERE TITULO LIKE '%$buscador%'";
+			     $consulta_cantidad="CALL GET_ID_SONGS(:TITULO)";
 			     
 			     $resultado=$conexion->prepare($consulta_cantidad);
 			     
-			     $resultado->execute();
+			     $resultado->execute(array(":TITULO"=>strval($buscador)));
 			     
 			     $totalresultados=$resultado->rowCount();
 			     
@@ -217,39 +226,27 @@
 			         $numero_final=$limitepaginas;
 			     }
 			     
-			     $consulta="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,
-                CASE
-                WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
-                WHEN c.REPRODUCCIONES > 999 AND c.REPRODUCCIONES < 10000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,1),'K')
-                WHEN c.REPRODUCCIONES > 9999 AND c.REPRODUCCIONES < 100000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,2),'K')
-                WHEN c.REPRODUCCIONES > 99999 AND c.REPRODUCCIONES < 1000000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,3),'K')
-                WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
-                END AS REPRODUCCIONES           
-                ,c.LIKES,c.DISLIKES
-                ,p.ID as iduser,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones as c ON p.ID = c.ID_USUARIO
-                WHERE c.TITULO LIKE CONCAT('%',:buscador,'%') LIMIT $inicio_paginacion,$registros_pagina";
+			     $consulta="CALL GET_SONGS(:buscador,:inicio_paginacion,:registros_pagina)";
 			     
 			     $resultado=$conexion->prepare($consulta);
 			     
-			     $resultado->execute(array(":buscador"=>strval($buscador)));
+			     $resultado->execute(array(":buscador"=>strval($buscador),":inicio_paginacion"=>$inicio_paginacion,":registros_pagina"=>$registros_pagina));
 			     
-			     $consultalikescanciones="SELECT ID FROM songs_likes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
+			     $consultalikescanciones="CALL GET_SONGS_LIKES(:idsong,:iduser)";
 			     
-			     $result=$conexion->prepare($consultalikescanciones);
-			     
-			     $consultadislikescanciones="SELECT ID FROM songs_dislikes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
-			     
-			     $resulttwo=$conexion->prepare($consultadislikescanciones);
+			     $consultadislikescanciones="CALL GET_SONGS_DISLIKES(:idsong,:iduser)";
 			     
 			     while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
 			         
 			         $id=$fila["ID"];
 			         
+			         $result=$conexion->prepare($consultalikescanciones);
+			         
 			         $result->execute(array(":idsong"=>$fila["ID"],":iduser"=>$_SESSION["idusu"]));
 			         
+			         $resulttwo=$conexion->prepare($consultadislikescanciones);
+			         
 			         $resulttwo->execute(array(":idsong"=>$fila["ID"],":iduser"=>$_SESSION["idusu"]));
-			         
-			         
 			         
 			         $cantidadlikescancion=$result->rowCount();
 			         
@@ -356,7 +353,7 @@
 			         			<?php 
 			         			
 			         			 }else {
-			         			
+			         			 
 			         			?>
 			         			
 			         			<span class="likesong spanlike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-solid fa-face-smile-wink"></i><?php echo $fila["LIKES"]; ?></span>

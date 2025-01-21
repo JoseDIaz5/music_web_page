@@ -69,14 +69,13 @@
                 move_uploaded_file($_FILES["contportada"]["tmp_name"], $carpeta.$imgportada);
                 
                     
-                $consulta="INSERT INTO perfiles(USUARIO,CORREO,CONTRASENA,IMAGEN_PERFIL,IMAGEN_PORTADA,USUARIO_FACEBOOK,USUARIO_INSTAGRAM,USUARIO_X) VALUES(:usuario,:correo,:contra,:perfil,:portada,:fuser,:iuser,:xuser)";
+                $consulta="CALL CREATE_USER(:usuario,:correo,:contra,:perfil,:portada,:fuser,:iuser,:xuser)";
                 
                 $resultado=$conexion->prepare($consulta);
                 
                 $resultado->execute(array(":usuario"=>$usuario, ":correo"=>$correo, ":contra"=>$contra, ":perfil"=>$imgperfil, ":portada"=>$imgportada,":fuser"=>$facebook,":iuser"=>$instagram,":xuser"=>$twitter));
                 
-                
-                $consultados="SELECT MAX(ID) AS ID FROM perfiles";
+                $consultados="CALL GET_ID_USER()";
                 
                 $resultados=$conexion->prepare($consultados);
                 

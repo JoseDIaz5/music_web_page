@@ -145,4 +145,8 @@ $(document).ready(function(){
 		
 		$(this).val(valor.replace(/[^a-zA-ZÀ-ÿ\u00f1\u00d10-9_]+/g,""));
 	});
+	$("#botonregistra").click(function(){
+		
+		$("#botonregistrados").click();
+	});
 });

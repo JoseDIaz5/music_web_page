@@ -73,13 +73,9 @@
 		          }
 		      }
 		      
-		      $consultaperfil="SELECT USUARIO,IMAGEN_PERFIL,IMAGEN_PORTADA,USUARIO_FACEBOOK,USUARIO_INSTAGRAM,USUARIO_X FROM perfiles WHERE ID=:id";
+		      $consultaperfil="SELECT ID,USUARIO,IMAGEN_PERFIL,IMAGEN_PORTADA,CANCIONES,SEGUIDORES,SIGUIENDO,USUARIO_FACEBOOK,USUARIO_INSTAGRAM,USUARIO_X FROM perfiles WHERE ID=:id";
 		      
 		      $resultado=$conexion->prepare($consultaperfil);
-		      
-		      $consultacantidades="SELECT CANCIONES,SEGUIDORES,SIGUIENDO,USUARIO_FACEBOOK,USUARIO_INSTAGRAM,USUARIO_X FROM perfiles WHERE ID=:iduser";
-		      
-		      $resultadoc=$conexion->prepare($consultacantidades);
 		      
 		      $consultaseguidores="SELECT ID_USUARIO_SEGUIDOR,ID_USUARIO_SEGUIDO FROM seguidores WHERE ID_USUARIO_SEGUIDOR=:iduserfollower AND ID_USUARIO_SEGUIDO=:iduserfollowed";
 		      
@@ -89,13 +85,13 @@
 		          
 		          $resultado->execute(array(":id"=>$iduser));
 		          
-		          $resultadoc->execute(array(":iduser"=>$iduser));
-		          
 		          $resultadof->execute(array(":iduserfollower"=>$_SESSION["idusu"],":iduserfollowed"=>$iduser));
 		          
 		          $row=$resultadof->rowCount();
 		          
 		          while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
+		              
+		              $idusuario=$fila["ID"];
 		              
 		              $portada=$fila["IMAGEN_PORTADA"];
 		              
@@ -103,19 +99,17 @@
 		              
 		              $usuario=$fila["USUARIO"];
 		              
+		              $cantidadcanciones=$fila["CANCIONES"];
+		              
+		              $seguidores=$fila["SEGUIDORES"];
+		              
+		              $siguiendo=$fila["SIGUIENDO"];
+		              
 		              $facebookuser=$fila["USUARIO_FACEBOOK"];
 		              
 		              $instagramuser=$fila["USUARIO_INSTAGRAM"];
 		              
 		              $xuser=$fila["USUARIO_X"];
-		          }
-		          while ($filac=$resultadoc->fetch(PDO::FETCH_ASSOC)) {
-		              
-		              $cantidadcanciones=$filac["CANCIONES"];
-		              
-		              $seguidores=$filac["SEGUIDORES"];
-		              
-		              $siguiendo=$filac["SIGUIENDO"];
 		          }
 		          if ($row<1) {
 		              $seguido=0;
@@ -124,21 +118,29 @@
 		          }
 		      }else {
 		          
-		          $resultadoc->execute(array(":iduser"=>$_SESSION["idusu"]));
+		          $resultado->execute(array(":id"=>$_SESSION["idusu"]));
 		          
-		          while ($filac=$resultadoc->fetch(PDO::FETCH_ASSOC)) {
+		          while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
 		              
-		              $cantidadcanciones=$filac["CANCIONES"];
+		              $idusuario=$fila["ID"];
 		              
-		              $seguidores=$filac["SEGUIDORES"];
+		              $usuario=$fila["USUARIO"];
 		              
-		              $siguiendo=$filac["SIGUIENDO"];
+		              $perfil=$fila["IMAGEN_PERFIL"];
 		              
-		              $facebookuser=$filac["USUARIO_FACEBOOK"];
+		              $portada=$fila["IMAGEN_PORTADA"];
 		              
-		              $instagramuser=$filac["USUARIO_INSTAGRAM"];
+		              $cantidadcanciones=$fila["CANCIONES"];
 		              
-		              $xuser=$filac["USUARIO_X"];
+		              $seguidores=$fila["SEGUIDORES"];
+		              
+		              $siguiendo=$fila["SIGUIENDO"];
+		              
+		              $facebookuser=$fila["USUARIO_FACEBOOK"];
+		              
+		              $instagramuser=$fila["USUARIO_INSTAGRAM"];
+		              
+		              $xuser=$fila["USUARIO_X"];
 		          }
 		      }
 		      
@@ -153,7 +155,7 @@
 		
 			<?php 
 			
-			 if (isset($iduser)) {
+			 if ($portada!=null) {
 			
 			?>
 		
@@ -161,19 +163,11 @@
 			
 			<?php 
 			
-			 }elseif(!isset($iduser) && $_SESSION["portada"]==''){
+			 }elseif($portada==null){
 			
 			?>
 			
 			<header style="background: linear-gradient(#818181,white 85%); background-size: 100% 100%"></header>
-			
-			<?php 
-			
-			 }else {
-			
-			?>
-			
-			<header style="background: url('/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["portada"]; ?>'); background-size: 100% 100%"></header>
 			
 			<?php 
 			
@@ -189,25 +183,37 @@
 					
 						<?php 
 						
-						if (isset($iduser) && isset($perfil) && $iduser!=$_SESSION["idusu"]) {   
+						if (!isset($iduser) && isset($_SESSION["idusu"]) && $idusuario==$_SESSION["idusu"] && $perfil!=null) {   
 						
 						?>
 					
 						<img src="/MIXWORLD/intranet/perfiles/<?php echo $perfil; ?>">
 						
+						<a href="editarperfil.php?id=<?php echo $_SESSION["idusu"]; ?>"><span><i class="fa-solid fa-pen editicon"></i></span></a>
+						
 						<?php 
 						
-						}elseif(isset($iduser) && isset($perfil) && $iduser==$_SESSION["idusu"] && $_SESSION["picture"]!=''){
+						}elseif(isset($iduser) && $iduser==$_SESSION["idusu"] && $idusuario==$_SESSION["idusu"] && $perfil!=null){
 						
 						?>
 						
-						<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"]; ?>">
+						<img src="/MIXWORLD/intranet/perfiles/<?php echo $perfil; ?>">
 						
 						<a href="editarperfil.php?id=<?php echo $_SESSION["idusu"]; ?>"><span><i class="fa-solid fa-pen editicon"></i></span></a>
 						
 						<?php 
 						
-						  }elseif(isset($iduser) && isset($perfil) && $iduser==$_SESSION["idusu"] && $_SESSION["picture"]==''){
+						  }elseif(!isset($iduser) && isset($_SESSION["idusu"]) && $idusuario==$_SESSION["idusu"] && $perfil==null){
+						
+						?>
+						
+						<img src="/MIXWORLD/intranet/songsimages/defaultuser.png"></img>
+						
+						<a href="editarperfil.php?id=<?php echo $_SESSION["idusu"]; ?>"><span><i class="fa-solid fa-pen editicon"></i></span></a>
+						
+						<?php 
+						
+						  }elseif(isset($iduser) && $iduser==$_SESSION["idusu"] && $idusuario==$_SESSION["idusu"] && $perfil==null){
 						
 						?>
 						
@@ -217,39 +223,19 @@
 						
 						<?php 
 						
-						  }elseif(isset($_SESSION["idusu"]) && $_SESSION["picture"]==''){
+						  }elseif(isset($iduser) && $iduser!=$_SESSION["idusu"] && $idusuario!=$_SESSION["idusu"] && $perfil!=null){
+						
+						?>
+						
+						<img src="/MIXWORLD/intranet/perfiles/<?php echo $perfil; ?>">
+						
+						<?php 
+						
+						 }elseif(isset($iduser) && $iduser!=$_SESSION["idusu"] && $idusuario!=$_SESSION["idusu"] && $perfil==null){
 						
 						?>
 						
 						<img src="/MIXWORLD/intranet/songsimages/defaultuser.png"></img>
-						
-						<a href="editarperfil.php?id=<?php echo $iduser; ?>"><span><i class="fa-solid fa-pen editicon"></i></span></a>
-						
-						<?php 
-						
-						  }elseif(!isset($perfil) && isset($iduser)){
-						
-						?>
-						
-						<img src="/MIXWORLD/intranet/songsimages/defaultuser.png"></img>
-						
-						<?php 
-						
-						 }elseif(!isset($iduser) && $_SESSION["picture"]=='' && !isset($perfil)){
-						
-						?>
-						
-						<img src="/MIXWORLD/intranet/songsimages/defaultuser.png"></img>
-						
-						<?php 
-						
-						  }else{
-						
-						?>
-						
-						<img src="/MIXWORLD/intranet/perfiles/<?php echo $_SESSION["picture"]; ?>">
-						
-						<a href="editarperfil.php?id=<?php echo $_SESSION["idusu"]; ?>"><span><i class="fa-solid fa-pen editicon"></i></span></a>
 						
 						<?php 
 						
@@ -275,7 +261,7 @@
 					
 					?>
 					
-					<h2><?php echo $_SESSION["usuario"]; ?></h2>
+					<h2><?php echo $usuario; ?></h2>
 					
 					<?php 
 					

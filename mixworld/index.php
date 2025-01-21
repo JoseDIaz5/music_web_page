@@ -182,11 +182,11 @@
 		        $numero_final=$limitepaginas;
 		    }
 		    
-		    $consulta="CALL GET_SONGS(:i_paginacion,:r_paginacion,:buscador)";
+		    $consulta="CALL GET_SONGS(:buscador,:i_paginacion,:r_paginacion)";
 		    
 		    $resultado=$conexion->prepare($consulta);
 		    
-		    $resultado->execute(array(":i_paginacion"=>$inicio_paginacion,":r_paginacion"=>$registros_pagina,":buscador"=>strval($buscador)));
+		    $resultado->execute(array(":buscador"=>strval($buscador),":i_paginacion"=>$inicio_paginacion,":r_paginacion"=>$registros_pagina));
 		    
 		    while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
 		        
