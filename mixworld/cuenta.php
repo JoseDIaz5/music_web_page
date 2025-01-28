@@ -10,7 +10,6 @@
         ?>
         <?php
     	
-    	
     	   
     	   if (isset($_SESSION["nombre"])) {
     	       
@@ -73,21 +72,15 @@
 		          }
 		      }
 		      
-		      $consultaperfil="SELECT ID,USUARIO,IMAGEN_PERFIL,IMAGEN_PORTADA,CANCIONES,SEGUIDORES,SIGUIENDO,USUARIO_FACEBOOK,USUARIO_INSTAGRAM,USUARIO_X FROM perfiles WHERE ID=:id";
+		      $consultaperfil="CALL GET_USER_INFO(:id)";
 		      
-		      $resultado=$conexion->prepare($consultaperfil);
-		      
-		      $consultaseguidores="SELECT ID_USUARIO_SEGUIDOR,ID_USUARIO_SEGUIDO FROM seguidores WHERE ID_USUARIO_SEGUIDOR=:iduserfollower AND ID_USUARIO_SEGUIDO=:iduserfollowed";
-		      
-		      $resultadof=$conexion->prepare($consultaseguidores);
+		      $consultaseguidores="CALL GET_FOLLOWERS(:iduserfollower,:iduserfollowed)";
 		      
 		      if (isset($iduser)) {
 		          
+		          $resultado=$conexion->prepare($consultaperfil);
+		          
 		          $resultado->execute(array(":id"=>$iduser));
-		          
-		          $resultadof->execute(array(":iduserfollower"=>$_SESSION["idusu"],":iduserfollowed"=>$iduser));
-		          
-		          $row=$resultadof->rowCount();
 		          
 		          while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
 		              
@@ -111,12 +104,23 @@
 		              
 		              $xuser=$fila["USUARIO_X"];
 		          }
+		          
+		          $resultado->closeCursor();
+		          
+		          $resultadof=$conexion->prepare($consultaseguidores);
+		          
+		          $resultadof->execute(array(":iduserfollower"=>$_SESSION["idusu"],":iduserfollowed"=>$iduser));
+		          
+		          $row=$resultadof->rowCount();
+		          
 		          if ($row<1) {
 		              $seguido=0;
 		          }else{
 		              $seguido=1;
 		          }
 		      }else {
+		          
+		          $resultado=$conexion->prepare($consultaperfil);
 		          
 		          $resultado->execute(array(":id"=>$_SESSION["idusu"]));
 		          
@@ -142,6 +146,7 @@
 		              
 		              $xuser=$fila["USUARIO_X"];
 		          }
+		          $resultado->closeCursor();
 		      }
 		      
 		  } catch (Exception $e) {
@@ -247,27 +252,7 @@
 					
 					</div>
 					
-					<?php 
-					
-					if (isset($iduser)) {
-					
-					?>
-					
 					<h2><?php echo $usuario; ?></h2>
-					
-					<?php 
-					
-					}else {
-					
-					?>
-					
-					<h2><?php echo $usuario; ?></h2>
-					
-					<?php 
-					
-                    }
-					
-					?>
 								
 					<ul class="about">
 					
@@ -431,7 +416,7 @@
 					
 					try {
 					    
-					    $registrospagina=15;
+					    $registrospagina=14;
 					    
 					    if(isset($_GET["numeropagina"])){
 					        
@@ -444,7 +429,7 @@
 					    
 					    $inicio_paginacion=($inicio_registros-1)*$registrospagina;
 					    
-					    $consulta_cantidad="SELECT ID FROM CANCIONES WHERE ID_USUARIO=:iduser";
+					    $consulta_cantidad="CALL GET_USER_SONGS_COUNT(:iduser)";
 					    
 					    $resultado=$conexion->prepare($consulta_cantidad);
 					    
@@ -474,13 +459,9 @@
 					    
 					    $resultado=$conexion->prepare($consultasongs);
 					    
-					    $consultalikescanciones="SELECT ID FROM songs_likes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
-					    
-					    $result=$conexion->prepare($consultalikescanciones);
+					    $consultalikescanciones="SELECT ID FROM songs_likes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";  
 					    
 					    $consultadislikescanciones="SELECT ID FROM songs_dislikes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
-					    
-					    $resulttwo=$conexion->prepare($consultadislikescanciones);
 					    
 					    if (isset($iduser)) {
 					        
@@ -494,8 +475,12 @@
 					    $rows=$resultado->rowCount();
 					    
 					    while ($filas=$resultado->fetch(PDO::FETCH_ASSOC)) {
+					        
+					        $result=$conexion->prepare($consultalikescanciones);
 					            
 					        $result->execute(array(":idsong"=>$filas["ID"],":iduser"=>$_SESSION["idusu"]));
+					        
+					        $resulttwo=$conexion->prepare($consultadislikescanciones);
 					            
 				            $resulttwo->execute(array(":idsong"=>$filas["ID"],":iduser"=>$_SESSION["idusu"]));
 					            
@@ -679,10 +664,19 @@
 					    
 					    	<?php 
 					    	
-					    	  for ($i = 1; $i <= $limitepaginas; $i++) {
-					    	      
-					    	      echo "<a href='?numeropagina=" . $i . "'><i class='fa-solid fa-music'></i><br>" . $i . "</a>";
-					    	  }
+					    	if (isset($iduser)) {
+					    	    
+					    	    for ($i = 1; $i <= $limitepaginas; $i++) {
+					    	        
+					    	        echo "<a href='?iduser=". $iduser ."?numeropagina=" . $i . "'><i class='fa-solid fa-music'></i><br>" . $i . "</a>";
+					    	    }
+					    	}else {
+					    	 
+					    	    for ($i = 1; $i <= $limitepaginas; $i++) {
+					    	        
+					    	        echo "<a href='?numeropagina=" . $i . "'><i class='fa-solid fa-music'></i><br>" . $i . "</a>";
+					    	    }
+					    	}
 					    	
 					    	?>
 					    

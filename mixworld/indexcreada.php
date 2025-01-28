@@ -196,7 +196,7 @@
 			     
 			     $inicio_paginacion=($inicio_registros-1)*$registros_pagina;
 			     
-			     $consulta_cantidad="CALL GET_ID_SONGS(:TITULO)";
+			     $consulta_cantidad="CALL GET_SONGS_COUNT(:TITULO)";
 			     
 			     $resultado=$conexion->prepare($consulta_cantidad);
 			     
