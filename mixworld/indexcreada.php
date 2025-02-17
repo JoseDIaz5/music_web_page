@@ -61,8 +61,6 @@
     	
     	?>
 
-        <script src="https://kit.fontawesome.com/f221aee085.js"></script>
-
         <script src="jquery-1.8.3.js"></script>
 
         <script src="principal.js"></script>
@@ -73,7 +71,7 @@
         
 	$conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
 	
-	$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
+	$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
 	$conexion->exec("SET CHARACTER SET utf8");
 	
@@ -226,31 +224,19 @@
 			         $numero_final=$limitepaginas;
 			     }
 			     
-			     $consulta="CALL GET_SONGS(:buscador,:inicio_paginacion,:registros_pagina)";
+			     $consulta="CALL GET_SONGS_TWO(:buscador,:iniciopaginacion,:registrospagina,:iduser)";
 			     
 			     $resultado=$conexion->prepare($consulta);
 			     
-			     $resultado->execute(array(":buscador"=>strval($buscador),":inicio_paginacion"=>$inicio_paginacion,":registros_pagina"=>$registros_pagina));
-			     
-			     $consultalikescanciones="CALL GET_SONGS_LIKES(:idsong,:iduser)";
-			     
-			     $consultadislikescanciones="CALL GET_SONGS_DISLIKES(:idsong,:iduser)";
+			     $resultado->execute(array(":buscador"=>$buscador,":iniciopaginacion"=>$inicio_paginacion,":registrospagina"=>$registros_pagina,":iduser"=>$_SESSION["idusu"]));
 			     
 			     while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
 			         
 			         $id=$fila["ID"];
 			         
-			         $result=$conexion->prepare($consultalikescanciones);
+			         $cantidadlikescancion=$fila["CANTIDAD_LIKES"];
 			         
-			         $result->execute(array(":idsong"=>$fila["ID"],":iduser"=>$_SESSION["idusu"]));
-			         
-			         $resulttwo=$conexion->prepare($consultadislikescanciones);
-			         
-			         $resulttwo->execute(array(":idsong"=>$fila["ID"],":iduser"=>$_SESSION["idusu"]));
-			         
-			         $cantidadlikescancion=$result->rowCount();
-			         
-			         $cantidaddislikescancion=$resulttwo->rowCount();
+			         $cantidaddislikescancion=$fila["CANTIDAD_DISLIKES"];
 			         
 			         ?>
 			         

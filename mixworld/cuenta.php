@@ -118,6 +118,7 @@
 		          }else{
 		              $seguido=1;
 		          }
+		          $resultadof->closeCursor();
 		      }else {
 		          
 		          $resultado=$conexion->prepare($consultaperfil);
@@ -345,7 +346,7 @@
 							
 							<?php 
 							
-							 if (!isset($iduser) && !$validaid) {
+							 if (!isset($iduser)) {
 							
 							?>
 						
@@ -355,7 +356,7 @@
 							
 							<?php 
 							
-							 }elseif (isset($iduser) && $validaid){
+							 }elseif (isset($iduser) && $iduser==$_SESSION["idusu"]){
 							
 							?>
 							
@@ -368,7 +369,6 @@
 							 }
 							
 							?>
-							<li id="comp" class="pestañasubir">Subir canciones</li>
 							<li id="comp" class="pestañasubir">Subir canciones</li>
 							<li id="delete" class="pestañasubir">Eliminar cuenta</li>
 						
@@ -446,48 +446,28 @@
 					    
 					    $limitepaginas=ceil($totalresultados/$registrospagina);
 					    
-					    $consultasongs="SELECT c.ID,c.IMAGEN_CANCION,c.TITULO,c.CANCION,c.REPRODUCCIONES,
-                        CASE
-                        WHEN c.REPRODUCCIONES < 1000 THEN c.REPRODUCCIONES
-                        WHEN c.REPRODUCCIONES > 999 AND c.REPRODUCCIONES < 10000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,1),'K')
-                        WHEN c.REPRODUCCIONES > 9999 AND c.REPRODUCCIONES < 100000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,2),'K')
-                        WHEN c.REPRODUCCIONES > 99999 AND c.REPRODUCCIONES < 1000000 THEN CONCAT(SUBSTRING(c.REPRODUCCIONES,1,3),'K')
-                        WHEN c.REPRODUCCIONES > 999999 THEN CONCAT('+',SUBSTRING(c.REPRODUCCIONES,1,1),'M')
-                        END AS REPRODUCCIONES
-                        ,c.LIKES,c.DISLIKES,p.IMAGEN_PERFIL,p.USUARIO FROM perfiles AS p INNER JOIN canciones AS c ON p.ID = c.ID_USUARIO 
-                        WHERE c.ID_USUARIO=:iduser LIMIT $inicio_paginacion,$registrospagina";
+					    $resultado->closeCursor();
+					    
+					    $consultasongs="CALL GET_USER_SONGS(:iduser,:idusertwo,:iniciopaginacion,:registrospagina)";
 					    
 					    $resultado=$conexion->prepare($consultasongs);
 					    
-					    $consultalikescanciones="SELECT ID FROM songs_likes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";  
-					    
-					    $consultadislikescanciones="SELECT ID FROM songs_dislikes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
-					    
 					    if (isset($iduser)) {
 					        
-					        $resultado->execute(array(":iduser"=>$iduser));
+					        $resultado->execute(array(":iduser"=>$_SESSION["idusu"],":idusertwo"=>$iduser,":iniciopaginacion"=>$inicio_paginacion,":registrospagina"=>$registrospagina));
 					    }
 					    else {
 					        
-					        $resultado->execute(array(":iduser"=>$_SESSION["idusu"]));
+					        $resultado->execute(array(":iduser"=>$_SESSION["idusu"],":idusertwo"=>$_SESSION["idusu"],":iniciopaginacion"=>$inicio_paginacion,":registrospagina"=>$registrospagina));
 					    }
 					    
 					    $rows=$resultado->rowCount();
 					    
 					    while ($filas=$resultado->fetch(PDO::FETCH_ASSOC)) {
 					        
-					        $result=$conexion->prepare($consultalikescanciones);
-					            
-					        $result->execute(array(":idsong"=>$filas["ID"],":iduser"=>$_SESSION["idusu"]));
+					        $cantidadlikescancion=$filas["CANTIDAD_LIKES"];
 					        
-					        $resulttwo=$conexion->prepare($consultadislikescanciones);
-					            
-				            $resulttwo->execute(array(":idsong"=>$filas["ID"],":iduser"=>$_SESSION["idusu"]));
-					            
-				            $cantidadlikescancion=$result->rowCount();
-					            
-				            $cantidaddislikescancion=$resulttwo->rowCount();
-					        
+					        $cantidaddislikescancion=$filas["CANTIDAD_DISLIKES"];
 					        
 					        ?>
 					        
@@ -606,7 +586,7 @@
 					        			<?php 
 					        			
 					        			if ($cantidadlikescancion<1) {
-					        			
+					        			  
 					        			?>
 					        			
 					        			<span class="likesong spanlike<?php echo $filas["ID"]; ?>" id="<?php echo $filas["ID"]; ?>"><i class="fa-regular fa-face-smile-wink"></i><?php echo $filas["LIKES"]; ?></span>
@@ -628,7 +608,7 @@
 					        			
 					        			<span class="dislikesong spandislike<?php echo $filas["ID"]; ?>" id="<?php echo $filas["ID"]; ?>"><i class="fa-regular fa-face-sad-tear"></i><?php echo $filas["DISLIKES"]; ?></span>
 					        			
-					        			<?php 
+					        			<?php
 					        			
 					        			}else {
 					        			
@@ -650,6 +630,7 @@
 					        
 					        <?php 
 					    }
+
 					    if ($rows==0) {
 					        
 					        ?>
@@ -693,8 +674,7 @@
 					
 					?>
 				
-							
-					        		
+									
 		        		<div class="playercontainers">
 		        		
 		        			<div class="playicon">
