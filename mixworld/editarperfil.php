@@ -45,7 +45,7 @@
 		        
 		        $conexion->exec("SET CHARACTER SET utf8");
 		        
-		        $consulta="SELECT USUARIO,IMAGEN_PERFIL,IMAGEN_PORTADA,USUARIO_FACEBOOK,USUARIO_INSTAGRAM,USUARIO_X FROM perfiles WHERE ID=:id";
+		        $consulta="CALL GET_USER_INFO_EDIT(:id)";
 		        
 		        $resultado=$conexion->prepare($consulta);
 		        

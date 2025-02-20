@@ -14,7 +14,7 @@ if (isset($_SESSION["idusu"])) {
         
         $id=$_GET["id"];
         
-        $consulta="DELETE FROM canciones WHERE ID=:idsong";
+        $consulta="CALL DELETE_SONG(:idsong)";
         
         $resultado=$conexion->prepare($consulta);
         

@@ -10,7 +10,7 @@ try {
     
     $conexion->exec("SET CHARACTER SET utf8");
     
-    $consultaseguidores="SELECT ID_USUARIO_SEGUIDOR,ID_USUARIO_SEGUIDO FROM seguidores WHERE ID_USUARIO_SEGUIDOR=:idfollower";
+    $consultaseguidores="CALL SEARCH_FOLLOWERS(:idfollower)";
     
     $resultado=$conexion->prepare($consultaseguidores);
     

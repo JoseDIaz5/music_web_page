@@ -81,6 +81,8 @@
             
             $id=$_POST["id"];
             
+            $consulta="CALL UPDATE_USER(:id,:user,:perfil,:portada,:face,:insta,:xuser)";
+            
             if (isset($perfiltipo) && isset($portadatipo)) {
                 
                 if ($perfiltipo=="image/jpg" || $perfiltipo=="image/png" || $perfiltipo=="image/jpeg" || $perfiltipo=="image/gif") {
@@ -90,8 +92,6 @@
                         move_uploaded_file($_FILES["imagenperfil"]["tmp_name"], $carpetaimg.$perfil);
                         
                         move_uploaded_file($_FILES["contportada"]["tmp_name"], $carpetaimg.$portada);
-                        
-                        $consulta="UPDATE perfiles SET USUARIO=:user,IMAGEN_PERFIL=:perfil,IMAGEN_PORTADA=:portada,USUARIO_FACEBOOK=:face,USUARIO_INSTAGRAM=:insta,USUARIO_X=:xuser WHERE ID=:id";
                         
                         $resultado=$conexion->prepare($consulta);
                         
@@ -131,8 +131,6 @@
                     
                     move_uploaded_file($_FILES["contportada"]["tmp_name"], $carpetaimg.$portada);
                     
-                    $consulta="UPDATE perfiles SET USUARIO=:user,IMAGEN_PERFIL=:perfil,IMAGEN_PORTADA=:portada,USUARIO_FACEBOOK=:face,USUARIO_INSTAGRAM=:insta,USUARIO_X=:xuser WHERE ID=:id";
-                    
                     $resultado=$conexion->prepare($consulta);
                     
                     $resultado->execute(array(":user"=>$usuario,":perfil"=>$perfildefecto,":portada"=>$portada,":face"=>$facebook,":insta"=>$instagram,":xuser"=>$x,":id"=>$id));
@@ -167,8 +165,6 @@
                     
                     move_uploaded_file($_FILES["imagenperfil"]["tmp_name"], $carpetaimg.$perfil);
                     
-                    $consulta="UPDATE perfiles SET USUARIO=:user,IMAGEN_PERFIL=:perfil,IMAGEN_PORTADA=:portada,USUARIO_FACEBOOK=:face,USUARIO_INSTAGRAM=:insta,USUARIO_X=:xuser WHERE ID=:id";
-                    
                     $resultado=$conexion->prepare($consulta);
                     
                     $resultado->execute(array(":user"=>$usuario,":perfil"=>$perfil,":portada"=>$portadadefecto,":face"=>$facebook,":insta"=>$instagram,":xuser"=>$x,":id"=>$id));
@@ -194,8 +190,6 @@
                     }
                 }
             }else {
-                
-                $consulta="UPDATE perfiles SET USUARIO=:user,IMAGEN_PERFIL=:perfil,IMAGEN_PORTADA=:portada,USUARIO_FACEBOOK=:face,USUARIO_INSTAGRAM=:insta,USUARIO_X=:xuser WHERE ID=:id";
                 
                 $resultado=$conexion->prepare($consulta);
                 
