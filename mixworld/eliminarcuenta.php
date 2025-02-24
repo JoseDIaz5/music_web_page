@@ -20,41 +20,39 @@ try {
     
     if ($rows>0) {
         
-        $actualizaseguidores="UPDATE perfiles SET SEGUIDORES=SEGUIDORES-1 WHERE ID=:idfollowed";
+        $resultado->closeCursor();
+        
+        $actualizaseguidores="CALL UPDATE_FOLLOWERS(:idfollowed)";
         
         $resultados=$conexion->prepare($actualizaseguidores);
         
-        while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
-            
-            $usuarioseguido=$fila["ID_USUARIO_SEGUIDO"];
-            
-            $resultados->execute(array(":idfollowed"=>$usuarioseguido));
-        }
+        $resultados->execute(array(":idfollowed"=>$_SESSION["idusu"]));
+        
+        $resultados->closeCursor();
     }
     
-    $consultaseguidor="SELECT ID_USUARIO_SEGUIDOR,ID_USUARIO_SEGUIDO FROM seguidores WHERE ID_USUARIO_SEGUIDO=:idfollowed";
+    $consultaseguidor="CALL SEARCH_FOLLOWER(:idfollowed)";
     
     $resultado=$conexion->prepare($consultaseguidor);
     
     $resultado->execute(array(":idfollowed"=>$_SESSION["idusu"]));
     
-    $rowst=$resultado->rowCount(); 
+    $rowst=$resultado->rowCount();
     
     if ($rowst>0) {
         
-        $actualizasiguiendo="UPDATE perfiles SET SIGUIENDO=SIGUIENDO-1 WHERE ID=:idfollowing";
+        $resultado->closeCursor();
+        
+        $actualizasiguiendo="CALL UPDATE_FOLLOWER(:idfollowing)";
         
         $resultados=$conexion->prepare($actualizasiguiendo);
         
-        while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
-            
-            $usuarioseguidor=$fila["ID_USUARIO_SEGUIDOR"];
-            
-            $resultados->execute(array(":idfollowing"=>$usuarioseguidor));
-        }
+        $resultados->execute(array(":idfollowing"=>$_SESSION["idusu"]));
+        
+        $resultados->closeCursor();
     }
     
-    $consultalikes="SELECT ID_USUARIO,ID_CANCION FROM songs_likes WHERE ID_USUARIO=:iduser";
+    $consultalikes="CALL SEARCH_LIKES(:iduser)";
     
     $resultado=$conexion->prepare($consultalikes);
     
@@ -64,19 +62,20 @@ try {
     
     if ($rowsl>0) {
         
-        $actualizalikes="UPDATE canciones SET LIKES=LIKES-1 WHERE ID=:idsong";
+        $resultado->closeCursor();
+        
+        $actualizalikes="CALL UPDATE_LIKES(:iduser)";
+            
+        $userid=$_SESSION["idusu"];
         
         $resultados=$conexion->prepare($actualizalikes);
         
-        while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
-            
-            $cancionid=$fila["ID_CANCION"];
-            
-            $resultados->execute(array(":idsong"=>$cancionid));
-        }
+        $resultados->execute(array(":iduser"=>$userid));
+        
+        $resultados->closeCursor();
     }
     
-    $consultadislikes="SELECT ID_USUARIO,ID_CANCION FROM songs_dislikes WHERE ID_USUARIO=:iduser";
+    $consultadislikes="CALL SEARCH_DISLIKES(:iduser)";
     
     $resultado=$conexion->prepare($consultadislikes);
     
@@ -86,19 +85,20 @@ try {
     
     if ($rowsd>0) {
         
-        $actualizadislikes="UPDATE canciones SET DISLIKES=DISLIKES-1 WHERE ID=:idsong";
+        $resultado->closeCursor();
+        
+        $actualizadislikes="CALL UPDATE_DISLIKES(:iduser)";
+        
+        $userid=$_SESSION["idusu"];
         
         $resultados=$conexion->prepare($actualizadislikes);
         
-        while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
-            
-            $cancionid=$fila["ID_CANCION"];
-            
-            $resultados->execute(array(":idsong"=>$cancionid));
-        }
+        $resultados->execute(array(":iduser"=>$userid));
+        
+        $resultados->closeCursor();
     }
     
-    $eliminaperfiles="DELETE FROM perfiles WHERE ID=:iduser";
+    $eliminaperfiles="CALL DELETE_PROFILE(:iduser)";
     
     $resultado=$conexion->prepare($eliminaperfiles);
     
