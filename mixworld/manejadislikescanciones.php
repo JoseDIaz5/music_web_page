@@ -14,7 +14,7 @@ try {
     
     $idusuario=$_SESSION["idusu"];
     
-    $consultalikescanciones="SELECT ID FROM songs_likes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
+    $consultalikescanciones="CALL SEARCH_ID_LIKES(:idsong,:iduser)";
     
     $resultado=$conexion->prepare($consultalikescanciones);
     
@@ -24,19 +24,19 @@ try {
     
     if($row>0){
         
-        $eliminalikecancion="DELETE FROM songs_likes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
+        $eliminalikecancion="CALL DELETE_LIKES(:idsong,:iduser)";
         
         $resultado=$conexion->prepare($eliminalikecancion);
         
         $resultado->execute(array(":idsong"=>$idcancion,":iduser"=>$idusuario));
         
-        $actualizacanciones="UPDATE canciones SET LIKES=LIKES-1 WHERE ID=:idsong";
+        $actualizacanciones="CALL UPDATE_LIKES_SUBTRACTION(:idsong)";
         
         $resultado=$conexion->prepare($actualizacanciones);
         
         $resultado->execute(array(":idsong"=>$idcancion));
         
-        $cantidadlikes="SELECT LIKES FROM canciones WHERE ID=:idsong";
+        $cantidadlikes="CALL GET_LIKES(:idsong)";
         
         $resultado=$conexion->prepare($cantidadlikes);
         
@@ -51,7 +51,7 @@ try {
     }
     else {
         
-        $cantidadlikes="SELECT LIKES FROM canciones WHERE ID=:idsong";
+        $cantidadlikes="CALL GET_LIKES(:idsong)";
         
         $resultado=$conexion->prepare($cantidadlikes);
         
@@ -67,7 +67,7 @@ try {
     
     //-----------------------------------------------------------------------------------------------------------------------------
     
-    $consultacantidaddislikes="SELECT ID FROM songs_dislikes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
+    $consultacantidaddislikes="CALL SEARCH_ID_DISLIKES(:idsong,:iduser)";
     
     $resultado=$conexion->prepare($consultacantidaddislikes);
     
@@ -77,19 +77,19 @@ try {
     
     if ($cantidad<1) {
         
-        $insertadislikescanciones="INSERT INTO songs_dislikes(ID_CANCION,ID_USUARIO) VALUES(:idsong,:iduser)";
+        $insertadislikescanciones="CALL INSERT_DISLIKE(:idsong,:iduser)";
         
         $resultado=$conexion->prepare($insertadislikescanciones);
         
         $resultado->execute(array(":idsong"=>$idcancion,":iduser"=>$idusuario));
         
-        $actualizacioncanciones="UPDATE canciones SET DISLIKES=DISLIKES+1 WHERE ID=:idsong";
+        $actualizacioncanciones="CALL UPDATE_DISLIKES_ADDITION(:idsong)";
         
         $resultado=$conexion->prepare($actualizacioncanciones);
         
         $resultado->execute(array(":idsong"=>$idcancion));
         
-        $dislikescanciones="SELECT DISLIKES FROM canciones WHERE ID=:idsong";
+        $dislikescanciones="CALL GET_DISLIKES(:idsong)";
         
         $resultado=$conexion->prepare($dislikescanciones);
         
@@ -103,19 +103,19 @@ try {
         $dislike="<i class='fa-solid fa-face-sad-tear'></i>" . $dislikes;
     }else {
         
-        $eliminadislikescancion="DELETE FROM songs_dislikes WHERE ID_CANCION=:idsong AND ID_USUARIO=:iduser";
+        $eliminadislikescancion="CALL DELETE_DISLIKES(:idsong,:iduser)";
         
         $resultado=$conexion->prepare($eliminadislikescancion);
         
         $resultado->execute(array(":idsong"=>$idcancion,":iduser"=>$idusuario));
         
-        $actualizacioncanciones="UPDATE canciones SET DISLIKES=DISLIKES-1 WHERE ID=:idsong";
+        $actualizacioncanciones="CALL UPDATE_DISLIKES_SUBTRACTION(:idsong)";
         
         $resultado=$conexion->prepare($actualizacioncanciones);
         
         $resultado->execute(array(":idsong"=>$idcancion));
         
-        $dislikescanciones="SELECT DISLIKES FROM canciones WHERE ID=:idsong";
+        $dislikescanciones="CALL GET_DISLIKES(:idsong)";
         
         $resultado=$conexion->prepare($dislikescanciones);
         

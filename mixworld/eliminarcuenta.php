@@ -64,7 +64,7 @@ try {
         
         $resultado->closeCursor();
         
-        $actualizalikes="CALL UPDATE_LIKES(:iduser)";
+        $actualizalikes="CALL UPDATE_LIKES_DELETE(:iduser)";
             
         $userid=$_SESSION["idusu"];
         
@@ -87,7 +87,7 @@ try {
         
         $resultado->closeCursor();
         
-        $actualizadislikes="CALL UPDATE_DISLIKES(:iduser)";
+        $actualizadislikes="CALL UPDATE_DISLIKES_DELETE(:iduser)";
         
         $userid=$_SESSION["idusu"];
         
