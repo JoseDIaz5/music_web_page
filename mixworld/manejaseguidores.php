@@ -14,7 +14,7 @@ try {
     
     $idusuarioseguidor=$_SESSION["idusu"];
     
-    $consultaseguidores="SELECT ID FROM seguidores WHERE ID_USUARIO_SEGUIDOR=:follower AND ID_USUARIO_SEGUIDO=:followed";
+    $consultaseguidores="CALL SEARCH_ID_FOLLOWERS(:follower,:followed)";
     
     $resultado=$conexion->prepare($consultaseguidores);
     
@@ -24,19 +24,19 @@ try {
     
     if ($row>0) {
         
-        $eliminaseguidor="DELETE FROM seguidores WHERE ID_USUARIO_SEGUIDOR=:follower AND ID_USUARIO_SEGUIDO=:followed";
+        $eliminaseguidor="CALL DELETE_FOLLOWERS(:follower,:followed)";
         
         $resultado=$conexion->prepare($eliminaseguidor);
         
         $resultado->execute(array(":follower"=>$idusuarioseguidor,":followed"=>$idusuarioseguido));
         
-        $actualizaseguidores="UPDATE perfiles SET SEGUIDORES=SEGUIDORES-1 WHERE ID=:idfollowed";
+        $actualizaseguidores="CALL UPDATE_FOLLOWERS_SUBTRACTION(:idfollowed)";
         
         $resultado=$conexion->prepare($actualizaseguidores);
         
         $resultado->execute(array(":idfollowed"=>$idusuarioseguido));
         
-        $actualizaseguidor="UPDATE perfiles SET SIGUIENDO=SIGUIENDO-1 WHERE ID=:idfollower";
+        $actualizaseguidor="CALL UPDATE_FOLLOWING_SUBTRACTION(:idfollower)";
         
         $resultado=$conexion->prepare($actualizaseguidor);
         
@@ -45,19 +45,19 @@ try {
         $valorseguir="Seguir";
     }else {
         
-        $insertaseguidor="INSERT INTO seguidores(ID_USUARIO_SEGUIDOR,ID_USUARIO_SEGUIDO) VALUES(:idfollower,:idfollowed)";
+        $insertaseguidor="CALL INSERT_FOLLOWERS(:idfollower,:idfollowed)";
         
         $resultado=$conexion->prepare($insertaseguidor);
         
         $resultado->execute(array(":idfollower"=>$idusuarioseguidor,":idfollowed"=>$idusuarioseguido));
         
-        $actualizaseguidores="UPDATE perfiles SET SEGUIDORES=SEGUIDORES+1 WHERE ID=:idfollowed";
+        $actualizaseguidores="CALL UPDATE_FOLLOWERS_ADDITION(:idfollowed)";
         
         $resultado=$conexion->prepare($actualizaseguidores);
         
         $resultado->execute(array(":idfollowed"=>$idusuarioseguido));
         
-        $actualizaseguidor="UPDATE perfiles SET SIGUIENDO=SIGUIENDO+1 WHERE ID=:idfollower";
+        $actualizaseguidor="CALL UPDATE_FOLLOWING_ADDITION(:idfollower)";
         
         $resultado=$conexion->prepare($actualizaseguidor);
         

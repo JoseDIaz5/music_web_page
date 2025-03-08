@@ -22,7 +22,7 @@ try {
         
         $resultado->closeCursor();
         
-        $actualizaseguidores="CALL UPDATE_FOLLOWERS(:idfollowed)";
+        $actualizaseguidores="CALL UPDATE_FOLLOWERS_DELETE(:idfollowed)";
         
         $resultados=$conexion->prepare($actualizaseguidores);
         
@@ -43,7 +43,7 @@ try {
         
         $resultado->closeCursor();
         
-        $actualizasiguiendo="CALL UPDATE_FOLLOWER(:idfollowing)";
+        $actualizasiguiendo="CALL UPDATE_FOLLOWER_DELETE(:idfollowing)";
         
         $resultados=$conexion->prepare($actualizasiguiendo);
         
