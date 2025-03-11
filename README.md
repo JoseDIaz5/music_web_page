@@ -27,8 +27,11 @@ La sección de subir canciones contiene la opción de titulo, descripción, Imag
 en donde se permite mp3,wav y flac
 
 La sección de eliminar cuenta permite que una vez que se elimine también se elimine todo lo relacionado a dicha cuenta,
-ya sea seguidores, me gustas o no me gustas, el contenido, y coemntarios realizados a otras canciones,
+ya sea seguidores, me gustas o no me gustas, el contenido, y comentarios realizados a otras canciones,
 gracias a las relaciones en las tablas.
+
+Se agregó una sección para editar la cuenta del usuario en donde se puede actualizar la foto del perfil la foto de portada, nombre de usuario
+y los perfiles de redes sociales
 
 Por último se creó una sección exclusiva para la canción en donde se accede a la canción del interés y se puede descargar la misma
 además de observar la descripción y una sección de comentarios asociadas a la misma.
