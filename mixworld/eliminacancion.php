@@ -14,6 +14,12 @@ if (isset($_SESSION["idusu"])) {
         
         $id=$_GET["id"];
         
+        $consultacantidadcanciones="CALL UPDATE_SONGS_COUNT_SUBTRACTION(:iduser)";
+        
+        $resultado=$conexion->prepare($consultacantidadcanciones);
+        
+        $resultado->execute(array(":iduser"=>$_SESSION["idusu"]));
+        
         $consulta="CALL DELETE_SONG(:idsong)";
         
         $resultado=$conexion->prepare($consulta);

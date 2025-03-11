@@ -20,7 +20,7 @@ try{
     
     $fechacomentario=date("d/m/Y");
     
-    $consulta="INSERT INTO comentarios(ID_CANCION,ID_USUARIO,COMENTARIO,FECHA_COMENTARIO) VALUES(:idsong,:iduser,:comment,:date)";
+    $consulta="CALL INSERT_COMMENTS(:idsong,:iduser,:comment,:date)";
     
     $resultado=$conexion->prepare($consulta);
     

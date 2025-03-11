@@ -38,7 +38,7 @@
     		      
     		      $conexion->exec("SET CHARACTER SET utf8");
     		      
-    		      $consulta="SELECT IMAGEN_CANCION,TITULO,DESCRIPCION FROM canciones WHERE ID=:idsong";
+    		      $consulta="CALL GET_SONG_INFO(:idsong)";
     		      
     		      $resultado=$conexion->prepare($consulta);
     		      

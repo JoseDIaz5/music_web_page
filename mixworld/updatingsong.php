@@ -37,11 +37,11 @@
             
             $id=$_POST["id"];
             
+            $consulta="CALL UPDATE_SONG(:songimage,:title,:description,:idsong)";
+            
             if (isset($imagentipo)) {
                 
                 if ($imagentipo=="image/jpg" || $imagentipo=="image/jpeg" || $imagentipo=="image/png") {
-                    
-                    $consulta="UPDATE canciones SET IMAGEN_CANCION=:songimage,TITULO=:title,DESCRIPCION=:description WHERE ID=:idsong";
                     
                     $resultado=$conexion->prepare($consulta);
                     
@@ -73,8 +73,6 @@
                 }
             }
             else {
-                
-                $consulta="UPDATE canciones SET IMAGEN_CANCION=:songimage,TITULO=:title,DESCRIPCION=:description WHERE ID=:idsong";
                 
                 $resultado=$conexion->prepare($consulta);
                 
