@@ -39,6 +39,8 @@
                 
                 $contra=$_POST["contra"];
                 
+                $pass_c=password_hash($contra, PASSWORD_DEFAULT);
+                
                 if (!empty($_POST["facebook"])) {
                     
                     $facebook=$_POST["facebook"];
@@ -73,7 +75,7 @@
                 
                 $resultado=$conexion->prepare($consulta);
                 
-                $resultado->execute(array(":usuario"=>$usuario, ":correo"=>$correo, ":contra"=>$contra, ":perfil"=>$imgperfil, ":portada"=>$imgportada,":fuser"=>$facebook,":iuser"=>$instagram,":xuser"=>$twitter));
+                $resultado->execute(array(":usuario"=>$usuario, ":correo"=>$correo, ":contra"=>$pass_c, ":perfil"=>$imgperfil, ":portada"=>$imgportada,":fuser"=>$facebook,":iuser"=>$instagram,":xuser"=>$twitter));
                 
                 $consultados="CALL GET_ID_USER()";
                 

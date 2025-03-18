@@ -14,11 +14,11 @@
             
             $contra=$_POST["contra"];
             
-            $consulta="CALL SEARCH_ID_PROFILE_SESSION(:correo,:contra)";
+            $consulta="CALL SEARCH_ID_PROFILE_SESSION(:correo)";
             
             $resultado=$conexion->prepare($consulta);
             
-            $resultado->execute(array(":correo"=>$correo, ":contra"=>$contra));
+            $resultado->execute(array(":correo"=>$correo));
             
             $registro=$resultado->rowCount();
             
@@ -28,20 +28,28 @@
                 
                 while($fila=$resultado->fetch(PDO::FETCH_ASSOC)){
                     
-                    $_SESSION["idusu"]=$fila["ID"];
+                    if (password_verify($contra, $fila["CONTRASENA"])) {
+                        
+                        $_SESSION["idusu"]=$fila["ID"];
+                        
+                        $_SESSION["usuario"]=$fila["USUARIO"];
+                        
+                        $_SESSION["picture"]=$fila["IMAGEN_PERFIL"];
+                        
+                        $_SESSION["portada"]=$fila["IMAGEN_PORTADA"];
+                        
+                        $_SESSION["buscador"]='';
+                        
+                        $_SESSION["correo"]=$_POST["correo"];
+                        
+                        header("location:index.php");
+                    }else {
+                        
+                        header("location:iniciosesion.php");
+                    }
                     
-                    $_SESSION["usuario"]=$fila["USUARIO"];
-                    
-                    $_SESSION["picture"]=$fila["IMAGEN_PERFIL"];
-                    
-                    $_SESSION["portada"]=$fila["IMAGEN_PORTADA"];
-                    
-                    $_SESSION["buscador"]='';
                 }
                 
-                $_SESSION["correo"]=$_POST["correo"];
-                
-                header("location:index.php");
             }else{
                 
                 header("location:iniciosesion.php");
