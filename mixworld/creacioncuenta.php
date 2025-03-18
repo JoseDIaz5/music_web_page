@@ -93,7 +93,7 @@
                     
                     $_SESSION["portada"]=$_FILES["contportada"]["name"];
                     
-                    header("location:indexcreada.php");
+                    header("location:index.php");
                 }
                 while($fila=$resultados->fetch(PDO::FETCH_ASSOC)){
                     

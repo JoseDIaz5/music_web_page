@@ -63,7 +63,7 @@
 						
 							<i class="fas fa-key icono" id="passicon"></i>
 							
-							<input type="password" name="contra" id="contrasena" class="datos" placeholder="Contraseña" maxLength="12" required>
+							<input type="password" name="contra" id="contrasena" class="datos" placeholder="Contraseña" maxLength="64" required>
 							
 							<span class="focus-border"><i></i></span>
 						

@@ -4,6 +4,11 @@ try {
     
     session_start();
     
+    if (!isset($_SESSION["idusu"])) {
+        
+        header("location:index.php");
+    }
+    
     $conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
     
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -101,18 +106,12 @@ try {
     $eliminaperfiles="CALL DELETE_PROFILE(:iduser)";
     
     $resultado=$conexion->prepare($eliminaperfiles);
+        
+    $resultado->execute(array(":iduser"=>$_SESSION["idusu"]));
     
-    if (isset($_SESSION["usuario"])) {
+    if ($resultado->rowCount()!=0) {
         
-        $resultado->execute(array(":iduser"=>$_SESSION["idusu"]));
-        
-        if ($resultado->rowCount()!=0) {
-            
-            session_destroy();
-            
-            header("location:index.php");
-        }
-    }else {
+        session_destroy();
         
         header("location:index.php");
     }

@@ -4,6 +4,11 @@ try{
     
     session_start();
     
+    if (!isset($_SESSION["idusu"])) {
+        
+        header("location:index.php");
+    }
+    
     $conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
     
     $conexion->exec("SET CHARACTER SET utf8");

@@ -17,6 +17,10 @@
 
         <script src="principal.js?v=<?php echo time(); ?>"></script>
         
+        <script src="manejalikescanciones.js?v=<?php echo time(); ?>"></script>
+        
+        <script src="manejadislikescanciones.js?v=<?php echo time(); ?>"></script>
+        
         <script src="reproducciones.js?v=<?php echo time(); ?>"></script>
         
         <?php 
@@ -47,13 +51,33 @@
 	
 	</head>
 	
+	<?php 
+	
+	$conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
+	
+	$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	
+	$conexion->exec("SET CHARACTER SET utf8");
+	
+	if (isset($_SESSION["idusu"])) {
+	    
+	    $consulta="CALL GET_PROFILE_IMAGE(:iduser)";
+
+	    $resultado=$conexion->prepare($consulta);
+	    
+	    $resultado->execute(array(":iduser"=>$_SESSION["idusu"]));
+	    
+	    while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
+	        
+	        $profileimage=$fila["IMAGEN_PERFIL"];
+	    }
+	}
+	
+	?>
+	
 	<body>
 	
-		<?php 
 		
-		
-		
-		?>
 	
 		<header class="background">
 		
@@ -99,6 +123,12 @@
 				
 				<div class="nav-right">
 				
+				<?php 
+				
+				if(!isset($_SESSION["idusu"])){
+				
+				?>
+				
 					<label for="check">
 				
 						<span class="imagediv">
@@ -123,25 +153,71 @@
 					
 					</div>	
 				
+				<?php 
+				
+				}else {
+				
+				?>
+				
+				<label for="check">
+				
+					<a href="cuenta.php">
+					
+						<span class="imagediv">
+						
+							<?php 
+							
+							if ($profileimage=='') {
+							
+							?>
+							
+							<img src="/MIXWORLD/intranet/songsimages/defaultuser.png" class="imguser"></img>
+							
+							<?php 
+							
+							}else{
+							
+							?>
+							
+							<img src="/MIXWORLD/intranet/perfiles/<?php echo $profileimage; ?>" class="imguser"></img>
+							
+							<?php 
+							
+							}
+							
+							?>
+						
+						</span>
+					
+					</a>
+				
+				</label>
+				
+				<input type="checkbox" id="check" class="checkb">
+				
+				<?php 
+				
+				}
+				
+				?>
+				
 				</div>
 				
 			</nav>
 		
 		</header>
 		
+		<?php 
 		
+		if(!isset($_SESSION["idusu"])){
+		
+		?>
 		
 		<section>
 		
 		<?php 
 		
 		try{
-		    
-		    $conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");
-		    
-		    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		    
-		    $conexion->exec("SET CHARACTER SET utf8");
 		    
 		    $registros_pagina=14;
 		    
@@ -337,7 +413,274 @@
 		
 		<?php 
 		
+		}else {
 		
+		?>
+		
+		<section>
+		
+			<?php 
+			
+			 try {
+			     
+			     $registros_pagina=14;
+			     
+			     if(isset($_GET["numeropagina"])){
+			      
+			         $inicio_registros=$_GET["numeropagina"];
+			         
+			     }else {
+			         
+			         $inicio_registros=1;
+			     }
+			     
+			     $inicio_paginacion=($inicio_registros-1)*$registros_pagina;
+			     
+			     $consulta_cantidad="CALL GET_SONGS_COUNT(:TITULO)";
+			     
+			     $resultado=$conexion->prepare($consulta_cantidad);
+			     
+			     $resultado->execute(array(":TITULO"=>strval($buscador)));
+			     
+			     $totalresultados=$resultado->rowCount();
+			     
+			     $limitepaginas=ceil($totalresultados/$registros_pagina);
+			     
+			     $limitapaginas=3;
+			     
+			     if ($inicio_registros>$limitapaginas) {
+			         
+			         $numero_inicio=$inicio_registros-$limitapaginas;
+			         
+			     }else {
+			         
+			         $numero_inicio=1;
+			     }
+			     
+			     if ($inicio_registros<($limitepaginas-$limitapaginas)) {
+			         
+			         $numero_final=$inicio_registros+$limitapaginas;
+			         
+			     }else {
+			         
+			         $numero_final=$limitepaginas;
+			     }
+			     
+			     $consulta="CALL GET_SONGS_TWO(:buscador,:iniciopaginacion,:registrospagina,:iduser)";
+			     
+			     $resultado=$conexion->prepare($consulta);
+			     
+			     $resultado->execute(array(":buscador"=>$buscador,":iniciopaginacion"=>$inicio_paginacion,":registrospagina"=>$registros_pagina,":iduser"=>$_SESSION["idusu"]));
+			     
+			     while ($fila=$resultado->fetch(PDO::FETCH_ASSOC)) {
+			         
+			         $id=$fila["ID"];
+			         
+			         $cantidadlikescancion=$fila["CANTIDAD_LIKES"];
+			         
+			         $cantidaddislikescancion=$fila["CANTIDAD_DISLIKES"];
+			         
+			         ?>
+			         
+			         <div class="songcontainer">
+			         
+			         	<div class="imagecontainer">
+			         	
+			         	<?php 
+			         	
+			         	if($fila["IMAGEN_CANCION"]==''){
+			         	
+			         	?>
+			         	
+			         		<img src="/MIXWORLD/intranet/songsimages/default.png">
+			         	
+			         	<?php 
+			         	
+			         	}else{
+			         	
+			         	?>
+			         	
+			         		<img src="/MIXWORLD/intranet/songs/<?php echo $fila["IMAGEN_CANCION"]; ?>">
+			         		
+			         	<?php 
+			         	
+			         	}
+			         	
+			         	?>
+			         	
+			         	</div>
+			         	<div class="titleplayercontainer">
+			         	
+			         		<div class="titlecontainer">
+			         		
+			         			<a href='cancion.php?id=<?php echo $id;?>' class='link'><span><?php echo $fila["TITULO"]; ?></span></a>
+			         		
+			         		</div>
+			         		<div class="usercontainer">
+			         		
+			         			<?php 
+    						
+        						if ($fila["IMAGEN_PERFIL"]=='') {
+        						
+        						?>
+			         		
+			         			<img src="/MIXWORLD/intranet/songsimages/defaultuser.png">
+			         			
+			         			<?php 
+			         			
+        						}else {
+			         			
+			         			?>
+			         			
+			         			<img src="/MIXWORLD/intranet/perfiles/<?php echo $fila["IMAGEN_PERFIL"]; ?>">
+			         			
+			         			<?php 
+			         			
+        						}
+			         			
+			         			?>
+			         			
+			         			<span><a href="cuenta.php?iduser=<?php echo $fila["iduser"]; ?>"><?php echo $fila["USUARIO"]; ?></a></span>
+			         		
+			         		</div>
+			         		<div class="playercontainer">
+			         		
+			         			<div class="playicon">
+			         			
+			         				<i class="fa-solid fa-play play inicio<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>" data-file="/MIXWORLD/intranet/songs/<?php echo $fila["CANCION"] ?>"></i>
+			         				
+			         				<i class="fa-solid fa-pause pause detener<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>" data-file="/MIXWORLD/intranet/songs/<?php echo $fila["CANCION"] ?>"></i>
+			         			
+			         			</div>
+			         			
+			         			<div class="bar barra<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>">
+			         			
+			         				<div id="<?php echo $fila["ID"]; ?>" class="progress progreso<?php echo $fila["ID"]; ?>"></div>
+			         			
+			         			</div>
+			         			
+			         			<div class="downloadcontainer">
+			         			
+			         				<a href="/MIXWORLD/intranet/songs/<?php echo $fila["CANCION"]; ?>" download><i class="fa-solid  fa-download"></i></a>
+			         			
+			         			</div>
+			         		
+			         		</div>
+			         		<div class="likescontainer">
+			         		
+			         			<span class="rep<?php echo $fila["ID"]; ?>"><i class="fa-solid fa-ear-listen"></i><?php echo $fila["REPRODUCCIONES"]; ?></span>
+			         			
+			         			<?php 
+			         			
+			         			 if ($cantidadlikescancion<1) {
+			         			
+			         			?>
+			         			
+			         			<span class="likesong spanlike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-regular fa-face-smile-wink"></i><?php echo $fila["LIKES"]; ?></span>
+			         			
+			         			<?php 
+			         			
+			         			 }else {
+			         			 
+			         			?>
+			         			
+			         			<span class="likesong spanlike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-solid fa-face-smile-wink"></i><?php echo $fila["LIKES"]; ?></span>
+			         			
+			         			<?php 
+			         			
+			         			 }
+			         			 if($cantidaddislikescancion<1){
+			         			
+			         			?>
+			         			
+			         			<span class="dislikesong spandislike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-regular fa-face-sad-tear"></i><?php echo $fila["DISLIKES"]; ?></span>
+			         			
+			         			<?php 
+			         			
+			         			 }else {
+			         			     
+			         			
+			         			?>
+			         			
+			         			<span class="dislikesong spandislike<?php echo $fila["ID"]; ?>" id="<?php echo $fila["ID"]; ?>"><i class="fa-solid fa-face-sad-tear"></i><?php echo $fila["DISLIKES"]; ?></span>
+			         			
+			         			<?php  
+			         			     
+			         			
+			         			 }
+			         			
+			         			?>
+			         		
+			         		</div>
+			         	
+			         	</div>
+			         
+			         </div>
+			         
+			         <?php
+			     }
+			     
+			 } catch (Exception $e) {
+			     
+			     die("Error: " . $e->getMessage());
+			 }
+			
+			?>
+		
+		</section>
+		
+		<div class='contenedor_paginacion'>
+		
+		<?php 
+		
+		if ($inicio_registros>1) {
+		    
+		    echo "<a href='?numeropagina=" . ($inicio_registros-1) . "'>";
+		    
+		?>
+		    
+		    &laquo;
+		    
+		<?php	
+		
+		    echo "</a>";
+		
+		}
+
+		?>
+		
+		<?php 
+		
+		  for ($i = $numero_inicio; $i <= $numero_final; $i++) {
+		      
+		      echo "<a href='?numeropagina=". $i ."'><i class='fa-solid fa-music'></i><br>". $i ."</a>";
+		  }
+		
+		?>
+		
+		<?php 
+		
+		if ($inicio_registros<$limitepaginas) {
+		    
+		    echo "<a href='?numeropagina=" . ($inicio_registros+1) . "'>";
+		    
+		?>
+		    
+		    &raquo;
+		    
+		<?php	
+		
+		    echo "</a>";
+		
+		}
+
+		?>
+		
+		</div>
+		
+		<?php 
+		
+		}
 		
 		?>
 	

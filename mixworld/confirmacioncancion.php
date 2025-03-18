@@ -5,6 +5,11 @@
 
     session_start();
     
+    if (!isset($_SESSION["idusu"])) {
+        
+        header("location:index.php");
+    }
+    
 ?>
 
 <head>

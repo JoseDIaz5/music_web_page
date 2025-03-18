@@ -14,7 +14,7 @@
             
             $contra=$_POST["contra"];
             
-            $consulta="SELECT * FROM perfiles WHERE CORREO=:correo AND CONTRASENA=:contra";
+            $consulta="CALL SEARCH_ID_PROFILE_SESSION(:correo,:contra)";
             
             $resultado=$conexion->prepare($consulta);
             
@@ -41,7 +41,7 @@
                 
                 $_SESSION["correo"]=$_POST["correo"];
                 
-                header("location:indexcreada.php");
+                header("location:index.php");
             }else{
                 
                 header("location:iniciosesion.php");
@@ -51,6 +51,9 @@
             
             die("Error: " . $e->getMessage());
         }
+    }else {
+        
+        header("location:iniciosesion.php");
     }
 
 ?>

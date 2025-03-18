@@ -2,6 +2,11 @@
 
 session_start();
    
+if (!isset($_SESSION["idusu"])) {
+    
+    header("location:index.php");
+}
+
 try {
     
     $conexion=new PDO("mysql:host=localhost; port=3306; dbname=mixworld","root","");

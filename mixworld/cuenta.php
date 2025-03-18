@@ -11,18 +11,10 @@
         <?php
     	
     	   
-    	   if (isset($_SESSION["nombre"])) {
-    	       
-    	       $j=false;
-    	       
-    	   }
-    	   elseif (isset($_SESSION["usuario"])){
-    	       
-    	       $j=false;
-    	   }
-    	   else {
+    	   if (!isset($_SESSION["idusu"])) {
     	       
     	       header("location:index.php");
+    	       
     	   }
     	
     	?>
